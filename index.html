@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" ng-app="CrosslightApp" ng-controller="MainController">
+    <head>
+        <meta charset="utf-8">
+        <title>Mini Spice</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="./src/joint/dist/joint.css" />
+        <link rel="stylesheet" type="text/css" href="./src/angular-ui-tree/angular-ui-tree.min.css">
+        <link rel="stylesheet" type="text/css" href="./src/jquery-easyui-1.5.3/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="./src/jquery-easyui-1.5.3/themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="./src/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./src/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="./src/style/style.css">
+        <link rel="stylesheet" type="text/css" href="./src/jquery-easyui-1.5.3/themes/color.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <!-- The ng-app directive -->
+    <body class="easyui-layout" ng-controller="contentController">
+        <div data-options="region:'north',title:'Drawing Tools',split:false, collapsible:false" style="height:105px;">
+            <circuit-drawing-header/>
+        </div>
+
+        <div data-options="region:'west',title:'Filetree',split:false,collapsed:false, collapsible:false" style="width:200px;">
+            <filetree ng-controller="filetreeController"/>
+        </div>
+
+        <div data-options="region:'center'">
+            <div id="regionContent" class="easyui-layout" data-options="fit:true">
+                <div id="drawingTool" data-options="region:'west',title:'Drawing Paper', split:true, collapsed:false, fit:true">                    
+                    <div id="paper" ng-controller="circuitController"></div>
+                </div>
+                <div id="editors" data-options="region:'center',title:'Editor', split:true, collapsed:true">
+                    <div editors></div>
+                </div>
+            </div>
+        </div>
+
+        <div usersetting></div>
+
+        <div newproject></div>
+        
+        <div ng-controller="circuitController" >
+            <div editcircuitcomponentdata ng-init="initiatePaper()"></div>
+        </div>
+
+        <div rightmenu></div>
+
+        <input type="hidden" id="pn" value="{{product.productName}}" /><!-- it's used in ace.js -->
+        <input type="hidden" id="editorID" /><!-- it's used in ace.js -->
+
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+        
+        <script type="text/javascript" src="./src/angular/angular.min.js"></script>
+        <script type="text/javascript" src="./src/angular-ui-tree/angular-ui-tree.min.js"></script>
+        <script type="text/javascript" src="./src/node-webkit-ace-editor/ace.js"></script>
+        <script type="text/javascript" src="./src/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="src/loadlash/lodash.js"></script>
+        <script type="text/javascript" src="src/backbone/backbone.js"></script>
+        <script type="text/javascript" src="src/joint/dist/joint.js"></script>
+        <script type="text/javascript" src="src/joint/dist/joint.shapes.devs.js"></script>
+        <script type="text/javascript" src="./src/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="./src/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="./js/app.js"></script>
+        <script type="text/javascript" src="./js/nodejs/nodejs.js"></script>
+        <script type="text/javascript" src="./js/shortcut/shortcut.js"></script>
+        <script type="text/javascript" src="./js/objects/object.minispice.js"></script>
+        <script type="text/javascript" src="./js/objects/object.paper.js"></script>
+        <script type="text/javascript" src="./js/objects/object.component.js"></script>        
+        <script type="text/javascript" src="./js/objects/object.editor.js"></script>
+        <script type="text/javascript" src="./js/objects/object.filetree.js"></script>
+        <script type="text/javascript" src="./js/tools/canvas.js"></script>
+        <script type="text/javascript" src="./js/tools/drawline.js"></script>
+        <script type="text/javascript" src="./js/events/paper.events.js"></script>
+
+        <script type="text/javascript" src="./views/circuit/js/circuit.controller.js"></script>
+        <script type="text/javascript" src="./views/header/js/header.directive.js"></script>
+        <script type="text/javascript" src="./views/header/js/quick.controller.js"></script>
+        <script type="text/javascript" src="./views/filetree/js/filetree.js"></script>
+        <script type="text/javascript" src="./views/editor/js/editor.directive.js"></script>
+        <script type="text/javascript" src="./views/editor/js/editor.controller.js"></script>
+        <script type="text/javascript" src="./views/popwindow/js/popwindow.directive.js"></script>
+        <script type="text/javascript" src="./views/rightclickmenu/js/rightmenu.controll.js"></script>
+        <script type="text/javascript" src="./views/rightclickmenu/js/rightmenu.directive.js"></script>
+    </body>
+</html>
+

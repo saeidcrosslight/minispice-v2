@@ -1,0 +1,37 @@
+<div>
+    <ul class="nav navbar-nav navbar-right"><!-- more file title -->
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle moreFiles" data-toggle="dropdown" role="button" aria-expanded="false"><i class="glyphicon glyphicon-triangle-bottom"></i></a>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="file in product.openFiles">
+                    <a href="#" ng-click="showFile(product,file.fileName, file.filePath, file.editorID)"><i class='glyphicon glyphicon-file'></i>{{file.fileName}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <ul id="filetitle" class="nav nav-tabs filetitle"><!-- file title -->
+        <li ng-repeat="file in product.openFiles" id="filename_{{$index}}" class="{{file.class}}" title="{{file.filePath}}">
+            <a href="#" ng-click="showFile(product,file.fileName,file.filePath, file.editorID)">{{file.fileName}}</a>
+            <i ng-click="closeFile(product,file.fileName, file.filePath)" class='glyphicon glyphicon-remove close'></i>
+        </li>
+    </ul>
+
+    <div ng-show="product.showStartPage">
+        <div ng-show="!product.showRecentFile "><!-- show welcome -->
+            <div class="welcome">Welcome To Mini Spice</div>
+            <a href="http://crosslight.com" title="http://crosslight.com" target="_blank"><img src="images/logo.png" style="width:256px; height:61px" alt="Crosslight" /></a><br><br>
+            <a href="#" ng-click="showRecentPage(product,true)">Recent Files >></a>
+        </div>
+        <div ng-show="product.showRecentFile"><!-- show recent file -->
+            <h1 style="font-size:18px!important">Recent Files</h1><a href="#" ng-click="showRecentPage(product,false)">&NestedLessLess; Back</a>
+            <table class="table">
+                <tr ng-repeat="rf in product.recentFiles">
+                    <td><a href="#" ng-click="openRecentFile(product,rf.fileName, rf.filePath)">{{rf.filePath}}</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div ng-show="!product.showStartPage" id="editorContainer_Minispice" style="position:relative; width:100%"></div>
+</div>

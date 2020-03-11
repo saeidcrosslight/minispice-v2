@@ -1,0 +1,124 @@
+/* public */
+*{ padding:0px }
+a,a:focus{ outline: none; font-size:14px }
+li{ list-style: none; font-size:14px }
+ol{ padding-left: 10px }
+.clear{ clear: both }
+.glyphicon{ color:#333; }
+iframe{ width:100%;height:470px; }
+td{ font-size:14px!important;color:#888 }
+td{ font-size:14px!important;color:#000 }
+button, input, select, textarea, h5, label, b{font-size:14px}
+button i {font-size: 14px;margin-right: 2px;}
+h5{ height: 24px; background: #99CCFF; color:#fff; padding-left: 10px; line-height: 26px; margin: 0px}
+h5 .glyphicon{ color:#fff; font-size:14px!important}
+pre{ border:none; font-size:14px; padding:0px;margin: 0px }
+
+
+/* welcome */
+#welcomeback{z-index: 99990;position:absolute;top:0px;left:0px;width:100%;height:100%;opacity:1;background:white;}
+#welcomeimg{z-index: 99999;position:absolute;top:80px;left:270px; margin: 0px auto}
+
+
+/* nav */
+.navbackground{ padding-left: 0; }
+.dropdown-menu{ padding: 0px }
+.dropdown-menu>li>a.useable,.useable{ color:#bbb; }
+.dropdown-menu>li>a.useable:hover{ background:none; color:#bbb }
+.navbar-right{ height:30px;margin-right:2px }
+.moreFiles{ padding:5px 0 0 0 }
+
+
+/* quick */
+.quick{ padding: 0px; margin: 5px 0; }
+.quickbar{ padding-top:3px }
+.quickbar button{display: block;padding: 6px 18px;background: white;border: 1px solid white;text-align: center;margin:2px 0 2px 0px;float:left;font-size:14px}
+.quickbar button:hover{ border-color: #4DA6FF; cursor: pointer }
+.quickbar button.disabled{-webkit-filter: grayscale(1);opacity:0.5}
+.quick button i{ font-size:26px!important }
+.quick li img{ margin-bottom:4px }
+.btnstart{ color: green }
+.btnstop,.note{ color:red }
+.quickbar .nav{ margin-right: 0px }
+.quickbar li{ float: left; }
+.quickbar li.last{float:right}
+.file{ display:none!important }
+.choose,.chooseFolder{ cursor:pointer;background:url(../images/open.png) no-repeat 6px 3px;width:54px;display:inline-block }
+.chooseFolder{ background:url(../images/choose.png);width:54px; }
+.chooseFolder .file{ width:114px;height:35px;left:0px;opacity:1; }
+.quickRight{ float:right; }
+
+
+/* tab */
+.tabbarDiv{ height:135px; }
+.tabbar ul:first-child{ margin-left: 10px }
+.tabbar li a{ color:#fff; font-weight: bold; }
+
+/* content */
+.close{ font-size: 10px!important; position: relative; top: -20px; margin:0 5px }
+.editor{ height: 750px; width:100%; /* height:578px without toolbar, 545px with toolbar */ }
+/* tree */
+.inputTreeBg{ height:400px }
+
+/* overwrite bootstrap for nav */
+.navbar-collapse.collapse{ height: 26px!important;}
+.navbackground .navbar-nav > li > a{ padding-top: 0px!important; padding-bottom: 0px!important; color:#fff; line-height: 26px!important;}
+.nav > li:hover .dropdown-menu { display: block; }/* mouse over to show menu */
+.navbackground .nav > li > a:focus,
+.navbackground  .nav > li > a:hover{ background: #000}/* menu hover */
+.nav .open > a, .nav .open > a:focus, .nav .open > a:hover{ background:#000 }/* menu selected */
+.dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover{ background: #333; color:#fff }/* sub menu mouse over */
+.dropdown-menu>li{ min-width:220px }
+.dropdown-menu>li>a{ padding:1px 12px }
+.panel-title{color:#333!important}
+
+.filetitle{ height:30px;width:97%;  }
+.editors .nav-tabs,.msgs .nav-tabs{ border-bottom: 1px solid #9ACCFF; }
+.tabbar .nav-tabs > li.active > a,/* tab active for product */
+.tabbar  .nav-tabs > li.active > a:focus,
+.tabbar  .nav-tabs > li.active > a:hover{ background: #99CCFF; border-top:1px solid #2894FF; border-left:1px solid #2894FF; border-right:1px solid #2894FF; }
+.editors .nav-tabs > li.active > a,/* tab active for files and msgs */
+.editors .nav-tabs > li.active > a:focus, 
+.editors .nav-tabs > li.active > a:hover,
+.msgs .nav-tabs > li.active > a,
+.msgs .nav-tabs > li.active > a:focus, 
+.msgs .nav-tabs > li.active > a:hover{ border-top:1px solid #9ACCFF; border-left:1px solid #9ACCFF; border-right:1px solid #9ACCFF; }
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{ font-weight:bold;}
+.editors .nav-tabs > li{ margin-bottom:-11px; }
+.nav > li > a{ padding:3px 15px }
+.nav-tabs>li>a:hover{ border:none }
+.nav>li>a:hover{ background: none; border:none }
+.dropdown-menu .divider{ margin:0px }
+.panel-body{padding:0px}
+.panel{ margin-bottom:0px;}
+
+
+/* overwrite angular-ui-tree */
+.angular-ui-tree-handle{ cursor:default; font-weight: normal; line-height: 25px; }
+
+/* overwrite bootstrap for container */
+.container { padding: 0px; }
+.row{ margin: 0px;}
+@media ( min-width: 1200px) { .container { width: 100%; }}
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+    padding-left:0px; padding-right:5px;
+}
+@media (min-width: 992px){.modal-lg { width: 600px; margin: 150px auto;}}
+/*针对不同尺寸的显示器，一些区域的长宽需要定制不同的大小*/
+/* overwrite ztree */
+.ztree li a{ height:20px }
+.ztree *{ font-size: 14px }
+.ztree li a.curSelectedNode{ padding:1px 3px 0 0; height:20px; background-color: #2894FF; border:1px solid #666; color:#fff!important; margin-bottom:-5px }
+ul.ztree{ width:44%; height:350px; padding:0px; float:left }
+.ztree li span.button{ margin-top:-8px }
+
+/* overwrite easyui */
+.rightmenu{
+    border:1px solid #95B8E7; position: absolute; top:200px; left:200px; z-index: 999;min-width:100px; background: #E0ECFF; display: none;
+}
+.rightmenu li{
+    border-bottom: 0px solid #95B8E7; line-height: 30px; padding:3px 10px;
+}
+.rightmenu li:hover{ background: #666; color:white}
+
+

@@ -1,0 +1,22 @@
+<div>
+    <!-- Nested node template -->
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle class="tree-node tree-node-content" ng-click="toggle(this)">
+            <a ng-if="node.nodes && node.nodes.length > 0" data-nodrag>
+                <span style="font-size:14px" class="glyphicon" ng-class="{'glyphicon-folder-close': collapsed, 'glyphicon-folder-open': !collapsed}"></span>
+            </a>
+            <span ng-if="node.nodes.length===0" title="{{node.title}}" ng-dblclick="openFileInEditor(node.title,node.url)" ng-mousedown="treeNodeClick(node.type, node.title, node.url, node.treeType, $event)">
+                <i style="font-size:14px" class="glyphicon glyphicon-file"></i>{{node.title}}
+            </span>
+            <span ng-if="node.nodes.length>0" title="{{node.title}}">{{node.title}}</span>
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+            <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+        </ol>
+    </script>
+    <div ui-tree id="tree-root" data-drag-enabled="false" style="padding-bottom: 5px">
+        <ol ui-tree-nodes="" ng-model="product.filetree.inputfiles">
+            <li ng-repeat="node in product.filetree.inputfiles" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+        </ol>
+    </div>
+</div>

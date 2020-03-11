@@ -1,0 +1,27 @@
+{
+  "name": "MiniSpice",
+  "version": "0.0.1",
+  "main": "index.html",
+  "window": {
+    "toolbar": true,
+    "width": 1600,
+    "height": 1024,
+    "title": "Mini Spice",
+    "frame": true,
+    "as_desktop": false,
+    "transparent": false,
+    "fullscreen": false,
+    "icon": "logo.png"
+  },
+  "dependencies": {
+    "jointjs": "^2.2.1",
+    "nw": "^0.37.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nw"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

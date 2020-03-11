@@ -1,0 +1,32 @@
+<div>
+    <div id="newProjectWindow" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" ng-controller="quickBarController">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Project</h4>
+                </div>
+                <div class="modal-body">
+                    Project Name:<br>
+                    <input type="text" id="newProjectName" onkeyup="updateProjectPath()" onchange="updateProjectPath()" class="form-control" /><br><br>
+                    
+                    Project Path:<br>
+                    <input type="text" id="newProjectPath" onchange="updateProjectPath()" class="form-control" />
+                    <input id="chooseProjectPath" type="file" nwdirectory style="width:76px" /><br><br><!--alice modified width：60px to 76px-->
+                    
+                    <!--What files will be added to project:<br>-->
+                    <span ng-repeat="fileType in addFileTypes" style="margin-right: 20px">
+                        <input ng-if="fileType === 'asc' || fileType === 'json'" checked="checked" type="checkbox" name="newPrjectFileType_Minispice" id="fileType_{{fileType}}" value="{{fileType}}" disabled/>
+                        <input ng-if="fileType !== 'json' && fileType !== 'asc'" type="checkbox" name="newPrjectFileType_Minispice" id="fileType_{{fileType}}" value="{{fileType}}" />
+                        <label for="fileType_{{fileType}}">.{{fileType}}</label>
+                        <br ng-if="$index===6">
+                    </span><br>
+                    <span class="note">Note: Do not use duplicate project name, or may overwrite the original project file! </span>
+                </div>
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button ng-click="newProject()" type="button" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

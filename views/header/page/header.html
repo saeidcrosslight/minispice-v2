@@ -1,0 +1,16 @@
+<div>
+    <div class="tabbar">
+        <!--ul class="nav nav-tabs">
+            <li ng-repeat="pro in product.productList" class="{{pro.class}}">
+                <a href="#" ng-click="product.switchProduct(pro.id)">{{pro.name}}</a>
+            </li>
+        </ul-->
+    </div>
+    <div class="quickbar" ng-controller="quickBarController">
+        <button ng-repeat="quickbar in minispice.quickMenus" title="{{quickbar.title}}" class="{{quickbar.disabled}}" ng-click="quickEvent($index,quickbar.disabled,event)">
+            <i ng-if="$index < 8" style="font-size: 28px!important" class="{{quickbar.class}}"></i>
+            <img ng-if="$index > 7" ng-src="images/MiniSpice_quick/{{quickbar.name}}.png" style="margin:3px 0;width:24px;height:24px" />
+            <br><span>{{quickbar.name}}</span>
+        </button>
+    </div>    
+</div>

@@ -1,0 +1,108 @@
+[
+    {
+        "id": 0 ,
+        "name": "Canvas",
+        "class": "glyphicon glyphicon-th",
+        "disabled": "",
+        "title": "Canvas"
+    },
+    {
+        "id": 1 ,
+        "name": "New",
+        "class": "glyphicon glyphicon-file",
+        "disabled": "",
+        "title": "New project"
+    },
+    {
+        "id": 2 ,
+        "name": "Open",
+        "class": "glyphicon glyphicon-folder-open",
+        "disabled": "disabled",
+        "title": "Open existing project"
+    },
+    {
+        "id": 3 ,
+        "name": "Close",
+        "class": "glyphicon glyphicon-folder-close",
+        "disabled": "",
+        "title": "Close project"
+    },
+    {
+        "id": 4 ,
+        "name": "Save",
+        "class": "glyphicon glyphicon-save",
+        "disabled": "disabled",
+        "title": "Save all in the project"
+    },
+    {
+        "id": 5 ,
+        "name": "Settings",
+        "class": "glyphicon glyphicon-cog",
+        "disabled": "",
+        "title": "Set the path of this application"
+    },
+    {
+        "id": 6 ,
+        "name": "Undo",
+        "class": "glyphicon glyphicon-arrow-left",
+        "disabled": "disabled",
+        "title": "Undo the last action"
+    },
+    {
+        "id": 7 ,
+        "name": "Redo",
+        "class": "glyphicon glyphicon-arrow-right",
+        "disabled": "disabled",
+        "title": "Redo the last action"
+    },
+    {
+        "id": 8 ,
+        "name": "Wire",
+        "class": "",
+        "disabled": "",
+        "title": "add wire"
+    },
+    {
+        "id": 9 ,
+        "name": "Capacitor",
+        "class": "",
+        "disabled": "",
+        "title": "draw capacitor"
+    },
+    {
+        "id": 10 ,
+        "name": "Ground",
+        "class": "",
+        "disabled": "",
+        "title": "draw ground"
+    },
+    {
+        "id": 11 ,
+        "name": "Resistor",
+        "class": "",
+        "disabled": "",
+        "title": "draw resistor"
+    },
+    {
+        "id": 12 ,
+        "name": "Inductor",
+        "class": "",
+        "disabled": "",
+        "title": "draw inductor"
+    },
+    {
+        "id": 13 ,
+        "name": "Diode",
+        "class": "",
+        "disabled": "",
+        "title": "draw diode"
+    },
+    {
+        "id": 14 ,
+        "name": "Component",
+        "class": "",
+        "disabled": "",
+        "title": "draw component"
+    }
+
+]

@@ -1,0 +1,30 @@
+[
+    {
+        "name": "link",
+        "list": [
+        {
+            "id": 0 ,
+            "name": "delete",
+            "disabled": ""
+        },
+        {
+            "id": 1 ,
+            "name": "testmenu",
+            "disabled": "disabled"
+        }]
+    },{
+        "name": "paper",
+        "list": [
+        {
+            "id": 0 ,
+            "name": "test",
+            "disabled": "disabled"
+        },
+        {
+            "id": 1 ,
+            "name": "testmenu",
+            "disabled": "disabled"
+        }]
+    }
+
+]

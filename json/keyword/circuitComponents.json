@@ -1,0 +1,44 @@
+[
+  {
+    "name": "capacitor",
+    "properties":
+    {
+      "Capacitance": 0,
+      "Voltage Rating": 0
+
+    }
+  },
+  {
+    "name": "inductor",
+    "properties":
+    {
+      "Inductance": 0,
+      "Peak Current": 0
+
+    }
+  },
+  {
+    "name": "ground",
+    "properties":
+    {
+      "Global Node": 0,
+      "COM": 0
+    }
+  },
+  {
+    "name": "diode",
+    "properties":
+    {
+      "Diode": 0
+    }
+  },
+  {
+    "name": "resistor",
+    "properties":
+    {
+      "Resistance": 0,
+      "Tolerance": 0
+    }
+  }
+
+]
