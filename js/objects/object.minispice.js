@@ -15,12 +15,13 @@ angular
                     MiniSpice.fn = MiniSpice.prototype = {
                         constructor: MiniSpice,
 
-                        spice: function(){                            
+                        spice: function(){
                             this.title = '';
+                            this.init = _init;
                             this.appPath = '';
                             this.projectPath = '';
                             this.quickMenus = angular.fromJson(file.readallsync("json\\quick\\quick.json"));
-                            this.filetrees = [];       //filetree of the current project
+                            this.filetree = filetrees.createMinispiceFiletree();      //filetree of the current project
                             this.editors = [];         //all opened editors
                             this.fileTitles = [];      //all opened files
                             this.graph = new joint.dia.Graph;
@@ -70,6 +71,12 @@ angular
                         }
 
                     }
+
+                    let _init = function () {
+
+                        this.filetree.inputfiles = new this.filetree.minispiceInputFileTreeInit;
+
+                    };
 
                     MiniSpice.fn.spice.prototype = MiniSpice.fn;
 

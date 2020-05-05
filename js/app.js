@@ -22,6 +22,7 @@ angular
     .controller('MainController', ['$rootScope', '$scope', '$sce', 'file', function ($rootScope, $scope, $sce, file) {
         
         $rootScope.minispice.createPaper().initPaper();
+        $rootScope.minispice.init();
 
         $rootScope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
