@@ -16,13 +16,17 @@ angular
                         constructor: MiniSpice,
 
                         spice: function(){
-                            this.title = '';
+                            this.title = 'Welcome to MiniSpice';
+                            this.productName = 'MiniSpice';
+                            this.appPathName = 'MiniSpicePath';
+                            this.showStartPage = true;
                             this.init = _init;
                             this.appPath = '';
                             this.projectPath = '';
+                            this.openFiles = [];
                             this.quickMenus = angular.fromJson(file.readallsync("json\\quick\\quick.json"));
                             this.filetree = filetrees.createMinispiceFiletree();      //filetree of the current project
-                            this.editors = [];         //all opened editors
+                            this.editors = editor.createMinispiceEditor();         //all opened editors
                             this.fileTitles = [];      //all opened files
                             this.graph = new joint.dia.Graph;
                             this.papers = [];          //all opened papers
@@ -75,6 +79,7 @@ angular
                     let _init = function () {
 
                         this.filetree.inputfiles = new this.filetree.minispiceInputFileTreeInit;
+                        this.editors.startPageInit(this.openFiles);
 
                     };
 

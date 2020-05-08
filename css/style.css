@@ -120,5 +120,6 @@ ul.ztree{ width:44%; height:350px; padding:0px; float:left }
     border-bottom: 0px solid #95B8E7; line-height: 30px; padding:3px 10px;
 }
 .rightmenu li:hover{ background: #666; color:white}
+.welcome{ background: #558ED5; color:#fff; text-align: right; height: 380px; font-size:48px!important; padding:10px 3px 0 0; font-family: sans-serif; }
 
 
