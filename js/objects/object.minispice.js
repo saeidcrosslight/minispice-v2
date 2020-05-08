@@ -17,9 +17,12 @@ angular
 
                         spice: function(){
                             this.title = 'Welcome to MiniSpice';
-                            this.productName = 'MiniSpice';
+                            this.productName = 'Minispice';
                             this.appPathName = 'MiniSpicePath';
                             this.showStartPage = true;
+                            this.addedCircuitComponents = [];
+                            this.createProject = createProject;
+                            this.newPath = "";
                             this.init = _init;
                             this.appPath = '';
                             this.projectPath = '';
@@ -57,6 +60,7 @@ angular
                             else
                                 $("#regionContent").layout("collapse", "west");                              
                         },
+
                         
                         _hideAllPaper: function(){
                             
@@ -74,7 +78,30 @@ angular
 
                         }
 
-                    }
+                    };
+
+                    let createProject = function (projectName, projectPath, fileTypes) {
+                        if (file.existsfile(projectPath)) {
+                            if (confirm("The project path already exists, are sure use it?")) {
+                                angular.forEach(fileTypes, function (fileType) {
+                                    var filePath = projectPath + "\\" + projectName + "." + fileType;
+                                    if (file.existsfile(filePath)) {
+                                        if (confirm("The project file already exists, whether or not to replace it?")) {
+                                            file.delfile(filePath);
+                                            file.writeallsync(filePath, "");
+                                        }
+                                    } else {
+                                        file.writeallsync(filePath, "");
+                                    }
+                                });
+                            }
+                        } else {
+                            file.mkdirsync(projectPath);
+                            angular.forEach(fileTypes, function (fileType) {
+                                file.writeallsync(projectPath + "\\" + projectName + "." + fileType, "");
+                            });
+                        }
+                    };
 
                     let _init = function () {
 

@@ -28,12 +28,13 @@
 
         <div data-options="region:'center'" >
             <div id="regionContent" class="easyui-layout" data-options="fit:true">
-                <div id="drawingTool" data-options="region:'center',title:'Drawing Paper', split:true, collapsed:false, fit:true">
-                    <div id="paper" ng-controller="circuitController"></div>
-                </div>
-                <div id="editors" data-options="region:'west',title:'Editor', split:true, collapsed:true">
+                <div id="editors" data-options="region:'center',title:'Editor', split:true, collapsed:false">
                     <div editors></div>
                 </div>
+                <div id="drawingTool" data-options="region:'west',title:'Drawing Paper', split:true, collapsed:true, fit:true">
+                    <div id="paper" ng-controller="circuitController"></div>
+                </div>
+
             </div>
         </div>
 
