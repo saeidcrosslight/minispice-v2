@@ -9,22 +9,41 @@
         },
         {
             "id": 1 ,
-            "name": "testmenu",
+            "name": "update",
             "disabled": "disabled"
         }]
     },{
         "name": "paper",
         "list": [
         {
-            "id": 0 ,
+            "id": 2 ,
             "name": "test",
             "disabled": "disabled"
         },
         {
-            "id": 1 ,
+            "id": 3 ,
             "name": "testmenu",
             "disabled": "disabled"
         }]
+    },
+    {
+        "name": "component",
+        "list": [
+            {
+                "id": 4 ,
+                "name": "delete",
+                "disabled": ""
+            },
+            {
+                "id": 5 ,
+                "name": "change component type",
+                "disabled": ""
+            },
+            {
+                "id": 6 ,
+                "name": "update",
+                "disabled": ""
+            }]
     }
 
 ]

@@ -74,12 +74,28 @@ angular
                             this.cellContextMenu = function(cellView, evt, x, y ){
                                 $(".rightmenu").hide();
                                 let menus = angular.fromJson(file.readallsync("json\\rightmenu\\rightmenu.json"));
-                                $.each(menus, function(mindex, menu){
-                                    if(menu.name == 'paper')
-                                    $rootScope.minispice.rightMenus = menu.list;
-                                });
+                                let menuType;
                                 if(cellView.model.attributes.type == 'link'){
                                     $rootScope.minispice.papers[0].rightclickLinkObject = cellView;
+                                    menuType = 'link';
+                                    $.each(menus, function(mindex, menu){
+                                        if(menu.name == menuType) {
+                                            $rootScope.minispice.rightMenus = menu.list;
+                                        }
+                                    });
+                                    $rootScope.$apply();
+                                    $(".rightmenu").css("top", (y+130)+"px");
+                                    $(".rightmenu").css("left", (x+215)+"px");
+                                    $(".rightmenu").show();
+                                }
+                                if(cellView.model.attributes.type == 'standard.Image'){
+                                    menuType = 'component'
+                                    $.each(menus, function(mindex, menu){
+                                        if(menu.name == menuType) {
+                                            $rootScope.minispice.rightMenus = menu.list;
+                                        }
+                                    });
+                                    $rootScope.$apply();
                                     $(".rightmenu").css("top", (y+130)+"px");
                                     $(".rightmenu").css("left", (x+215)+"px");
                                     $(".rightmenu").show();

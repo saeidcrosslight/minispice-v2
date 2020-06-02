@@ -1,6 +1,7 @@
 <div>
     <ul class="rightmenu" ng-controller="rightmenuController">
-        <!-- <li ng-repeat="quickbar in minispice.rightMenus">{{menu.name}}</li> -->
-        <li ng-click="deleteLink()">Detele</li>
-    </ul>    
+        <li ng-repeat="menu in minispice.rightMenus">
+            <a href='#' ng-mousedown="rightClickEvent(menu.id, menu.name)">{{menu.name}}</a>
+        </li>
+    </ul>
 </div>

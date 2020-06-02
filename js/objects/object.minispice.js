@@ -34,7 +34,7 @@ angular
                             this.graph = new joint.dia.Graph;
                             this.papers = [];          //all opened papers
                             this.currentPaperId = '';  //the current active paper
-                            this.rightMenus = angular.fromJson(file.readallsync("json\\rightmenu\\rightmenu.json"))[0];      //right-click memu list
+                            this.rightMenus = angular.fromJson(file.readallsync("json\\rightmenu\\rightmenu.json"));      //right-click memu list
                             this.paintSwitch = {       //switch of the paintbrush
                                 isStartDraw : false,
                                 type : null,           //wire, capacitor, ground, resistor, inductor, diode

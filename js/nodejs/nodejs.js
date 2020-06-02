@@ -115,7 +115,6 @@ angular.module('crosslight.nodejs', [])
             factory.readall = function (filefullpath, callbackfunc) {
                 try {
                     fs.readFile(filefullpath, 'utf8', callbackfunc);
-                    console.log("kosekhar")
                 } catch (e) {
                     alert('file.readall error:\r\n' + e);
                     return;
