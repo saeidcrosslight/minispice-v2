@@ -9,6 +9,24 @@ angular.module('rightmenu.controller', [])
                     case 0:
                         deleteLink();
                         break;
+                    case 1:
+                        console.log('update');
+                        break;
+                    case 2:
+                        console.log('test');
+                        break;
+                    case 3:
+                        console.log('testmenu');
+                        break;
+                    case 4:
+                        deleteComponent();
+                        break;
+                    case 5:
+                        console.log('change component type');
+                        break;
+                    case 6:
+                        console.log('update');
+                        break;
                 }
             };
                 
@@ -16,6 +34,31 @@ angular.module('rightmenu.controller', [])
                 $rootScope.minispice.papers[0].rightclickLinkObject.remove();
                 $rootScope.minispice.papers[0].rightclickLinkObject = null;
                 $(".rightmenu").hide();
-            }
+            };
+
+            const deleteComponent = function(){
+                let indexOfPaper;
+                let indexOfComponent;
+                $.each($rootScope.minispice.papers,function(pindex,pobj){
+                    if(pobj.isShow){
+                        indexOfPaper = pindex;
+                        $.each(pobj.components,function(cindex,cobj){
+                            if(cobj.shapeObj.cid == $rootScope.minispice.papers[0].rightclickComponentObject.model.cid){
+                                indexOfComponent = cindex;
+                                $.each(cobj.linkNodes, function(lindex, linkobj){
+                                    linkobj.remove();
+                                })
+
+                            }
+                        })
+                    }
+                });
+                $rootScope.minispice.papers[0].rightclickComponentObject.remove();
+                $rootScope.minispice.papers[indexOfPaper].components.splice(indexOfComponent,1);
+                $rootScope.minispice.papers[0].rightclickComponentObject = null;
+                $(".rightmenu").hide();
+
+            };
+
 
             }]);

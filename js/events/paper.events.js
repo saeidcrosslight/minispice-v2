@@ -89,6 +89,7 @@ angular
                                     $(".rightmenu").show();
                                 }
                                 if(cellView.model.attributes.type == 'standard.Image'){
+                                    $rootScope.minispice.papers[0].rightclickComponentObject = cellView;
                                     menuType = 'component'
                                     $.each(menus, function(mindex, menu){
                                         if(menu.name == menuType) {
@@ -125,7 +126,7 @@ angular
                             $.each(this._getPapers(),function(cindex,cobj){
                                 if(cobj.isShow)
                                     cobj.components.push(newComponent);
-                            });           
+                            });
                         },
 
                         _createComponent: function(){//popwindow to choose a component to create

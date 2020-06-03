@@ -45,6 +45,7 @@ angular
                         this.isStartLineHorizantal = false;
                         this.isEndLineHorizantal = false;
                         this.rightclickLinkObject = null;
+                        this.rightclickComponentObject = null;
 
                         this.countby = 50; //连线时，如果需要增加转弯，则需要添加一个大一点的间隔数，初始为50，没使用一次后增加10
                         

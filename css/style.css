@@ -122,4 +122,8 @@ ul.ztree{ width:44%; height:350px; padding:0px; float:left }
 .rightmenu li:hover{ background: #666; color:white}
 .welcome{ background: #558ED5; color:#fff; text-align: right; height: 380px; font-size:48px!important; padding:10px 3px 0 0; font-family: sans-serif; }
 
-
+/* nav */
+.navbackground{ padding-left: 0; }
+.dropdown-menu{ padding: 0px }
+.dropdown-menu>li>a.useable,.useable{ color:#bbb; }
+.dropdown-menu>li>a.useable:hover{ background:none; color:#bbb }

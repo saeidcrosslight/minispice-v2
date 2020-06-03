@@ -91,17 +91,43 @@ angular
                         return circle;
                     },
 
+                    compare: function( a, b ) {
+                        if ( a.id < b.id ){
+                            return -1;
+                        }
+                        if ( a.id > b.id ){
+                            return 1;
+                        }
+                        return 0;
+                    },
+
                     createLabelName: function(type){
                         var num = 1;
                         var cobj = $rootScope.minispice.papers[0].components;
+                        var cptlst = []
                         $.each(cobj,function(idx, obj){
-                            if(obj.type == type)
-                                num++;
+                            if(obj.type == type) {
+                                cptlst.push(obj);
+                            }
                         });
-                        return '' + type + num;
-                    },
+                        if (cptlst.length >0){
 
-                }
+                            cptlst.sort(this.compare);
+                            $.each(cptlst,function(idx, obj){
+                                    if(num === parseInt(obj.id.match(/\d/g))) {
+                                        num++;
+                                    }else{
+                                        return false;
+                                    }
+                            });
+                        }
+                        return '' + type + num;
+                    }
+
+
+                };
+
+
 
                 MinispiceComponent.fn.component.prototype = MinispiceComponent.fn;
 
