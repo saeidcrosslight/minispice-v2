@@ -8,11 +8,12 @@
                 <div class="modal-body">
                     Project Name:<br>
                     <input type="text" id="newProjectName" onkeyup="updateProjectPath()" onchange="updateProjectPath()" class="form-control" /><br><br>
-                    
+
                     Project Path:<br>
                     <input type="text" id="newProjectPath" onchange="updateProjectPath()" class="form-control" />
                     <input id="chooseProjectPath" type="file" nwdirectory style="width:76px" /><br><br><!--alice modified width：60px to 76px-->
-                    
+                    <input id="fileDialog" type="file" onchange=openProject() class='file' accept=".asc"/>
+
                     <!--What files will be added to project:<br>-->
                     <span ng-repeat="fileType in addFileTypes" style="margin-right: 20px">
                         <input ng-if="fileType === 'asc' || fileType === 'json'" checked="checked" type="checkbox" name="newPrjectFileType_Minispice" id="fileType_{{fileType}}" value="{{fileType}}" disabled/>
@@ -22,7 +23,7 @@
                     </span><br>
                     <span class="note">Note: Do not use duplicate project name, or may overwrite the original project file! </span>
                 </div>
-                <div class="modal-footer">                    
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button ng-click="newProject()" type="button" class="btn btn-primary">OK</button>
                 </div>
