@@ -20,7 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99302b31-32ad-4388-9318-030bdab91ecf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/views/header/js/quick.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/header/js/quick.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
