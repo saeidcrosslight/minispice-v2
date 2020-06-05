@@ -39,7 +39,7 @@ angular.module('quick.controller', [])
 
                 $("#editorID").val(editorObject.editorID);
                 document.querySelector(fileDialogID).value = '';
-                minispice.refreshUndoRedo(minispice);
+                //minispice.refreshUndoRedo(minispice);
                 $("#fixNoRefresh").click();
                 filereader.readAscFile(filePath);
 

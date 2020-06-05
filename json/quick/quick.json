@@ -17,7 +17,7 @@
         "id": 2 ,
         "name": "Open",
         "class": "glyphicon glyphicon-folder-open",
-        "disabled": "disabled",
+        "disabled": "",
         "title": "Open existing project"
     },
     {

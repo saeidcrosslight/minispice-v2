@@ -17,7 +17,7 @@ angular
 
                 $scope.showFile = function (product, fileName, filePath, editorID) {
                     //showFileFunction(product, fileName, filePath, editorID);
-                    product.refreshUndoRedo(product);
+                    //product.refreshUndoRedo(product);
                     product.setFont();
                     showFileFunction(product, fileName, filePath, editorID);
                     calculateEditorWidthByEditorClick(fileName,1);

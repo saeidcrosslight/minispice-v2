@@ -31,7 +31,7 @@ angular
                 var inductors = [];
                 var diodes = [];
                 pageDimensions.push(parseInt(str.substring(str.indexOf("SHEET") + 7, str.indexOf("SHEET") + 12)));
-                pageDimensions.push(parseInt(str.substring(str.indexOf("SHEET") + 12, str.indexOf("SHEET") + 16)));
+                pageDimensions.push(parseInt(str.substring(str.indexOf("SHEET") + 12, str.indexOf("SHEET") + 17)));
                 var currIndex = 0;
                 var placeholder = 0;
                 var elemCount = 0;
@@ -124,19 +124,24 @@ angular
                 for(let i = 0; i < componentsArr.length; i++){ //This loop displays all the components
                     for(let j = 0; j < componentsArr[i].length; j+=2){
                         if(i == 0){
+                            //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
                             paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1]);
                         }
                         else if(i == 1){
+                            //Offset: 10 units right (relative to the single connecting node)
                             paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1]);
                         }
                         else if(i == 2){
+                            //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
                             paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1]);
                         }
                         else if(i == 3){
+                            //Height: 60 units, Offset: 13 units right, 6 units down (relative to top node)
                             paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1]);
                         }
                         else if(i == 4){
-                            paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1]);
+                            //Height: 60 units, Offset: 2 units left, 6 units down (relative to top node)
+                             paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1]);
                         }
                     }
                 }
