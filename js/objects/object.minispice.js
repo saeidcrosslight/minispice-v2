@@ -16,6 +16,7 @@ angular
                         constructor: MiniSpice,
 
                         spice: function(){
+                            this.selectedComponentToModify = {};
                             this.title = 'Welcome to MiniSpice';
                             this.productName = 'Minispice';
                             this.appPathName = 'MiniSpicePath';

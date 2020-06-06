@@ -41,7 +41,7 @@
             },
             {
                 "id": 6 ,
-                "name": "update",
+                "name": "modify component data",
                 "disabled": ""
             }]
     }

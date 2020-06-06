@@ -4,14 +4,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">{{selectedComponentToModify.name}}</h4>
+                    <h4 class="modal-title">{{minispice.selectedComponentToModify.name}}</h4>
                 </div>
                 <div class="modal-body">
-                            <form name="editCircuitComponentForm" id ="editCircuitComponent" class="css-form" ng-repeat="(key, value) in selectedComponentToModify.properties">
+                            <form name="editCircuitComponentForm" id ="editCircuitComponent" class="css-form" ng-repeat="(key, value) in minispice.selectedComponentToModify.properties">
                                 <div class='row'>
                                     <div class="form-group col-sm-3">
                                         <label>{{key}} </label>
-                                        <input style="width:100px;" class="form-control" type="number" ng-model="selectedComponentToModify.properties[key]" /><br />
+                                        <input style="width:100px;" class="form-control" type="number" ng-model="minispice.selectedComponentToModify.properties[key]" /><br />
                                     </div>
                                 </div>
                             </form>
