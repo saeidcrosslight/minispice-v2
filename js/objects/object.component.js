@@ -19,10 +19,11 @@ angular
                         this.position = {};
                         this.shapeObj = null; //the shape object
                         this.linkNodes = []; //all link nodes in each component, it is a small circle, like:[{id:,position:,rectObj:}]
-                        this.otherParameters = [];
+                        this.otherParameters = {};
                         this.createShape = function(shapeName,x,y){
                             this.id = this.createLabelName(shapeName);
                             this.type = shapeName;
+                            this.otherParameters = this.addOtherParameter(shapeName);
                             this.labels.push(this.id);
                             this.position = {x:x,y:y};
                             let sp = this._createShape(shapeName,this.id,x,y);
@@ -99,6 +100,77 @@ angular
                             return 1;
                         }
                         return 0;
+                    },
+
+                    addOtherParameter: function(shapeName){
+                        switch(shapeName){
+                            case 'capacitor':
+                                return   {
+                                    "name": "capacitor",
+                                    "indexOfPaper": 0,
+                                    "indexOfComponent": 0,
+
+                                    "properties":
+                                        {
+                                            "Capacitance": 0,
+                                            "Voltage Rating": 0
+
+                                        }
+                                };
+                                break;
+                            case 'ground':
+                                return {
+                                    "indexOfPaper": 0,
+                                    "indexOfComponent": 0,
+                                    "name": "ground",
+                                    "properties":
+                                    {
+                                        "Global Node": 0,
+                                        "COM": 0
+                                    }
+                                };
+                                break;
+                            case 'resistor':
+                                return   {
+                                    "indexOfPaper": 0,
+                                    "indexOfComponent": 0,
+                                    "name": "resistor",
+                                    "properties":
+                                        {
+                                            "Resistance": 0,
+                                            "Tolerance": 0
+                                        }
+                                };
+                                break;
+                            case 'inductor':
+                                return   {
+                                    "indexOfPaper": 0,
+                                    "indexOfComponent": 0,
+                                    "name": "inductor",
+                                    "properties":
+                                        {
+                                            "Inductance": 0,
+                                            "Peak Current": 0
+
+                                        }
+                                };
+                                break;
+                            case 'diode':
+                                return   {
+                                    "indexOfPaper": 0,
+                                    "indexOfComponent": 0,
+                                    "name": "diode",
+                                    "properties":
+                                        {
+                                            "Diode": 0
+                                        }
+                                };
+                                break;
+                            default:
+                                break;
+                        }
+
+
                     },
 
                     createLabelName: function(type){

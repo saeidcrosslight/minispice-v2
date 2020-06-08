@@ -3,7 +3,7 @@
 angular.module('rightmenu.controller', [])
         .controller('rightmenuController', ['$rootScope', '$scope', 'canvas', function ($rootScope, $scope, canvas) {
 
-            $scope.rightClickEvent = function (menuid, name, filePath, treeType) {
+            $scope.rightClickEvent = function (menuid, name) {
 
                 switch (menuid) {
                     case 0:
@@ -25,7 +25,7 @@ angular.module('rightmenu.controller', [])
                         console.log('change component type');
                         break;
                     case 6:
-                        console.log('update');
+                        modifyComponent();
                         break;
                 }
             };
@@ -34,6 +34,29 @@ angular.module('rightmenu.controller', [])
                 $rootScope.minispice.papers[0].rightclickLinkObject.remove();
                 $rootScope.minispice.papers[0].rightclickLinkObject = null;
                 $(".rightmenu").hide();
+            };
+
+            const modifyComponent  = function () {
+                let indexOfPaper;
+                let indexOfComponent;
+                $.each($rootScope.minispice.papers,function(pindex,pobj){
+                    if(pobj.isShow){
+                        indexOfPaper = pindex;
+                        $.each(pobj.components,function(cindex,cobj){
+                            if(cobj.shapeObj.cid == $rootScope.minispice.papers[0].rightclickComponentObject.model.cid){
+                                indexOfComponent = cindex;
+                            }
+                        })
+                    }
+                });
+                let currentComponents = $rootScope.minispice.papers[indexOfPaper].components[indexOfComponent];
+                $rootScope.minispice.selectedComponentToModify = angular.copy(currentComponents.otherParameters);
+                $rootScope.minispice.selectedComponentToModify.indexOfPaper = indexOfPaper;
+                $rootScope.minispice.selectedComponentToModify.indexOfComponent = indexOfComponent;
+                $("#editCircuitComponentData").modal('toggle');
+                $rootScope.minispice.papers[0].rightclickComponentObject = null;
+                $(".rightmenu").hide();
+
             };
 
             const deleteComponent = function(){
