@@ -20,14 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99302b31-32ad-4388-9318-030bdab91ecf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/objects/object.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/objects/object.component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/objects/object.minispice.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/objects/object.minispice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/rightmenu/rightmenu.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/rightmenu/rightmenu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/circuit/js/circuit.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/circuit/js/circuit.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/popwindow/page/editcircuitcomponentdata.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/popwindow/page/editcircuitcomponentdata.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/rightclickmenu/js/rightmenu.controll.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/rightclickmenu/js/rightmenu.controll.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
