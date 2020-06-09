@@ -35,7 +35,8 @@ angular
                             this.graph = new joint.dia.Graph;
                             this.papers = [];          //all opened papers
                             this.currentPaperId = '';  //the current active paper
-                            this.rightMenus = angular.fromJson(file.readallsync("json\\rightmenu\\rightmenu.json"));      //right-click memu list
+                            this.rightMenus = angular.fromJson(file.readallsync("json\\rightmenu\\rightmenu.json"));//right-click memu list
+                            this.saveCreatedStructure = saveCreatedStructure;
                             this.paintSwitch = {       //switch of the paintbrush
                                 isStartDraw : false,
                                 type : null,           //wire, capacitor, ground, resistor, inductor, diode
@@ -102,6 +103,12 @@ angular
                                 file.writeallsync(projectPath + "\\" + projectName + "." + fileType, "");
                             });
                         }
+                    };
+
+                    let saveCreatedStructure = function(newPath, newProjectName, addCircuitComponents, fileType){
+                        //this.editors.saveAllOpenFiles(this, closeProjectFunction());
+                        this.editors.saveCurrentFile(this);
+
                     };
 
                     let _init = function () {
