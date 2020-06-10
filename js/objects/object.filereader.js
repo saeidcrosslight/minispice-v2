@@ -4,38 +4,60 @@ angular
     .module('object.filereader', [])
     .factory('filereader', ['$rootScope', 'file', 'component', 'paper', 'minispice', 'paperevents', 'canvas', 'drawline',
         function($rootScope, file, component, paper, minispice, paperevents, canvas, drawline){
-            var factory = {};
+            let factory = {};
+            let filereader =(function(){
+                let filereader = function(){
+                    return new filereader.fn.reader();
+                }
+
+                filereader.fn = filereader.prototype = {
+                    constructor: filereader,
+
+                    reader: function(){
+                        this.readAscFile = readAscFile;
+                        this.parseData = parseData;
+                        this.createComponents = createComponents;
+                    }
+                }
+
+                filereader.fn.reader.prototype = filereader.fn;
+
+                return filereader;
+
+
+
+            })();
             //var fs = require('fs');
             //var path = require('path');
 
 
-            factory.readAscFile = function(filePath){
+            var readAscFile = function(filePath){
                 if (filePath === "")
                     console.log("empty");
                 var newFilePath = filePath.replace(/\\/g, '\\\\');
                 var str;
                 file.readall(newFilePath, (err, data) =>{
-                    factory.parseData(data);
+                    parseData(data);
                 });
 
-            };
+            },
 
-            factory.parseData = function(str){
+            parseData = function(str){
                 //idea: have an array of each type of component, and each component is an array of coordinates and an id
                 //assume everything for now is unrotated
-                var pageDimensions = [];
-                var wires = []; //array inside of an array
-                var capacitors = [];
-                var grounds = [];
-                var resistors = [];
-                var inductors = [];
-                var diodes = [];
+                let pageDimensions = [];
+                let wires = []; //array inside of an array
+                let capacitors = [];
+                let grounds = [];
+                let resistors = [];
+                let inductors = [];
+                let diodes = [];
                 pageDimensions.push(parseInt(str.substring(str.indexOf("SHEET") + 7, str.indexOf("SHEET") + 12)));
                 pageDimensions.push(parseInt(str.substring(str.indexOf("SHEET") + 12, str.indexOf("SHEET") + 17)));
-                var currIndex = 0;
-                var placeholder = 0;
-                var elemCount = 0;
-                var components = [capacitors, grounds, resistors, inductors, diodes];
+                let currIndex = 0;
+                let placeholder = 0;
+                let elemCount = 0;
+                let components = [capacitors, grounds, resistors, inductors, diodes];
                 //Wires
                 while(str.indexOf("WIRE", currIndex) != -1){
                     //insert code
@@ -114,12 +136,12 @@ angular
                     }
                 }
 
-                factory.createComponents(components, wires);
-            };
+                createComponents(components, wires);
+            },
 
-            factory.createComponents= function(componentsArr, wiresArr){
-                var paperEvent = paperevents.createPaperEventsHandle();
-                var drawTool = drawline.createDrawLineTool();
+            createComponents= function(componentsArr, wiresArr){
+                let paperEvent = paperevents.createPaperEventsHandle();
+                let drawTool = drawline.createDrawLineTool();
 
                 for(let i = 0; i < componentsArr.length; i++){ //This loop displays all the components
                     for(let j = 0; j < componentsArr[i].length; j+=2){
@@ -156,9 +178,10 @@ angular
                 }
 
 
-            }
-
-
+            };
+            factory.createFilereader = function () {
+                return filereader();
+            };
             return factory;
         }]);
 

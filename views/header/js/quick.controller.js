@@ -9,6 +9,7 @@ angular.module('quick.controller', [])
             isDraw = minispice.paintSwitch.isStartDraw,
             painType = minispice.paintSwitch.type,
             networkObject = $rootScope.networkObject,
+            file = filereader.createFilereader(),
             cv = canvas.create();
         getFilePath = function (filepath) {
             var num = filepath.lastIndexOf("\\");
@@ -40,7 +41,7 @@ angular.module('quick.controller', [])
                 $("#editorID").val(editorObject.editorID);
                 document.querySelector(fileDialogID).value = '';
                 $("#fixNoRefresh").click();
-                filereader.readAscFile(filePath);
+                file.readAscFile(filePath);
 
             },
             openProject = function(){

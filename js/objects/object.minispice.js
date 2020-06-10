@@ -106,6 +106,7 @@ angular
                     };
 
                     let saveCreatedStructure = function(newPath, newProjectName, addCircuitComponents, fileType){
+
                         //this.editors.saveAllOpenFiles(this, closeProjectFunction());
                         this.editors.saveCurrentFile(this);
 
