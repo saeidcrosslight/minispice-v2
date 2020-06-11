@@ -12,6 +12,7 @@
                     Project Path:<br>
                     <input type="text" id="newProjectPath" onchange="updateProjectPath()" class="form-control" />
                     <input id="chooseProjectPath" type="file" nwdirectory style="width:76px" /><br><br><!--alice modified width：60px to 76px-->
+                    <input id="fileDialog" type="file" onchange=openProject() class='file' accept=".asc"/>
                     
                     <!--What files will be added to project:<br>-->
                     <span ng-repeat="fileType in addFileTypes" style="margin-right: 20px">

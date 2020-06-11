@@ -1,6 +1,6 @@
 angular
     .module('CrosslightApp', ['crosslight.nodejs', 'ui.tree',
-                              'object.minispice', 'object.paper', 'object.component', 'object.editor', 'object.filetree',
+                              'object.minispice', 'object.paper', 'object.component', 'object.editor', 'object.filetree','object.filereader',
                               'tool.canvas', 'tool.drawline',
                               'paper.events', 'shortcut.event',
                               'filetree', 'editors.directive', 'popwindow.directive', 'header.directive', 'rightmenu.directive',

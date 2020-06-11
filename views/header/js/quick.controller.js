@@ -2,35 +2,64 @@ var oldProjectPath = "c:\\", oldFilePath = "";
 
 
 angular.module('quick.controller', [])
-        .controller('quickBarController', ['$rootScope', '$scope', 'canvas', function ($rootScope, $scope, canvas) {
+        .controller('quickBarController', ['$rootScope', '$scope', 'canvas', 'filereader', 'paperevents', function ($rootScope, $scope, canvas, filereader, paperevents) {
                 $scope.addFileTypes = ['asc','json'];
                 
                 let minispice = $rootScope.minispice,
                     isDraw = minispice.paintSwitch.isStartDraw,
                     painType = minispice.paintSwitch.type,
                     networkObject = $rootScope.networkObject,
+                    fileReader = filereader.createFilereader(),
                     cv = canvas.create();
-                    getFilePath = function (filepath) {
-                        var num = filepath.lastIndexOf("\\");
-                        return filepath.substring(0, num);
-                    },
-                    getFileName = function (filepath) {
-                        var num = filepath.lastIndexOf("\\");
-                        return filepath.substring(num + 1);
-                    },
-                    resetNewProject = function () {
-                        $("#newProjectName").val("");
-                        $("#newProjectPath").val("c:\\");
-                        oldProjectPath = "c:\\";
-                        $("#chooseProjectPath").val("");
-                        //document.querySelector('#chooseProjectPath').value = "";
-                    },
+                getFilePath = function (filepath) {
+                    var num = filepath.lastIndexOf("\\");
+                    return filepath.substring(0, num);
+                },
+                getFileName = function (filepath) {
+                    var num = filepath.lastIndexOf("\\");
+                    return filepath.substring(num + 1);
+                },
+                openProjectFunction = function (minispice, fileDialogID) {
+                    var filePath = document.querySelector(fileDialogID).value;
+                    if (filePath === "")
+                        return false;
+                    var projectPath = getFilePath(filePath),
+                        fileName = getFileName(filePath),
+                        newFilePath = filePath.replace(/\\/g, '\\\\');
+                    var editorObject = minispice.editors.getEditorObject(minispice.productName, fileName, projectPath.replace(/\\/g, '\\\\'));
 
-                    resetCreatedStructures = function () {
-                        _.each(graph.getElements(), function(el) {
-                            graph.getCell(el.id).remove();
-                        });
-                    },
+                    if(minispice.filetree.inputfiles[0].nodes.length >= 1){ //It has a project already
+                        minispice.filetree.resetAllFileTree(minispice.filetree);
+                        minispice.editors.closeAllFile(editorObject.editorContainerID, minispice.openFiles); //delete all editors & filetitles
+                    }
+                    minispice.filetree.createAllFileTree(minispice.filetree, projectPath);
+                    minispice.editors.createEdtior(minispice, fileName, newFilePath, editorObject.editorID, editorObject.editorContainerID, editorObject.editorArrayObject); //editorIDPre + fileName = editorID
+
+                    minispice.projectPath = projectPath;
+                    $("#editorID").val(editorObject.editorID);
+                    document.querySelector(fileDialogID).value = '';
+                    $("#fixNoRefresh").click();
+                    fileReader.readAscFile(filePath);
+
+                },
+                openProject = function(){
+                    if(!openProjectFunction(minispice, '#fileDialog')){
+                        return;
+                    }
+                },
+                resetNewProject = function () {
+                    $("#newProjectName").val("");
+                    $("#newProjectPath").val("c:\\");
+                    oldProjectPath = "c:\\";
+                    $("#chooseProjectPath").val("");
+                    //document.querySelector('#chooseProjectPath').value = "";
+                },
+
+                resetCreatedStructures = function () {
+                    _.each(graph.getElements(), function(el) {
+                        graph.getCell(el.id).remove();
+                    });
+                },
 
                 newProjectFunction = function () {
                     if (minispice.addedCircuitComponents.length>0 && minispice.newPath.length > 0) {
@@ -58,11 +87,11 @@ angular.module('quick.controller', [])
                 };
 
                 startToDraw = function(type){
-                    minispice.paintSwitch.isStartDraw = true;     
+                    minispice.paintSwitch.isStartDraw = true;
                     cv.hideGuide(minispice.papers[0].guide);
-                    minispice.paintSwitch.cursorIcon = "crosshair";                
+                    minispice.paintSwitch.cursorIcon = "crosshair";
                     document.getElementById("paper").style.cursor = minispice.paintSwitch.cursorIcon;
-                };                
+                };
 
                 /**
                  * Updating when change project name in New Project Window
