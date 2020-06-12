@@ -2,7 +2,7 @@
 
 angular
         .module('tool.drawline', [])
-        .factory('drawline', ['$rootScope', function ($rootScope) {
+        .factory('drawline', ['$rootScope', 'component', function ($rootScope, component) {
                 var factory = {};
                 var DrawLineTool = (function(){
                     var DrawLineTool = function(){
@@ -13,14 +13,14 @@ angular
                         constructor: DrawLineTool,
     
                         tool: function(){
-                            this.normalLink = function(x, y){
-                                this._normalLink(x, y);
+                            this.normalLink = function(x,y){
+                                this._normalLink(x,y);
                             };
 
                             this.normalLinkForNode = function(cellView,x,y){
                                 let pos = cellView.model.attributes.position;
                                 this._normalLink(pos.x+4, pos.y);
-                                $("g[model-id='"+cellView.model.id+"']").hide();                                
+                                $("g[model-id='"+cellView.model.id+"']").hide();
                             };
 
                             this.autoLink = function(type, cellView, x, y){
@@ -292,6 +292,7 @@ angular
                         
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
+                            let components = component.createComponent();
 
                             if(!paper.startNormalLink){//first click on paper
                                 let obj = this._newTempLink(x,y);
@@ -304,6 +305,13 @@ angular
                                 //paper.linkObject.attr('.connection/stroke','black'); //this line would make GUI click 1 more time to jump to next step
                                 this._resetLinkStyle(paper.linkObject);
                                 paper.normalStartDot = paper.normalLastDot;
+                                /*for(let i = 0; i < paper.components.length * 2; i++){      Progress! figured out how to retrieve component coords
+                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].position.x) < 10){
+                                        alert("hello");
+                                        break;
+                                        //$("g[model-id='"+cellView.model.id+"']").hide();
+                                    }
+                                } */
                                 let obj = this._newTempLink(paper.normalLastDot.x, paper.normalLastDot.y);
                                 paper.linkObject = obj;
                             }
@@ -315,7 +323,7 @@ angular
                                     let verticalLength = (e.pageY-130) - paper.normalStartDot.y;//get length of vertical after moving
                                     if(verticalLength < 0) verticalLength = 0 - verticalLength;
                                     
-                                    if(horizontalLength >= verticalLength)//compare the diffence value between horizontalLength and verticalLength
+                                    if(horizontalLength >= verticalLength)//compare the difference value between horizontalLength and verticalLength
                                         paper.normalLastDot = {x: e.pageX-200, y: paper.normalStartDot.y};
                                     else
                                         paper.normalLastDot = {x: paper.normalStartDot.x, y: e.pageY-130};

@@ -58,7 +58,7 @@ angular
                                 
                                 let type = cellView.model.attributes.type; 
                                 if(type == 'standard.Circle' && this._paintType().type == 'wire'){                                    
-                                    draw.normalLinkForNode(cellView,x,y);//连线状态下点击了元器件，则显示连线鼠标跟随                                    
+                                    draw.normalLinkForNode(cellView,x,y);//连线状态下点击了元器件，则显示连线鼠标跟随
                                 }else if(type == 'standard.Circle' || (type == 'link' && !isguide)){
                                     draw.autoLink(type, cellView, x, y);
                                 }
