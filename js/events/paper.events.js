@@ -127,6 +127,7 @@ angular
                                 if(cobj.isShow)
                                     cobj.components.push(newComponent);
                             });
+                            //$rootScope.minispice.enableSaveButton();
                         },
 
                         _createComponent: function(){//popwindow to choose a component to create
