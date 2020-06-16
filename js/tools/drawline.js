@@ -357,6 +357,8 @@ angular
                                     $(com.children[4]).remove();
                                 }
                             });
+                            $rootScope.minispice.papers[0].links.push(link);
+                            //$rootScope.minispice.enableSaveButton();
                             return link;
                         },
 

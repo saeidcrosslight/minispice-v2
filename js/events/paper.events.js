@@ -26,7 +26,7 @@ angular
                                             this._createComponent();
                                             break;
                                         default:
-                                            this._createBasicComponent(this._paintType().type, x, y); 
+                                            this._createBasicComponent(this._paintType().type, x, y, true);
                                             break;
                                     }
                                 }
@@ -128,15 +128,19 @@ angular
                             };
                         },
 
-                        _createBasicComponent: function(type,x,y){//draw: capacitor, ground, resistor, inductor, diode
+                        _createBasicComponent: function(type,x,y,node){//draw: capacitor, ground, resistor, inductor, diode
+                            debugger;
                             let newComponent = component.createComponent();
                             let cpt = newComponent.createShape(type, x, y);
-                            this._getGraph().addCell(cpt.shape);                                                                                    
-                            this._getGraph().addCells(cpt.linkNodes);
+                            this._getGraph().addCell(cpt.shape);
+                            if (node) {
+                                this._getGraph().addCells(cpt.linkNodes);
+                            };
                             $.each(this._getPapers(),function(cindex,cobj){
                                 if(cobj.isShow)
                                     cobj.components.push(newComponent);
                             });
+                            //$rootScope.minispice.enableSaveButton();
                         },
 
                         _createComponent: function(){//popwindow to choose a component to create

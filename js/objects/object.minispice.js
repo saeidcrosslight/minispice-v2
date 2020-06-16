@@ -25,6 +25,9 @@ angular
                             this.createProject = createProject;
                             this.newPath = "";
                             this.init = _init;
+                            this.saveCreatedStructure = saveCreatedStructure;
+                            this.formatCircuitData = formatCircuitData;
+                            this.enableSaveButton = enableSaveButton;
                             this.appPath = '';
                             this.projectPath = '';
                             this.openFiles = [];
@@ -104,11 +107,79 @@ angular
                         }
                     };
 
+                    let enableSaveButton = function () {
+                        if(this.papers[0].components.length > 0 && this.newPath.length > 0 && this.quickMenus[4].disabled === "disabled"){
+                            this.quickMenus[4].disabled = "";
+                            $rootScope.$apply();
+                        }
+                    };
+
+                    let saveCreatedStructure = function (projectPath, projectName, data, fileExtension) {
+                        if (projectName && projectPath.length > 0){
+                            var filePath = projectPath + "\\" + projectName + "." + fileExtension;
+                            data = formatCircuitData(data);
+                            file.writeallsync(filePath, data);
+                        }else {
+                            alert("please create a project first");
+                        }
+                        //this.quickMenus[4].disabled = "disabled";
+                    };
+
                     let _init = function () {
 
                         this.filetree.inputfiles = new this.filetree.minispiceInputFileTreeInit;
                         this.editors.startPageInit(this.openFiles);
 
+                    };
+
+                    let formatCircuitData = function (circuitData){
+                        let str = "Version 4\r\n";
+                        str += "SHEET 1 2000 1400 \r\n";
+                        $.each(circuitData.links, function (i, link) {
+                            let str1 = "WIRE ";
+                            str1 += link.attributes.source.x;
+                            str1 +=  " "+link.attributes.source.y;
+                            str1 += " "+link.attributes.target.x;
+                            str1 +=  " "+link.attributes.target.y + "\r\n";
+                            str += str1;
+                        });
+                        $.each(circuitData.components, function (i, component) {
+                            let str2 = "";
+                            switch (component.type) {
+                                case "resistor":
+                                    str2 += "SYMBOL res ";
+                                    str2 += component.position.x + " ";
+                                    str2 += component.position.y + "\r\n";
+                                    str2 += "SYMATTR InstName " + component.id + "\r\n";
+                                    str += str2;
+                                    break;
+                                    break;
+                                case "capacitor":
+                                     str2 += "SYMBOL cap ";
+                                     str2 += component.position.x + " ";
+                                    str2 += component.position.y + "\r\n";
+                                    str2 += "SYMATTR InstName " + component.id + "\r\n";
+                                    str += str2;
+                                    break;
+                                case "diode":
+                                    str2 += "SYMBOL diode ";
+                                    str2 += component.position.x + " ";
+                                    str2 += component.position.y + "\r\n";
+                                    str2 += "SYMATTR InstName " + component.id + "\r\n";
+                                    str += str2;
+                                    break;
+                                    break;
+                                case "inductor":
+                                    str2 += "SYMBOL ind ";
+                                    str2 += component.position.x + " ";
+                                    str2 += component.position.y + "\r\n";
+                                    str2 += "SYMATTR InstName " + component.id + "\r\n";
+                                    str += str2;
+                                    break;
+                            }
+
+                        });
+                        return str;
                     };
 
                     MiniSpice.fn.spice.prototype = MiniSpice.fn;

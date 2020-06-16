@@ -134,7 +134,7 @@ angular.module('quick.controller', [])
                         minispice.title = "Welcome to SimuCenter - Simu" + minispice.productName + " - " + newPath.replace(/\\/g, '/');
                         $("#newProjectWindow").modal('toggle');
                     }
-                    minispice.enableSaveButton();
+                    //minispice.enableSaveButton();
                 };
 
                 $scope.quickEvent = function (index, isDisabled, e) {
@@ -157,7 +157,7 @@ angular.module('quick.controller', [])
                             console.log("close project");
                             break;
                         case 4: //save created structure
-                            minispice.saveCreatedStructure(minispice.newPath, minispice.newProjectName, minispice.addedCircuitComponents, "asc");
+                            minispice.saveCreatedStructure(minispice.newPath, minispice.newProjectName, minispice.papers[0], "asc");
                             break;
                         case 5: //User Setting
                             console.log("setting");

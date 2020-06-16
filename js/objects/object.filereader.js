@@ -147,23 +147,23 @@ angular
                         for(let j = 0; j < componentsArr[i].length; j+=2){
                             if(i == 0){
                                 //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1]);
+                                paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false);
                             }
                             else if(i == 1){
                                 //Offset: 10 units right (relative to the single connecting node)
-                                paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1]);
+                                paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false);
                             }
                             else if(i == 2){
                                 //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1]);
+                                paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false);
                             }
                             else if(i == 3){
                                 //Height: 60 units, Offset: 13 units right, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1]);
+                                paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false);
                             }
                             else if(i == 4){
                                 //Height: 60 units, Offset: 2 units left, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1]);
+                                paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false);
                             }
                         }
                     }
