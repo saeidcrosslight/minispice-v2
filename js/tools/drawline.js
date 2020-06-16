@@ -26,6 +26,14 @@ angular
                             this.autoLink = function(type, cellView, x, y){
                                 let paper = $rootScope.minispice.papers[0],
                                     tempDot;
+                                    for(let i = 0; i < paper.components.length; i++){
+                                    if(Math.abs(x - paper.components[i].position.x) < 15 && Math.abs(y - paper.components[i].position.y) < 15){
+                                        alert("hello2");
+                                        //this.normalLinkForNode(cellView,paper.components[i].position.x,paper.components[i].position.y);
+                                        //return;
+                                        break;
+                                    }
+                                }
                                 if(paper.autoStartType == ''){//第一个点
                                     if(type == 'standard.Circle'){
                                         paper.autoStartType = 'dot';
@@ -39,7 +47,7 @@ angular
                                         this._markStartLine(cellView);                         //1.(1)标记第一条线为红色
                                         paper.startDot = { x: x, y: y };
                                         paper.startLine = this._getLineDots(cellView);         //1.(2)记录线条的两个端点
-                                        this._makeCircle(x,y);                                 //1.(3)画一个圆形标记点
+                                        this._makeCircle(x,y);//1.(3)画一个圆形标记点
                                         if(paper.startLine.start.x != paper.startLine.end.x && paper.startLine.start.y == paper.startLine.end.y)
                                             paper.isStartLineHorizantal = true;
                                     }                                    
@@ -76,7 +84,7 @@ angular
                                         this._handleDotToLine2();//竖线-->点 或 点-->竖线
                                         this._resetDots3(cellView);
                                     }
-                                }                                    
+                                }
                             };
 
                             this.freshLink = function(e){
@@ -305,13 +313,13 @@ angular
                                 //paper.linkObject.attr('.connection/stroke','black'); //this line would make GUI click 1 more time to jump to next step
                                 this._resetLinkStyle(paper.linkObject);
                                 paper.normalStartDot = paper.normalLastDot;
-                                /*for(let i = 0; i < paper.components.length * 2; i++){      Progress! figured out how to retrieve component coords
-                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].position.x) < 10){
+                                for(let i = 0; i < paper.components.length; i++){
+                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].position.y) < 15){
                                         alert("hello");
                                         break;
                                         //$("g[model-id='"+cellView.model.id+"']").hide();
                                     }
-                                } */
+                                }
                                 let obj = this._newTempLink(paper.normalLastDot.x, paper.normalLastDot.y);
                                 paper.linkObject = obj;
                             }

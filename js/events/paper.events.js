@@ -59,7 +59,17 @@ angular
                                 let type = cellView.model.attributes.type; 
                                 if(type == 'standard.Circle' && this._paintType().type == 'wire'){                                    
                                     draw.normalLinkForNode(cellView,x,y);//连线状态下点击了元器件，则显示连线鼠标跟随
-                                }else if(type == 'standard.Circle' || (type == 'link' && !isguide)){
+                                }
+                                /*else if(type == 'standard.Circle' || (type == 'link' && !isguide)){
+                                    for(let i = 0; i < paper.components.length; i++){
+                                        if(Math.abs(x - paper.components[i].position.x) < 15 && Math.abs(y - paper.components[i].position.y) < 15){
+                                            alert("hello2");
+                                            break;
+                                            //$("g[model-id='"+cellView.model.id+"']").hide();
+                                        }
+                                    }
+                                }*/
+                                else if(type == 'standard.Circle' || (type == 'link' && !isguide)){
                                     draw.autoLink(type, cellView, x, y);
                                 }
                             };
