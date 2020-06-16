@@ -173,7 +173,7 @@ angular.module('quick.controller', [])
                             startToDraw("wire");
                             cv.showGuide(minispice.papers[0].guide);
                             break;
-                        case 9://capacitor                            
+                        case 9://capacitor                            s
                             minispice.paintSwitch.type = "capacitor";
                             startToDraw("capacitor");                          
                             break;

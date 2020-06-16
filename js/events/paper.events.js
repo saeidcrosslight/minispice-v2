@@ -10,6 +10,7 @@ angular
                     };
                     
                     let draw = drawline.createDrawLineTool();
+                    let clicked = false;
 
                     PaperEvent.fn = PaperEvent.prototype = {
                         constructor: PaperEvent,
@@ -56,19 +57,17 @@ angular
                                 if(guide.horizontalLine.id == cellid || guide.verticalLine.id == cellid)
                                     isguide = true;
                                 
-                                let type = cellView.model.attributes.type; 
-                                if(type == 'standard.Circle' && this._paintType().type == 'wire'){                                    
+                                let type = cellView.model.attributes.type;
+                                if(type == 'standard.Circle' && this._paintType().type == 'wire' && clicked == false){
+                                    clicked = true;
                                     draw.normalLinkForNode(cellView,x,y);//连线状态下点击了元器件，则显示连线鼠标跟随
+                                    //draw.autoLink(type,cellView, x, y);
                                 }
-                                /*else if(type == 'standard.Circle' || (type == 'link' && !isguide)){
-                                    for(let i = 0; i < paper.components.length; i++){
-                                        if(Math.abs(x - paper.components[i].position.x) < 15 && Math.abs(y - paper.components[i].position.y) < 15){
-                                            alert("hello2");
-                                            break;
-                                            //$("g[model-id='"+cellView.model.id+"']").hide();
-                                        }
-                                    }
-                                }*/
+                                else if(type == 'standard.Circle' && this._paintType().type == 'wire' && clicked == true){
+                                    clicked = false;
+                                    draw.normalLinkForNode2(cellView, x, y);
+
+                                }
                                 else if(type == 'standard.Circle' || (type == 'link' && !isguide)){
                                     draw.autoLink(type, cellView, x, y);
                                 }
@@ -129,7 +128,7 @@ angular
                         },
 
                         _createBasicComponent: function(type,x,y,node){//draw: capacitor, ground, resistor, inductor, diode
-                            debugger;
+                            //debugger;
                             let newComponent = component.createComponent();
                             let cpt = newComponent.createShape(type, x, y);
                             this._getGraph().addCell(cpt.shape);

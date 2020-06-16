@@ -23,6 +23,16 @@ angular
                                 $("g[model-id='"+cellView.model.id+"']").hide();
                             };
 
+                            this.normalLinkForNode2 = function(cellView, x, y){
+                                let paper = $rootScope.minispice.papers[0];
+                                paper.startDot = paper.normalStartDot;
+                                paper.endDot = cellView.model.attributes.position;
+                                this._handleDotToDot();
+                                //this._resetDots3(cellView);
+
+                                $("g[model-id='"+cellView.model.id+"']").hide();
+                            };
+
                             this.autoLink = function(type, cellView, x, y){
                                 let paper = $rootScope.minispice.papers[0],
                                     tempDot;
@@ -300,8 +310,6 @@ angular
                         
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
-                            let components = component.createComponent();
-
                             if(!paper.startNormalLink){//first click on paper
                                 let obj = this._newTempLink(x,y);
                                 paper.linkObject = obj;
@@ -375,7 +383,7 @@ angular
                             let link = new joint.dia.Link();;
                             link.set('source', {x: x, y: y});
                             link.set('target', {x: x, y: y});
-                            link.attr('.connection/strokeWidth','3');
+                            link.attr('.connection/strokeWidth','1');
                             link.attr('.connection/stroke','blue');
                             link.addTo($rootScope.minispice.graph);
                             $.each($("#v-3")[0].children, function(aindex, com){
