@@ -21,6 +21,7 @@ angular
                                 if(this._paintType().isStartDraw){
                                     switch (this._paintType().type) {
                                         case 'wire':
+                                            clicked = true;
                                             draw.normalLink(x, y);
                                             break;
                                         case 'component':
@@ -66,6 +67,7 @@ angular
                                 else if(type == 'standard.Circle' && this._paintType().type == 'wire' && clicked == true){
                                     clicked = false;
                                     draw.normalLinkForNode2(cellView, x, y);
+                                    //this.blankContextMenu(evt, x, y);
 
                                 }
                                 else if(type == 'standard.Circle' || (type == 'link' && !isguide)){
@@ -75,7 +77,7 @@ angular
                             
                             this.cellPointerMove = function(cellView, evt, x, y ){//drag the label of component to move
                                 if(cellView.model.attributes.type == 'standard.Image'){
-                                    this._freshLinkNodesPostion(cellView);
+                                    this._freshLinkNodesPosition(cellView);
                                 }
                                 //console.log(evt)
                             };
@@ -138,6 +140,7 @@ angular
                             $.each(this._getPapers(),function(cindex,cobj){
                                 if(cobj.isShow)
                                     cobj.components.push(newComponent);
+
                             });
                             //$rootScope.minispice.enableSaveButton();
                         },
@@ -146,7 +149,7 @@ angular
 
                         },
 
-                        _freshLinkNodesPostion: function(cellView){
+                        _freshLinkNodesPosition: function(cellView){
                             let ctype = this._getComponentType(cellView);                                
                             $.each(this._getPapers(),function(pindex,pobj){
                                 if(pobj.isShow){

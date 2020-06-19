@@ -27,8 +27,15 @@ angular
                                 let paper = $rootScope.minispice.papers[0];
                                 paper.startDot = paper.normalStartDot;
                                 paper.endDot = cellView.model.attributes.position;
+                                paper.endDot.x +=4;
                                 this._handleDotToDot();
-                                //this._resetDots3(cellView);
+                                this._resetDots1(cellView.model);
+                                if($rootScope.minispice.papers[0].linkObject != null)
+                                    $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
+                                $rootScope.minispice.papers[0].startNormalLink = false;
+                                $rootScope.minispice.papers[0].normalStartDot = { x: 0, y: 0 };
+                                $rootScope.minispice.papers[0].normalLastDot = { x: 0, y: 0 };
+                                $rootScope.minispice.papers[0].linkObject = null;
 
                                 $("g[model-id='"+cellView.model.id+"']").hide();
                             };
@@ -36,14 +43,6 @@ angular
                             this.autoLink = function(type, cellView, x, y){
                                 let paper = $rootScope.minispice.papers[0],
                                     tempDot;
-                                    for(let i = 0; i < paper.components.length; i++){
-                                    if(Math.abs(x - paper.components[i].position.x) < 15 && Math.abs(y - paper.components[i].position.y) < 15){
-                                        alert("hello2");
-                                        //this.normalLinkForNode(cellView,paper.components[i].position.x,paper.components[i].position.y);
-                                        //return;
-                                        break;
-                                    }
-                                }
                                 if(paper.autoStartType == ''){//第一个点
                                     if(type == 'standard.Circle'){
                                         paper.autoStartType = 'dot';
@@ -310,6 +309,7 @@ angular
                         
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
+                            let comp = component.createComponent();
                             if(!paper.startNormalLink){//first click on paper
                                 let obj = this._newTempLink(x,y);
                                 paper.linkObject = obj;
@@ -322,11 +322,21 @@ angular
                                 this._resetLinkStyle(paper.linkObject);
                                 paper.normalStartDot = paper.normalLastDot;
                                 for(let i = 0; i < paper.components.length; i++){
-                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].position.y) < 15){
-                                        alert("hello");
+                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 15){
+                                        //alert("hello");
+                                        paper.components[i].linkNodes[0].attributes.position.x = 9999; //doesnt work
+                                        paper.components[i].linkNodes[0].attributes.position.y = 9999;
                                         break;
                                         //$("g[model-id='"+cellView.model.id+"']").hide();
                                     }
+                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 15){
+                                        //alert("hello2");
+                                        paper.components[i].linkNodes[1].attributes.position.x = 9999; //doesnt work
+                                        paper.components[i].linkNodes[1].attributes.position.y = 9999;
+                                        break;
+                                        //$("g[model-id='"+cellView.model.id+"']").hide();
+                                    }
+                                    //console.log(paper.components[i].linkNodes[i].attributes.position.x);
                                 }
                                 let obj = this._newTempLink(paper.normalLastDot.x, paper.normalLastDot.y);
                                 paper.linkObject = obj;
