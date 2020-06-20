@@ -309,7 +309,7 @@ angular
                         
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
-                            let comp = component.createComponent();
+                            //let paperEvent = paperevents.createPaperEventsHandle();
                             if(!paper.startNormalLink){//first click on paper
                                 let obj = this._newTempLink(x,y);
                                 paper.linkObject = obj;
@@ -324,15 +324,13 @@ angular
                                 for(let i = 0; i < paper.components.length; i++){
                                     if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 15){
                                         //alert("hello");
-                                        paper.components[i].linkNodes[0].attributes.position.x = 9999; //doesnt work
-                                        paper.components[i].linkNodes[0].attributes.position.y = 9999;
+                                        $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove();
                                         break;
                                         //$("g[model-id='"+cellView.model.id+"']").hide();
                                     }
                                     if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 15){
                                         //alert("hello2");
-                                        paper.components[i].linkNodes[1].attributes.position.x = 9999; //doesnt work
-                                        paper.components[i].linkNodes[1].attributes.position.y = 9999;
+                                        $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
                                         break;
                                         //$("g[model-id='"+cellView.model.id+"']").hide();
                                     }

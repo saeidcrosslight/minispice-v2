@@ -23,6 +23,7 @@ angular
                                         case 'wire':
                                             clicked = true;
                                             draw.normalLink(x, y);
+
                                             break;
                                         case 'component':
                                             this._createComponent();
@@ -136,6 +137,7 @@ angular
                             this._getGraph().addCell(cpt.shape);
                             if (node) {
                                 this._getGraph().addCells(cpt.linkNodes);
+                                //this._getGraph().getCell(cpt.linkNodes[1]).remove(); --> this works! try it for normalLinking
                             };
                             $.each(this._getPapers(),function(cindex,cobj){
                                 if(cobj.isShow)
