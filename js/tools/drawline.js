@@ -4,6 +4,7 @@ angular
         .module('tool.drawline', [])
         .factory('drawline', ['$rootScope', 'component', function ($rootScope, component) {
                 var factory = {};
+                var groundCheck = false;
                 var DrawLineTool = (function(){
                     var DrawLineTool = function(){
                         return new DrawLineTool.fn.tool();
@@ -322,17 +323,42 @@ angular
                                 this._resetLinkStyle(paper.linkObject);
                                 paper.normalStartDot = paper.normalLastDot;
                                 for(let i = 0; i < paper.components.length; i++){
-                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 15){
+
+                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 12){
                                         //alert("hello");
+                                        if(paper.components[i].type == "ground"){
+                                            groundCheck = true;
+                                        }
+                                        else{
+                                            groundCheck = false;
+                                        }
                                         $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove();
+                                        paper.startDot = paper.normalStartDot;
+                                        paper.endDot.x = paper.components[i].linkNodes[0].attributes.position.x + 4;
+                                        paper.endDot.y = paper.components[i].linkNodes[0].attributes.position.y;
+                                        this._handleDotToDot();
+                                        $rootScope.minispice.papers[0].startNormalLink = false;
+                                        $rootScope.minispice.papers[0].normalStartDot = { x: 0, y: 0 };
+                                        $rootScope.minispice.papers[0].normalLastDot = { x: 0, y: 0 };
+                                        $rootScope.minispice.papers[0].linkObject = null;
                                         break;
                                         //$("g[model-id='"+cellView.model.id+"']").hide();
                                     }
-                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 15 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 15){
-                                        //alert("hello2");
-                                        $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
-                                        break;
-                                        //$("g[model-id='"+cellView.model.id+"']").hide();
+                                    if(!groundCheck) {
+                                        if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 12) {
+                                            //alert("hello2");
+                                            $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
+                                            paper.startDot = paper.normalStartDot;
+                                            paper.endDot.x = paper.components[i].linkNodes[1].attributes.position.x + 4;
+                                            paper.endDot.y = paper.components[i].linkNodes[1].attributes.position.y;
+                                            this._handleDotToDot();
+                                            $rootScope.minispice.papers[0].startNormalLink = false;
+                                            $rootScope.minispice.papers[0].normalStartDot = { x: 0, y: 0 };
+                                            $rootScope.minispice.papers[0].normalLastDot = { x: 0, y: 0 };
+                                            $rootScope.minispice.papers[0].linkObject = null;
+                                            break;
+                                            //$("g[model-id='"+cellView.model.id+"']").hide();
+                                        }
                                     }
                                     //console.log(paper.components[i].linkNodes[i].attributes.position.x);
                                 }
