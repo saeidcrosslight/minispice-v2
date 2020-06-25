@@ -54,10 +54,24 @@ angular
                                         paper.startDotOppositeObject = this._getOppositeDot(cellView); //1.(4)获取器件另一个连接点
                                     }else{
                                         paper.autoStartType = 'line';
-                                        this._markStartLine(cellView);                         //1.(1)标记第一条线为红色
-                                        paper.startDot = { x: x, y: y };
+                                        this._markStartLine(cellView); //1.(1)标记第一条线为红色
+                                        for(let i = 0; i < paper.links.length; i+=2){
+                                            if((paper.links[i].x != paper.links[i+1].x) && x > Math.min(paper.links[i].x,paper.links[i+1].x) && x < Math.max(paper.links[i].x,paper.links[i+1].x)){
+                                                if(Math.abs(y - paper.links[i].y) <= 10){
+                                                    paper.startDot = {x: x, y: paper.links[i].y};
+                                                    this._makeCircle(x, paper.links[i].y);
+                                                }
+                                            }
+                                            else if((paper.links[i].y != paper.links[i+1].y) && y > Math.min(paper.links[i].y,paper.links[i+1].y) && y < Math.max(paper.links[i].y,paper.links[i+1].y)){
+                                                if(Math.abs(x - paper.links[i].x) <= 10){
+                                                    paper.startDot = {x: paper.links[i].x, y: y};
+                                                    this._makeCircle(paper.links[i].x, y);
+                                                }
+                                            }
+                                        }
+                                        //paper.startDot = { x: x, y: y };
                                         paper.startLine = this._getLineDots(cellView);         //1.(2)记录线条的两个端点
-                                        this._makeCircle(x,y);//1.(3)画一个圆形标记点
+                                        //this._makeCircle(x,y);//1.(3)画一个圆形标记点
                                         if(paper.startLine.start.x != paper.startLine.end.x && paper.startLine.start.y == paper.startLine.end.y)
                                             paper.isStartLineHorizantal = true;
                                     }                                    
@@ -310,60 +324,68 @@ angular
                         
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
+                            let linked = false;
                             //let paperEvent = paperevents.createPaperEventsHandle();
                             if(!paper.startNormalLink){//first click on paper
                                 let obj = this._newTempLink(x,y);
                                 paper.linkObject = obj;
                                 paper.normalStartDot = {x: x, y: y};
                                 paper.startNormalLink = true;
-                            }else{
+                            }else {
                                 //following 2 lines are setting the link to normal style
                                 //paper.linkObject.attr('.connection/strokeWidth','1'); //this line would make GUI click 1 more time to jump to next step
                                 //paper.linkObject.attr('.connection/stroke','black'); //this line would make GUI click 1 more time to jump to next step
                                 this._resetLinkStyle(paper.linkObject);
-                                paper.normalStartDot = paper.normalLastDot;
-                                for(let i = 0; i < paper.components.length; i++){
+                                //paper.normalStartDot = paper.normalLastDot;
+                                for (let i = 0; i < paper.components.length; i++) {
 
-                                    if(Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 12){
+                                    if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 12) {
                                         //alert("hello");
-                                        if(paper.components[i].type == "ground"){
+                                        if (paper.components[i].type == "ground") {
                                             groundCheck = true;
-                                        }
-                                        else{
+                                        } else {
                                             groundCheck = false;
                                         }
                                         $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove();
+                                        if($rootScope.minispice.papers[0].linkObject != null)
+                                            $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
                                         paper.startDot = paper.normalStartDot;
                                         paper.endDot.x = paper.components[i].linkNodes[0].attributes.position.x + 4;
                                         paper.endDot.y = paper.components[i].linkNodes[0].attributes.position.y;
                                         this._handleDotToDot();
                                         $rootScope.minispice.papers[0].startNormalLink = false;
-                                        $rootScope.minispice.papers[0].normalStartDot = { x: 0, y: 0 };
-                                        $rootScope.minispice.papers[0].normalLastDot = { x: 0, y: 0 };
+                                        $rootScope.minispice.papers[0].normalStartDot = {x: 0, y: 0};
+                                        $rootScope.minispice.papers[0].normalLastDot = {x: 0, y: 0};
                                         $rootScope.minispice.papers[0].linkObject = null;
+                                        linked = true;
                                         break;
                                         //$("g[model-id='"+cellView.model.id+"']").hide();
                                     }
-                                    if(!groundCheck) {
+                                    if (!groundCheck) {
                                         if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 12) {
                                             //alert("hello2");
                                             $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
+                                            if($rootScope.minispice.papers[0].linkObject != null)
+                                                $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
                                             paper.startDot = paper.normalStartDot;
                                             paper.endDot.x = paper.components[i].linkNodes[1].attributes.position.x + 4;
                                             paper.endDot.y = paper.components[i].linkNodes[1].attributes.position.y;
                                             this._handleDotToDot();
                                             $rootScope.minispice.papers[0].startNormalLink = false;
-                                            $rootScope.minispice.papers[0].normalStartDot = { x: 0, y: 0 };
-                                            $rootScope.minispice.papers[0].normalLastDot = { x: 0, y: 0 };
+                                            $rootScope.minispice.papers[0].normalStartDot = {x: 0, y: 0};
+                                            $rootScope.minispice.papers[0].normalLastDot = {x: 0, y: 0};
                                             $rootScope.minispice.papers[0].linkObject = null;
+                                            linked = true;
                                             break;
                                             //$("g[model-id='"+cellView.model.id+"']").hide();
                                         }
                                     }
-                                    //console.log(paper.components[i].linkNodes[i].attributes.position.x);
                                 }
+                                paper.links.push(paper.normalStartDot, paper.normalLastDot);
+                                paper.normalStartDot = paper.normalLastDot;
                                 let obj = this._newTempLink(paper.normalLastDot.x, paper.normalLastDot.y);
                                 paper.linkObject = obj;
+
                             }
                             $('#'+$rootScope.minispice.currentPaperId).on('mousemove', function (e) {                        
                                 if($rootScope.minispice.paintSwitch.type=='wire' && paper.startNormalLink){                                        
@@ -390,12 +412,16 @@ angular
                         _makeLine: function(startDot, endDot){//for normal
                             let link = new joint.dia.Link();
                             link.set('target', {x: startDot.x, y: startDot.y});
-                            link.set('source', {x: endDot.x, y: endDot.y});                                
+                            link.set('source', {x: endDot.x, y: endDot.y});
+                            //link.attr({
+                                //'.connection': {"pointer-events": 'none'} //works, but not what we want
+                               // '.connection-wrap': {"pointer-events": 'none'}
+                           // });
                             link.addTo($rootScope.minispice.graph); 
                             $.each($("#v-3")[0].children, function(aindex, com){
                                 if(($(com).attr('model-id')) == link.id){//mark the startDot
                                     $(com.children[6]).remove();
-                                    $(com.children[5]).remove();
+                                   $(com.children[5]).remove();
                                     $(com.children[4]).remove();
                                 }
                             });

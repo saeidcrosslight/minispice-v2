@@ -12,6 +12,7 @@
     stroke-linejoin: round;
     opacity: 0;
     cursor: move;
+    pointer-events: none;
 }
 .joint-link.joint-theme-default .connection-wrap:hover {
     opacity: .4;
