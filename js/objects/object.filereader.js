@@ -167,6 +167,7 @@ angular
                             }
                         }
                     }
+
                     let dot1 = {x: 0, y: 0};
                     let dot2 = {x: 0, y: 0};
                     for(let i = 0; i < wiresArr.length; i+=4){
@@ -176,6 +177,8 @@ angular
                         dot2.y = wiresArr[i+3];
                         drawTool._makeLine(dot1, dot2);
                     }
+
+
 
 
                 };

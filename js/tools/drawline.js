@@ -55,23 +55,23 @@ angular
                                     }else{
                                         paper.autoStartType = 'line';
                                         this._markStartLine(cellView); //1.(1)标记第一条线为红色
-                                        for(let i = 0; i < paper.links.length; i+=2){
-                                            if((paper.links[i].x != paper.links[i+1].x) && x > Math.min(paper.links[i].x,paper.links[i+1].x) && x < Math.max(paper.links[i].x,paper.links[i+1].x)){
-                                                if(Math.abs(y - paper.links[i].y) <= 10){
-                                                    paper.startDot = {x: x, y: paper.links[i].y};
-                                                    this._makeCircle(x, paper.links[i].y);
+                                        /*for(let i = 0; i < paper.links.length; i++){
+                                            if((paper.links[i].attributes.source.x != paper.links[i].attributes.target.x) && x > Math.min(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x) && x < Math.max(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x)){
+                                                if(Math.abs(y - paper.links[i].attributes.source.y) <= 10){
+                                                    paper.startDot = {x: x, y: paper.links[i].attributes.source.y};
+                                                    this._makeCircle(x, paper.links[i].attributes.source.y);
                                                 }
                                             }
-                                            else if((paper.links[i].y != paper.links[i+1].y) && y > Math.min(paper.links[i].y,paper.links[i+1].y) && y < Math.max(paper.links[i].y,paper.links[i+1].y)){
-                                                if(Math.abs(x - paper.links[i].x) <= 10){
-                                                    paper.startDot = {x: paper.links[i].x, y: y};
-                                                    this._makeCircle(paper.links[i].x, y);
+                                            else if((paper.links[i].attributes.source.y != paper.links[i].attributes.target.y) && y > Math.min(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y) && y < Math.max(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y)){
+                                                if(Math.abs(x - paper.links[i].attributes.source.x) <= 10){
+                                                    paper.startDot = {x: paper.links[i].attributes.source.x, y: y};
+                                                    this._makeCircle(paper.links[i].attributes.source.x, y);
                                                 }
                                             }
-                                        }
-                                        //paper.startDot = { x: x, y: y };
-                                        paper.startLine = this._getLineDots(cellView);         //1.(2)记录线条的两个端点
-                                        //this._makeCircle(x,y);//1.(3)画一个圆形标记点
+                                        }*/
+                                        paper.startDot = {x: x, y: y};
+                                        paper.startLine = this._getLineDots(cellView);
+                                        this._makeCircle(x,y);
                                         if(paper.startLine.start.x != paper.startLine.end.x && paper.startLine.start.y == paper.startLine.end.y)
                                             paper.isStartLineHorizantal = true;
                                     }                                    
@@ -338,14 +338,12 @@ angular
                                 this._resetLinkStyle(paper.linkObject);
                                 //paper.normalStartDot = paper.normalLastDot;
                                 for (let i = 0; i < paper.components.length; i++) {
-
+                                    if (paper.components[i].type == "ground") {
+                                        groundCheck = true;
+                                    } else {
+                                        groundCheck = false;
+                                    }
                                     if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 12) {
-                                        //alert("hello");
-                                        if (paper.components[i].type == "ground") {
-                                            groundCheck = true;
-                                        } else {
-                                            groundCheck = false;
-                                        }
                                         $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove();
                                         if($rootScope.minispice.papers[0].linkObject != null)
                                             $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
@@ -381,7 +379,13 @@ angular
                                         }
                                     }
                                 }
-                                paper.links.push(paper.normalStartDot, paper.normalLastDot);
+                                let link = new joint.dia.Link();
+                                link.set('source', paper.normalStartDot);
+                                link.set('target', paper.normalLastDot);
+                                link.attr({'.connection-wrap': {"pointerEvents": 'none'}});
+                                link.attr({'.connection': {"pointerEvents": 'none'}});
+                                link.attr('.connection/strokeWidth', '1');
+                                paper.links.push(link);
                                 paper.normalStartDot = paper.normalLastDot;
                                 let obj = this._newTempLink(paper.normalLastDot.x, paper.normalLastDot.y);
                                 paper.linkObject = obj;
@@ -413,10 +417,13 @@ angular
                             let link = new joint.dia.Link();
                             link.set('target', {x: startDot.x, y: startDot.y});
                             link.set('source', {x: endDot.x, y: endDot.y});
-                            //link.attr({
-                                //'.connection': {"pointer-events": 'none'} //works, but not what we want
-                               // '.connection-wrap': {"pointer-events": 'none'}
-                           // });
+                            link.attr('.connection/strokeWidth', '1');
+                            link.attr({
+                                '.connection-wrap': {"pointerEvents": 'none'}
+                            });
+                            link.attr({
+                                '.connection': {"pointerEvents": 'none'}
+                            });
                             link.addTo($rootScope.minispice.graph); 
                             $.each($("#v-3")[0].children, function(aindex, com){
                                 if(($(com).attr('model-id')) == link.id){//mark the startDot
@@ -440,11 +447,13 @@ angular
                         },
 
                         _newTempLink: function(x,y){
-                            let link = new joint.dia.Link();;
+                            let link = new joint.dia.Link();
                             link.set('source', {x: x, y: y});
                             link.set('target', {x: x, y: y});
                             link.attr('.connection/strokeWidth','1');
                             link.attr('.connection/stroke','blue');
+                            link.attr({'.connection-wrap': {pointerEvents: 'none'}});
+                            link.attr({'.connection': {pointerEvents: 'none'}});
                             link.addTo($rootScope.minispice.graph);
                             $.each($("#v-3")[0].children, function(aindex, com){
                                 if(($(com).attr('model-id')) == link.id){//mark the startDot
@@ -469,10 +478,10 @@ angular
                         _markStartLine: function(cellView){
                             let allLinks = $(".joint-type-link");
                             $.each(allLinks, function(lindex, link){
-                                if(($(link.children[0]).attr('stroke'))=='red')
+                                if(($(link.children[0]).attr('stroke'))=='blue')
                                     $(link.children[0]).attr('stroke','black');
                                 if(($(link).attr('model-id')) == cellView.model.id){
-                                    $(link.children[0]).attr('stroke','red');
+                                    $(link.children[0]).attr('stroke','black');
                                 }
                             });
                         },

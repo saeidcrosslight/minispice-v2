@@ -69,7 +69,7 @@ angular
                         $('#'+paperId).on('mousemove', function (e) {//mousemove event
                             if($rootScope.minispice.paintSwitch.type=='wire'){
                                 //paperTool.freshGuide(guide, e.pageX-203, e.pageY-134);
-                                paperTool.freshGuide(guide, e.pageX-228, e.pageY-133);
+                                paperTool.freshGuide(guide, e.pageX-229, e.pageY-134);
                             }
                         });
 

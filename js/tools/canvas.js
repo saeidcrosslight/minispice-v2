@@ -67,6 +67,7 @@ angular
                             horizontalLine.set('source', {x: 2000, y: y});
                             horizontalLine.attr('.connection/stroke', 'blue');
                             horizontalLine.attr('.connection/strokeDasharray', '3,3');
+                            horizontalLine.attr({'.connection': {"pointerEvents" : 'none'}});
                             horizontalLine.addTo($rootScope.minispice.graph);
                             this._hideLinkArrow(horizontalLine);
 
