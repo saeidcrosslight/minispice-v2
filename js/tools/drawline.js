@@ -96,7 +96,7 @@ angular
                                     if(paper.autoStartType == 'dot' && paper.autoEndType == 'dot'){//dot to dot
                                         this._handleDotToDot();                                    
                                         this._resetDots1(cellView.model);
-                                    }else if(paper.autoStartType == 'line' && paper.autoEndType == 'line'){//line to line
+                                    }/*else if(paper.autoStartType == 'line' && paper.autoEndType == 'line'){//line to line
                                         this._handleLineToLine();
                                         this._resetDots2(cellView);
                                     }else if((paper.autoStartType == 'dot' && paper.autoEndType == 'line' && paper.isEndLineHorizantal) ||
@@ -107,7 +107,7 @@ angular
                                              (paper.autoStartType == 'line' && paper.autoEndType == 'dot' && !paper.isStartLineHorizantal)){//line to dot
                                         this._handleDotToLine2();//竖线-->点 或 点-->竖线
                                         this._resetDots3(cellView);
-                                    }
+                                    }*/
                                 }
                             };
 
@@ -125,8 +125,40 @@ angular
                                 startDot = paper.startDot,
                                 endDot = paper.endDot,
                                 startDotOpposite = paper.endDotOppositeObject;
+                            let path = this.aStar(startDot, endDot);
+                            let deltaX = false;
+                            let linePath = [];
+                            let tempStartDot;
+                            let tempEndDot;
+                            //console.log(path);
+                            for(let i = 1; i < path.length; i++){
+                                if(path[i].i == path[i-1].i){
+                                    if((deltaX && linePath.length != 0) || i == path.length-1){
+                                        tempStartDot = {x: linePath[0].i, y: linePath[0].j};
+                                        tempEndDot = {x: linePath[linePath.length-1].i, y: linePath[linePath.length-1].j};
+                                        this._makeLine(tempStartDot, tempEndDot);
+                                        linePath.length = 0; //clears the linePath
+                                    }
+                                    deltaX = false;
+                                }
+                                else if(path[i].j == path[i-1].j) {
+                                    //do the same as above here below
+                                    if((!deltaX && linePath.length != 0)|| i == path.length-1){
+                                        tempStartDot = {x: linePath[0].i, y: linePath[0].j};
+                                        tempEndDot = {x: linePath[linePath.length-1].i, y: linePath[linePath.length-1].j};
+                                        this._makeLine(tempStartDot, tempEndDot);
+                                        linePath.length = 0; //clears the linePath
+                                    }
+                                    deltaX = true;
+                                }
+                                linePath.push(path[i]);
 
-                            if(startDot.x != endDot.x && startDot.y == endDot.y){//两点在同一水平线上
+                            }
+
+
+
+
+                            /*if(startDot.x != endDot.x && startDot.y == endDot.y){//两点在同一水平线上
                                 this._makeLine(startDot, endDot);                                            
                             }else if(startDot.x == endDot.x && startDot.y != endDot.y){//两点在同一垂直线上
                                 let num = this._countbyNum();
@@ -166,10 +198,10 @@ angular
                                         this._makeLine({x:tempMiddleX, y:startDot.y}, {x:tempMiddleX, y:endDot.y});
                                         this._makeLine({x:tempMiddleX, y:endDot.y}, endDot);                                                
                                 }
-                            }                            
+                            }*/
                         },
 
-                        _handleLineToLine: function(){
+                        /*_handleLineToLine: function(){
                             let paper = $rootScope.minispice.papers[0],
                                 startLine = paper.startLine,
                                 endLine = paper.endLine,
@@ -241,7 +273,7 @@ angular
                                 this._makeLine(dot2, dot3);
                                 this._makeLine(dot3, endLineDot);
                             }                             
-                        },
+                        }
 
                         _handleDotToLine1: function(){//dot to line 横线-->点 或 点-->横线 111111111111
                             let paper = $rootScope.minispice.papers[0],
@@ -320,7 +352,7 @@ angular
                                 this._makeLine(dot1, dot2);
                                 this._makeLine(dot2, endDot);
                             }
-                        },
+                        },*/
                         
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
@@ -561,7 +593,202 @@ angular
                             if(paper.countby>300)
                                 paper.countby = 50;
                             return paper.countby;
-                        }
+                        },
+
+                        aStar: function(startDot, endDot){
+                            function heuristic(a, b){
+                                var d1 = Math.abs (a.i - b.i);
+                                var d2 = Math.abs (a.j - b.j);
+                                return d1 + d2;
+                            }
+                            function Spot(i,j){
+                                this.i = i;
+                                this.j = j;
+                                this.f = 0;
+                                this.g = 0;
+                                this.h = 0;
+                                this.neighbours = [];
+                                this.addNeighbours = function(grid){
+                                    var i = this.i;
+                                    var j = this.j;
+                                    if(i < (cols-1)){
+                                        this.neighbours.push(grid[i+1][j]);
+                                    }
+                                    if(i > 0){
+                                        this.neighbours.push(grid[i-1][j]);
+                                    }
+                                    if(j < rows-1){
+                                        this.neighbours.push(grid[i][j+1]);
+                                    }
+                                    if(j > 0){
+                                        this.neighbours.push(grid[i][j-1]);
+                                    }
+                                }
+                                this.previous = undefined;
+                                this.wall = false;
+
+                            }
+                            function removeFromArray(arr, elt){
+                                for(let i = arr.length-1; i >= 0; i--){
+                                    if(arr[i] == elt){
+                                        arr.splice(i,1);
+                                    }
+                                }
+                            }
+                            let cols = 2000;
+                            let rows = 1400;
+                            //for efficiency so we don't need to loop over entire paper. May revisit later.
+                            let xMin = Math.min(startDot.x, endDot.x);
+                            let xMax = Math.max(startDot.x, endDot.x);
+                            let yMin = Math.min(startDot.y, endDot.y);
+                            let yMax = Math.max(startDot.y, endDot.y);
+                            let grid = new Array(cols);
+                            let paper = $rootScope.minispice.papers[0];
+                            for(let i = 0; i < cols; i++){
+                                grid[i] = new Array(rows);
+                            }
+
+                            for(let i = 0; i < cols; i++){
+                                for(let j = 0; j < rows; j++){
+                                    grid[i][j] = new Spot(i,j);
+                                }
+                            }
+                            for(let i = 0; i < cols; i++){
+                                for(let j = 0; j < rows; j++){
+                                    grid[i][j].addNeighbours(grid);
+                                }
+                            }
+                            for(let i = 0; i < paper.links.length; i++){ //walls
+                                if(paper.links[i].attributes.source.x == paper.links[i].attributes.target.x){ //vertical line
+                                    let min = Math.min(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
+                                    let max = Math.max(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
+                                        for (let j = min; j <= max; j++) {
+                                            grid[paper.links[i].attributes.source.x][j].wall = true;
+                                            if(min > 6 && max < 1394) { //vertical dimensions of paper
+                                                grid[paper.links[i].attributes.source.x + 1][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x - 1][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x + 2][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x - 2][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x + 3][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x - 3][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x + 4][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x - 4][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x + 5][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x - 5][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x + 6][j].wall = true; //buffer
+                                                grid[paper.links[i].attributes.source.x - 6][j].wall = true; //buffer
+                                            }
+                                        }
+
+                                }
+                                if(paper.links[i].attributes.source.y == paper.links[i].attributes.target.y){ //horizontal line
+                                    let min = Math.min(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x);
+                                    let max = Math.max(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x);
+                                    for(let j = min; j <= max; j++){
+                                        if(min > 6 && max < 1994) { //dimensions of paper
+                                            grid[j][paper.links[i].attributes.source.y].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y + 1].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y - 1].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y + 2].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y - 2].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y + 3].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y - 3].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y + 4].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y - 4].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y + 5].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y - 5].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y + 6].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y - 6].wall = true;
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            //Components -- make sure to account for rotating components later
+
+                            for(let i = 0; i < paper.components.length; i++){
+                                if (paper.components[i].type != "ground") {
+                                    if (paper.components[i].linkNodes[0].attributes.position.x == paper.components[i].linkNodes[1].attributes.position.x){ //vertical comps
+                                        let min = Math.min(paper.components[i].linkNodes[0].attributes.position.y, paper.components[i].linkNodes[1].attributes.position.y);
+                                        let max = Math.max(paper.components[i].linkNodes[0].attributes.position.y, paper.components[i].linkNodes[1].attributes.position.y);
+                                        for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
+                                            grid[paper.components[i].linkNodes[0].attributes.position.x][j].wall = true;
+                                            grid[paper.components[i].linkNodes[0].attributes.position.x - 1][j].wall = true; //buffer
+                                            grid[paper.components[i].linkNodes[0].attributes.position.x + 1][j].wall = true; //buffer
+                                        }
+                                    }
+                                    else if(paper.components[i].linkNodes[0].attributes.position.y == paper.components[i].linkNodes[1].attributes.position.y){ //horizontal components
+                                        let min = Math.min(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
+                                        let max = Math.max(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
+                                        for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
+                                            grid[j][paper.components[i].linkNodes[0].attributes.position.y].wall = true;
+                                            grid[j][paper.components[i].linkNodes[0].attributes.position.y - 1].wall = true; //buffer
+                                            grid[j][paper.components[i].linkNodes[0].attributes.position.y + 1].wall = true; //buffer
+                                        }
+                                    }
+                                }
+                            }
+
+
+
+                            var openList = [];
+                            var closedList = [];
+                            var start = grid[startDot.x][startDot.y];
+                            var end = grid[endDot.x][endDot.y];
+                            openList.push(start);
+                            var path = [];
+
+                            while(openList.length > 0){
+                                var winner = 0; //lowest index
+                                for(let i = 0; i < openList.length; i++){
+                                    if(openList[i].f < openList[winner].f){
+                                        winner = i;
+                                    }
+                                }
+                                var current = openList[winner];
+
+                                if(current === end){
+                                    path = [];
+                                    var temp = current;
+                                    path.push(temp);
+                                    while(temp.previous){
+                                        path.push(temp.previous);
+                                        temp = temp.previous;
+                                    }
+                                    console.log(path);
+                                    return path;
+                                }
+                                removeFromArray(openList, current);
+                                closedList.push(current);
+
+                                var neighbours = current.neighbours;
+                                for(let i = 0; i < neighbours.length; i++){
+                                    let neighbour = neighbours[i];
+                                    if(!closedList.includes(neighbour) && !neighbour.wall) {
+                                        let tempG = current.g + 1;
+
+                                        if (openList.includes(neighbour)) {
+                                            if (tempG < neighbour.g) {
+                                                neighbour.g = tempG;
+                                            }
+                                        }
+                                        else{
+                                            neighbour.g = tempG;
+                                            openList.push(neighbour);
+                                        }
+                                        neighbour.h = heuristic(neighbour, end);
+                                        neighbour.f = neighbour.h + neighbour.g;
+                                        neighbour.previous = current;
+                                    }
+                                }
+
+                            }
+                            //if not solved during the loop, no solution
+                            return [];
+
+                        },
+
     
                     };
     
