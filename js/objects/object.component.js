@@ -39,15 +39,18 @@ angular
                         shape.attr({
                             image: {
                                 xlinkHref: "images/MiniSpice_quick/"+shapeName+"_default.png",
-                                magnet: true
+                                magnet: true,
+                                pointerEvents: 'none',
                             },
                             label: {
                                 text: labelName,
                                 fontSize: 20,
                                 'ref-x': 65, 
                                 'ref-y': -50,
-                                fill: 'black'
+                                fill: 'black',
                             },
+                            //connection: {pointerEvents: 'none'} doesn't work
+
                             
                         });
                         //处理创建图形上的连接点

@@ -71,7 +71,7 @@ angular
                                     //this.blankContextMenu(evt, x, y);
 
                                 }
-                                else if(type == 'standard.Circle'|| (type == 'link' && !isguide)){
+                                else if(type == 'standard.Circle'){
                                     draw.autoLink(type, cellView, x, y);
                                 }
                             };

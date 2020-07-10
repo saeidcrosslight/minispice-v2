@@ -709,22 +709,34 @@ angular
 
                             for(let i = 0; i < paper.components.length; i++){
                                 if (paper.components[i].type != "ground") {
-                                    if (paper.components[i].linkNodes[0].attributes.position.x == paper.components[i].linkNodes[1].attributes.position.x){ //vertical comps
+                                    if (Math.abs(paper.components[i].linkNodes[0].attributes.position.x - paper.components[i].linkNodes[1].attributes.position.x) < 6){ //vertical comps
                                         let min = Math.min(paper.components[i].linkNodes[0].attributes.position.y, paper.components[i].linkNodes[1].attributes.position.y);
                                         let max = Math.max(paper.components[i].linkNodes[0].attributes.position.y, paper.components[i].linkNodes[1].attributes.position.y);
                                         for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
                                             grid[paper.components[i].linkNodes[0].attributes.position.x][j].wall = true;
-                                            grid[paper.components[i].linkNodes[0].attributes.position.x - 1][j].wall = true; //buffer
-                                            grid[paper.components[i].linkNodes[0].attributes.position.x + 1][j].wall = true; //buffer
+                                            if(min > 3 && max < 1997) {
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 1][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 1][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 2][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 2][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 3][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 3][j].wall = true; //buffer
+                                            }
                                         }
                                     }
-                                    else if(paper.components[i].linkNodes[0].attributes.position.y == paper.components[i].linkNodes[1].attributes.position.y){ //horizontal components
+                                    else if(Math.abs(paper.components[i].linkNodes[0].attributes.position.y - paper.components[i].linkNodes[1].attributes.position.y) < 6){ //horizontal components
                                         let min = Math.min(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
                                         let max = Math.max(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
                                         for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
                                             grid[j][paper.components[i].linkNodes[0].attributes.position.y].wall = true;
-                                            grid[j][paper.components[i].linkNodes[0].attributes.position.y - 1].wall = true; //buffer
-                                            grid[j][paper.components[i].linkNodes[0].attributes.position.y + 1].wall = true; //buffer
+                                            if(min > 3 && max < 1997) {
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 1].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 1].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 2].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 2].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 3].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 3].wall = true; //buffer
+                                            }
                                         }
                                     }
                                 }
