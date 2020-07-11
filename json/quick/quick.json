@@ -103,6 +103,13 @@
         "class": "",
         "disabled": "",
         "title": "draw component"
+    },
+    {
+        "id": 15 ,
+        "name": "Delete Wire",
+        "class": "",
+        "disabled": "",
+        "title": "delete wire"
     }
 
 ]

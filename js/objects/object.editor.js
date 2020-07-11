@@ -25,6 +25,7 @@ angular
                         this.changeFileTitle = changeFileTitle;
                         this.setContent = setContent;
                         this.isFileOpen = isFileOpen;
+
                         this.hasTheFileInProject = hasTheFileInProject;
                         this.saveCurrentFile = saveCurrentFile;
                         this.saveAllOpenFiles = saveAllOpenFiles;
