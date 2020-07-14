@@ -414,8 +414,8 @@ angular
                                 let link = new joint.dia.Link();
                                 link.set('source', paper.normalStartDot);
                                 link.set('target', paper.normalLastDot);
-                                link.attr({'.connection-wrap': {"pointerEvents": 'none'}});
-                                link.attr({'.connection': {"pointerEvents": 'none'}});
+                                //link.attr({'.connection-wrap': {"pointerEvents": 'none'}});
+                                //link.attr({'.connection': {"pointerEvents": 'none'}});
                                 link.attr('.connection/strokeWidth', '1');
                                 paper.links.push(link);
                                 paper.normalStartDot = paper.normalLastDot;
@@ -451,10 +451,10 @@ angular
                             link.set('source', {x: endDot.x, y: endDot.y});
                             link.attr('.connection/strokeWidth', '1');
                             link.attr({
-                                '.connection-wrap': {"pointerEvents": 'none'}
+                                //'.connection-wrap': {"pointerEvents": 'none'}
                             });
                             link.attr({
-                                '.connection': {"pointerEvents": 'none'}
+                                //'.connection': {"pointerEvents": 'none'}
                             });
                             link.addTo($rootScope.minispice.graph); 
                             $.each($("#v-3")[0].children, function(aindex, com){
@@ -484,8 +484,8 @@ angular
                             link.set('target', {x: x, y: y});
                             link.attr('.connection/strokeWidth','1');
                             link.attr('.connection/stroke','blue');
-                            link.attr({'.connection-wrap': {pointerEvents: 'none'}});
-                            link.attr({'.connection': {pointerEvents: 'none'}});
+                            //link.attr({'.connection-wrap': {pointerEvents: 'none'}});
+                            //link.attr({'.connection': {pointerEvents: 'none'}});
                             link.addTo($rootScope.minispice.graph);
                             $.each($("#v-3")[0].children, function(aindex, com){
                                 if(($(com).attr('model-id')) == link.id){//mark the startDot

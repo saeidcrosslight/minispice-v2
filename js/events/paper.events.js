@@ -74,6 +74,11 @@ angular
                                 else if(type == 'standard.Circle'){
                                     draw.autoLink(type, cellView, x, y);
                                 }
+                                else if(type == 'link'){ //need to figure out how to disable everything
+                                    cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
+                                    cellView.model.attributes.attrs({'.connection': {"pointerEvents": 'none'}});
+
+                                }
                             };
                             
                             this.cellPointerMove = function(cellView, evt, x, y ){//drag the label of component to move

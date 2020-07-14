@@ -49,7 +49,6 @@ angular
                                 'ref-y': -50,
                                 fill: 'black',
                             },
-                            //connection: {pointerEvents: 'none'} doesn't work
 
                             
                         });
