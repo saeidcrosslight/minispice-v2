@@ -611,7 +611,8 @@ angular
                                 this.addNeighbours = function(grid){
                                     var i = this.i;
                                     var j = this.j;
-                                    if(i < (cols-1)){
+                                    /*
+                                    if(i < (cols -1)){
                                         this.neighbours.push(grid[i+1][j]);
                                     }
                                     if(i > 0){
@@ -621,6 +622,19 @@ angular
                                         this.neighbours.push(grid[i][j+1]);
                                     }
                                     if(j > 0){
+                                        this.neighbours.push(grid[i][j-1]);
+                                    }
+                                    */
+                                    if(i < (xMax - 1)){
+                                        this.neighbours.push(grid[i+1][j]);
+                                    }
+                                    if(i > xMin){
+                                        this.neighbours.push(grid[i-1][j]);
+                                    }
+                                    if(j < (yMax - 1)){
+                                        this.neighbours.push(grid[i][j+1]);
+                                    }
+                                    if(j > yMin){
                                         this.neighbours.push(grid[i][j-1]);
                                     }
                                 }
@@ -635,15 +649,79 @@ angular
                                     }
                                 }
                             }
+                            let paper = $rootScope.minispice.papers[0];
                             let cols = 2000;
                             let rows = 1400;
-                            //for efficiency so we don't need to loop over entire paper. May revisit later.
-                            let xMin = Math.min(startDot.x, endDot.x);
-                            let xMax = Math.max(startDot.x, endDot.x);
-                            let yMin = Math.min(startDot.y, endDot.y);
-                            let yMax = Math.max(startDot.y, endDot.y);
-                            let grid = new Array(cols);
-                            let paper = $rootScope.minispice.papers[0];
+                            //for efficiency so we don't need to loop over entire paper. Just currently existing elements.
+                            let xMin = 10000;
+                            let xMax = 0;
+                            let yMin = 10000;
+                            let yMax = 0;
+                            for(let i = 0; i < paper.links.length; i++){ //wires
+                                if(paper.links[i].attributes.source.x > xMax){
+                                    xMax = paper.links[i].attributes.source.x;
+                                }
+                                if(paper.links[i].attributes.source.x < xMin){
+                                    xMin = paper.links[i].attributes.source.x;
+                                }
+                                if(paper.links[i].attributes.target.x > xMax){
+                                    xMax = paper.links[i].attributes.target.x;
+                                }
+                                if(paper.links[i].attributes.target.x < xMin){
+                                    xMin = paper.links[i].attributes.target.x;
+                                }
+                                if(paper.links[i].attributes.source.y > yMax){
+                                    yMax = paper.links[i].attributes.source.y;
+                                }
+                                if(paper.links[i].attributes.source.y < yMin){
+                                    yMin = paper.links[i].attributes.source.y;
+                                }
+                                if(paper.links[i].attributes.target.y > yMax){
+                                    yMax = paper.links[i].attributes.target.y;
+                                }
+                                if(paper.links[i].attributes.target.y < yMin){
+                                    yMin = paper.links[i].attributes.target.y;
+                                }
+
+                            }
+
+                            for(let i = 0; i < paper.components.length; i++){ //components
+
+                                    if(paper.components[i].linkNodes[0].attributes.position.x > xMax){
+                                        xMax = paper.components[i].linkNodes[0].attributes.position.x;
+                                    }
+                                    if(paper.components[i].linkNodes[0].attributes.position.x < xMin){
+                                        xMin = paper.components[i].linkNodes[0].attributes.position.x;
+                                    }
+                                    if(paper.components[i].linkNodes[0].attributes.position.y > yMax){
+                                        yMax = paper.components[i].linkNodes[0].attributes.position.y;
+                                    }
+                                    if(paper.components[i].linkNodes[0].attributes.position.y < yMin){
+                                        yMin = paper.components[i].linkNodes[0].attributes.position.y;
+                                    }
+                                    if(paper.components[i].type != "ground"){
+                                        if(paper.components[i].linkNodes[1].attributes.position.x > xMax){
+                                            xMax = paper.components[i].linkNodes[1].attributes.position.x;
+                                        }
+                                        if(paper.components[i].linkNodes[1].attributes.position.x < xMin){
+                                            xMin = paper.components[i].linkNodes[1].attributes.position.x;
+                                        }
+                                        if(paper.components[i].linkNodes[1].attributes.position.y > yMax){
+                                            yMax = paper.components[i].linkNodes[1].attributes.position.y;
+                                        }
+                                        if(paper.components[i].linkNodes[1].attributes.position.y < yMin){
+                                            yMin = paper.components[i].linkNodes[1].attributes.position.y;
+                                        }
+                                }
+                            }
+                            //buffer
+                            xMax += 10;
+                            xMin -= 10;
+                            yMax += 10;
+                            yMin -= 10;
+
+                            //let grid = new Array(cols);
+                            /*
                             for(let i = 0; i < cols; i++){
                                 grid[i] = new Array(rows);
                             }
@@ -657,13 +735,30 @@ angular
                                 for(let j = 0; j < rows; j++){
                                     grid[i][j].addNeighbours(grid);
                                 }
+                            }*/
+                            let grid = new Array(xMax - xMin);
+                            for(let i = xMin; i < xMax; i++){
+                                grid[i] = new Array(yMax - yMin);
                             }
+                            for(let i = xMin; i < xMax; i++){
+                                for(let j = yMin; j < yMax; j++){
+                                    grid[i][j] = new Spot(i,j);
+                                }
+                            }
+                            for(let i = xMin; i < xMax; i++){
+                                for(let j = yMin; j < yMax; j++){
+                                    grid[i][j].addNeighbours(grid);
+                                }
+                            }
+
+
                             for(let i = 0; i < paper.links.length; i++){ //walls
                                 if(paper.links[i].attributes.source.x == paper.links[i].attributes.target.x){ //vertical line
                                     let min = Math.min(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
                                     let max = Math.max(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
                                         for (let j = min; j <= max; j++) {
                                             grid[paper.links[i].attributes.source.x][j].wall = true;
+                                            /*
                                             if(min > 6 && max < 1394) { //vertical dimensions of paper
                                                 grid[paper.links[i].attributes.source.x + 1][j].wall = true; //buffer
                                                 grid[paper.links[i].attributes.source.x - 1][j].wall = true; //buffer
@@ -678,6 +773,7 @@ angular
                                                 grid[paper.links[i].attributes.source.x + 6][j].wall = true; //buffer
                                                 grid[paper.links[i].attributes.source.x - 6][j].wall = true; //buffer
                                             }
+                                             */
                                         }
 
                                 }
@@ -685,8 +781,9 @@ angular
                                     let min = Math.min(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x);
                                     let max = Math.max(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x);
                                     for(let j = min; j <= max; j++){
+                                        grid[j][paper.links[i].attributes.source.y].wall = true;
+                                        /*
                                         if(min > 6 && max < 1994) { //dimensions of paper
-                                            grid[j][paper.links[i].attributes.source.y].wall = true;
                                             grid[j][paper.links[i].attributes.source.y + 1].wall = true;
                                             grid[j][paper.links[i].attributes.source.y - 1].wall = true;
                                             grid[j][paper.links[i].attributes.source.y + 2].wall = true;
@@ -700,6 +797,8 @@ angular
                                             grid[j][paper.links[i].attributes.source.y + 6].wall = true;
                                             grid[j][paper.links[i].attributes.source.y - 6].wall = true;
                                         }
+                                       
+                                         */
                                     }
                                 }
 
@@ -714,13 +813,17 @@ angular
                                         let max = Math.max(paper.components[i].linkNodes[0].attributes.position.y, paper.components[i].linkNodes[1].attributes.position.y);
                                         for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
                                             grid[paper.components[i].linkNodes[0].attributes.position.x][j].wall = true;
-                                            if(min > 3 && max < 1997) {
+                                            if(min > 5 && max < 1995) {
                                                 grid[paper.components[i].linkNodes[0].attributes.position.x - 1][j].wall = true; //buffer
                                                 grid[paper.components[i].linkNodes[0].attributes.position.x + 1][j].wall = true; //buffer
                                                 grid[paper.components[i].linkNodes[0].attributes.position.x - 2][j].wall = true; //buffer
                                                 grid[paper.components[i].linkNodes[0].attributes.position.x + 2][j].wall = true; //buffer
                                                 grid[paper.components[i].linkNodes[0].attributes.position.x - 3][j].wall = true; //buffer
                                                 grid[paper.components[i].linkNodes[0].attributes.position.x + 3][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 4][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 4][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 5][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 5][j].wall = true; //buffer
                                             }
                                         }
                                     }
@@ -729,21 +832,22 @@ angular
                                         let max = Math.max(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
                                         for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
                                             grid[j][paper.components[i].linkNodes[0].attributes.position.y].wall = true;
-                                            if(min > 3 && max < 1997) {
+                                            if(min > 5 && max < 1995) {
                                                 grid[j][paper.components[i].linkNodes[0].attributes.position.y - 1].wall = true; //buffer
                                                 grid[j][paper.components[i].linkNodes[0].attributes.position.y + 1].wall = true; //buffer
                                                 grid[j][paper.components[i].linkNodes[0].attributes.position.y - 2].wall = true; //buffer
                                                 grid[j][paper.components[i].linkNodes[0].attributes.position.y + 2].wall = true; //buffer
                                                 grid[j][paper.components[i].linkNodes[0].attributes.position.y - 3].wall = true; //buffer
                                                 grid[j][paper.components[i].linkNodes[0].attributes.position.y + 3].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 4].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 4].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 5].wall = true; //buffer
+                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 5].wall = true; //buffer
                                             }
                                         }
                                     }
                                 }
                             }
-
-
-
                             var openList = [];
                             var closedList = [];
                             var start = grid[startDot.x][startDot.y];
@@ -773,11 +877,26 @@ angular
                                 }
                                 removeFromArray(openList, current);
                                 closedList.push(current);
-
                                 var neighbours = current.neighbours;
                                 for(let i = 0; i < neighbours.length; i++){
+                                    var actualWall = false;
                                     let neighbour = neighbours[i];
-                                    if(!closedList.includes(neighbour) && !neighbour.wall) {
+                                    if(i == 0){
+                                        if(neighbour.wall && neighbour.neighbours[0].wall){
+                                            actualWall = true;
+                                        }
+                                    }
+                                    if(i == 1){
+                                        if(neighbour.wall && neighbour.neighbours[1].wall){
+                                            actualWall = true;
+                                        }
+                                    }
+                                    if(i == 2){
+                                        if(neighbour.wall && neighbour.neighbours[2].wall){
+                                            actualWall = true;
+                                        }
+                                    }
+                                    if(!actualWall && !closedList.includes(neighbour)) {
                                         let tempG = current.g + 1;
 
                                         if (openList.includes(neighbour)) {

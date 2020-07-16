@@ -93,15 +93,6 @@ angular.module('quick.controller', [])
                     document.getElementById("paper").style.cursor = minispice.paintSwitch.cursorIcon;
                 };
 
-                deleteWire = function(){
-                    //make wires clickable, and onClick of these wires, delete them
-                    for(let i = 0; i< minispice.papers[0].links.length; i++){
-                        let currentWire = minispice.papers[0].links[i];
-                        currentWire.attr({'.connection': {"pointerEvents" : 'all'}});
-                        currentWire.attr({'.connection-wrap': {"pointerEvents" : 'all'}});
-                    }
-                };
-
                 /**
                  * Updating when change project name in New Project Window
                  */
@@ -204,9 +195,6 @@ angular.module('quick.controller', [])
                             break;
                         case 14://component
                             minispice.paintSwitch.type = "component";
-                            break;
-                        case 15:
-                            deleteWire();
                             break;
                     }
                 };
