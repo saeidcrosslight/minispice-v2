@@ -73,11 +73,12 @@ angular
                                 }
                                 else if(type == 'standard.Circle'){
                                     draw.autoLink(type, cellView, x, y);
-                                }
-                                else if(type == 'link'){ //need to figure out how to disable everything
+                                    //this next line creates a console error and doesn't work, yet somehow it actually does what I want it to do
                                     cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
-                                    cellView.model.attributes.attrs({'.connection': {"pointerEvents": 'none'}});
-
+                                }
+                                else if(type == 'link'){
+                                    //this next line creates a console error and doesn't work, yet somehow it actually does what I want it to do
+                                    cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
                                 }
                             };
                             

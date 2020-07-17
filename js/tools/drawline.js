@@ -415,7 +415,7 @@ angular
                                 link.set('source', paper.normalStartDot);
                                 link.set('target', paper.normalLastDot);
                                 //link.attr({'.connection-wrap': {"pointerEvents": 'none'}});
-                                //link.attr({'.connection': {"pointerEvents": 'none'}});
+                                link.attr({'.connection': {"pointerEvents": 'none'}});
                                 link.attr('.connection/strokeWidth', '1');
                                 paper.links.push(link);
                                 paper.normalStartDot = paper.normalLastDot;
@@ -450,12 +450,10 @@ angular
                             link.set('target', {x: startDot.x, y: startDot.y});
                             link.set('source', {x: endDot.x, y: endDot.y});
                             link.attr('.connection/strokeWidth', '1');
-                            link.attr({
+                           // link.attr({
                                 //'.connection-wrap': {"pointerEvents": 'none'}
-                            });
-                            link.attr({
-                                //'.connection': {"pointerEvents": 'none'}
-                            });
+                           // });
+                            link.attr('.connection/pointerEvents', 'none');
                             link.addTo($rootScope.minispice.graph); 
                             $.each($("#v-3")[0].children, function(aindex, com){
                                 if(($(com).attr('model-id')) == link.id){//mark the startDot
@@ -484,7 +482,7 @@ angular
                             link.set('target', {x: x, y: y});
                             link.attr('.connection/strokeWidth','1');
                             link.attr('.connection/stroke','blue');
-                            //link.attr({'.connection-wrap': {pointerEvents: 'none'}});
+                            //link.attr('.connection-wrap/pointerEvents', 'none');
                             //link.attr({'.connection': {pointerEvents: 'none'}});
                             link.addTo($rootScope.minispice.graph);
                             $.each($("#v-3")[0].children, function(aindex, com){
@@ -797,7 +795,7 @@ angular
                                             grid[j][paper.links[i].attributes.source.y + 6].wall = true;
                                             grid[j][paper.links[i].attributes.source.y - 6].wall = true;
                                         }
-                                       
+
                                          */
                                     }
                                 }
@@ -893,6 +891,11 @@ angular
                                     }
                                     if(i == 2){
                                         if(neighbour.wall && neighbour.neighbours[2].wall){
+                                            actualWall = true;
+                                        }
+                                    }
+                                    if(i == 3){
+                                        if(neighbour.wall && neighbour.neighbours[3].wall){
                                             actualWall = true;
                                         }
                                     }

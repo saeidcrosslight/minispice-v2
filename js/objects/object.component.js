@@ -86,7 +86,7 @@ angular
                             
                     },
 
-                    createCircle: function(x,y){ //rectangle for linke node
+                    createCircle: function(x,y){ //rectangle for link node
                         var circle = new joint.shapes.standard.Circle();
                             circle.position(x, y);
                             circle.resize(8, 8);
