@@ -49,6 +49,7 @@ angular
                                         paper.autoStartType = 'dot';
                                         this._markStartDot(cellView);                          //1.(1)标记第一个点为红色
                                         paper.startDot = cellView.model.attributes.position;   //1.(2)获取起始点坐标
+                                        //paper.startDot = {x: x, y: y};
                                         paper.startDotObject = cellView.model;                 //1.(3)保存第一个点对象
                                         paper.startDot.x = paper.startDot.x + 4;               //处理偏移
                                         paper.startDotOppositeObject = this._getOppositeDot(cellView); //1.(4)获取器件另一个连接点
@@ -80,6 +81,7 @@ angular
                                     if(type == 'standard.Circle'){
                                         paper.autoEndType = 'dot';
                                         paper.endDot = cellView.model.attributes.position;
+                                        //paper.endDot = {x:x, y:y}
                                         paper.endDot.x = paper.endDot.x + 4;
                                         paper.endDotOppositeObject = this._getOppositeDot(cellView);
                                     }else{
