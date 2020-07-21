@@ -86,6 +86,7 @@ angular
                                 if(cellView.model.attributes.type == 'standard.Image'){
                                     this._freshLinkNodesPosition(cellView);
                                 }
+
                                 //console.log(evt)
                             };
 
@@ -186,7 +187,9 @@ angular
                                                             tempY = movedPosition.y + 60;
                                                         if(ctype == 'ground')
                                                             tempY = movedPosition.y + 10;
-                                                            $(lnobj).attr('transform','translate(' + tempX + ',' + tempY + ')');                                                                    
+                                                            $(lnobj).attr('transform','translate(' + tempX + ',' + tempY + ')');
+                                                            linkobj.attributes.position.x = tempX;
+                                                            linkobj.attributes.position.y = tempY;
                                                     }
                                                 });
                                             });

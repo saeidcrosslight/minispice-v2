@@ -48,68 +48,56 @@ angular
                                     if(type == 'standard.Circle'){
                                         paper.autoStartType = 'dot';
                                         this._markStartDot(cellView);                          //1.(1)标记第一个点为红色
-                                        paper.startDot = cellView.model.attributes.position;   //1.(2)获取起始点坐标
+                                        //paper.startDot = cellView.model.attributes.position;   //1.(2)获取起始点坐标
+                                        for(let i = 0; i < paper.components.length; i++){
+                                            if(Math.abs(x - paper.components[i].linkNodes[0].attributes.position.x) < 15 && Math.abs(y - paper.components[i].linkNodes[0].attributes.position.y) < 15){
+                                                paper.startDot = {x: paper.components[i].linkNodes[0].attributes.position.x, y: paper.components[i].linkNodes[0].attributes.position.y};
+                                            }
+                                            if(paper.components[i].type != "ground") {
+                                                if (Math.abs(x - paper.components[i].linkNodes[1].attributes.position.x) < 15 && Math.abs(y - paper.components[i].linkNodes[1].attributes.position.y) < 15) {
+                                                    paper.startDot = {
+                                                        x: paper.components[i].linkNodes[1].attributes.position.x,
+                                                        y: paper.components[i].linkNodes[1].attributes.position.y
+                                                    };
+                                                }
+                                            }
+
+                                        }
                                         //paper.startDot = {x: x, y: y};
                                         paper.startDotObject = cellView.model;                 //1.(3)保存第一个点对象
                                         paper.startDot.x = paper.startDot.x + 4;               //处理偏移
                                         paper.startDotOppositeObject = this._getOppositeDot(cellView); //1.(4)获取器件另一个连接点
-                                    }else{
-                                        paper.autoStartType = 'line';
-                                        this._markStartLine(cellView); //1.(1)标记第一条线为红色
-                                        /*for(let i = 0; i < paper.links.length; i++){
-                                            if((paper.links[i].attributes.source.x != paper.links[i].attributes.target.x) && x > Math.min(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x) && x < Math.max(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x)){
-                                                if(Math.abs(y - paper.links[i].attributes.source.y) <= 10){
-                                                    paper.startDot = {x: x, y: paper.links[i].attributes.source.y};
-                                                    this._makeCircle(x, paper.links[i].attributes.source.y);
-                                                }
-                                            }
-                                            else if((paper.links[i].attributes.source.y != paper.links[i].attributes.target.y) && y > Math.min(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y) && y < Math.max(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y)){
-                                                if(Math.abs(x - paper.links[i].attributes.source.x) <= 10){
-                                                    paper.startDot = {x: paper.links[i].attributes.source.x, y: y};
-                                                    this._makeCircle(paper.links[i].attributes.source.x, y);
-                                                }
-                                            }
-                                        }*/
-                                        paper.startDot = {x: x, y: y};
-                                        paper.startLine = this._getLineDots(cellView);
-                                        this._makeCircle(x,y);
-                                        if(paper.startLine.start.x != paper.startLine.end.x && paper.startLine.start.y == paper.startLine.end.y)
-                                            paper.isStartLineHorizantal = true;
-                                    }                                    
+                                    }
                                     paper.isAutoStart = true;                                  //2.打开连线开关，开始连线
                                 }else{//第二个点
                                     if(type == 'standard.Circle'){
                                         paper.autoEndType = 'dot';
-                                        paper.endDot = cellView.model.attributes.position;
-                                        //paper.endDot = {x:x, y:y}
+                                        //paper.endDot = cellView.model.attributes.position;
+                                        for(let i = 0; i < paper.components.length; i++){
+                                            if(Math.abs(x - paper.components[i].linkNodes[0].attributes.position.x) < 15 && Math.abs(y - paper.components[i].linkNodes[0].attributes.position.y) < 15){
+                                                paper.endDot = {x: paper.components[i].linkNodes[0].attributes.position.x, y: paper.components[i].linkNodes[0].attributes.position.y};
+                                            }
+                                            if(paper.components[i].type != "ground") {
+                                                if (Math.abs(x - paper.components[i].linkNodes[1].attributes.position.x) < 15 && Math.abs(y - paper.components[i].linkNodes[1].attributes.position.y) < 15) {
+                                                    paper.endDot = {
+                                                        x: paper.components[i].linkNodes[1].attributes.position.x,
+                                                        y: paper.components[i].linkNodes[1].attributes.position.y
+                                                    };
+                                                }
+                                            }
+
+                                        }
+                                        //paper.endDot = { x: x, y: y };
                                         paper.endDot.x = paper.endDot.x + 4;
                                         paper.endDotOppositeObject = this._getOppositeDot(cellView);
-                                    }else{
-                                        paper.autoEndType = 'line';
-                                        paper.endDot = { x: x, y: y };
-                                        paper.endLine = this._getLineDots(cellView);
-                                        this._makeCircle(x,y);
-                                        if(paper.endLine.start.x != paper.endLine.end.x && paper.endLine.start.y == paper.endLine.end.y)
-                                            paper.isEndLineHorizantal = true;
-                                    }                                
+                                    }
                                 }
 
                                 if(paper.autoStartType != '' && paper.autoEndType != ''){
                                     if(paper.autoStartType == 'dot' && paper.autoEndType == 'dot'){//dot to dot
                                         this._handleDotToDot();                                    
                                         this._resetDots1(cellView.model);
-                                    }/*else if(paper.autoStartType == 'line' && paper.autoEndType == 'line'){//line to line
-                                        this._handleLineToLine();
-                                        this._resetDots2(cellView);
-                                    }else if((paper.autoStartType == 'dot' && paper.autoEndType == 'line' && paper.isEndLineHorizantal) ||
-                                             (paper.autoStartType == 'line' && paper.autoEndType == 'dot' && paper.isStartLineHorizantal)){//dot to line
-                                        this._handleDotToLine1();//横线-->点 或 点-->横线
-                                        this._resetDots3(cellView);
-                                    }else if((paper.autoStartType == 'dot' && paper.autoEndType == 'line' && !paper.isEndLineHorizantal) ||
-                                             (paper.autoStartType == 'line' && paper.autoEndType == 'dot' && !paper.isStartLineHorizantal)){//line to dot
-                                        this._handleDotToLine2();//竖线-->点 或 点-->竖线
-                                        this._resetDots3(cellView);
-                                    }*/
+                                    }
                                 }
                             };
 
@@ -715,10 +703,10 @@ angular
                                 }
                             }
                             //buffer
-                            xMax += 10;
-                            xMin -= 10;
-                            yMax += 10;
-                            yMin -= 10;
+                            xMax += 70;
+                            xMin -= 70;
+                            yMax += 70;
+                            yMin -= 70;
 
                             //let grid = new Array(cols);
                             /*
