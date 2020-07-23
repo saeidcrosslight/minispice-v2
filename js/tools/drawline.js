@@ -5,6 +5,7 @@ angular
         .factory('drawline', ['$rootScope', 'component', function ($rootScope, component) {
                 var factory = {};
                 var groundCheck = false;
+                var startNode;
                 var DrawLineTool = (function(){
                     var DrawLineTool = function(){
                         return new DrawLineTool.fn.tool();
@@ -23,7 +24,7 @@ angular
                                 this._normalLink(pos.x+4, pos.y);
                                 $("g[model-id='"+cellView.model.id+"']").hide();
                             };
-
+                            //called when wire tool is active, but user clicks on a node
                             this.normalLinkForNode2 = function(cellView, x, y){
                                 let paper = $rootScope.minispice.papers[0];
                                 paper.startDot = paper.normalStartDot;
@@ -42,6 +43,7 @@ angular
                             };
 
                             this.autoLink = function(type, cellView, x, y){
+
                                 let paper = $rootScope.minispice.papers[0],
                                     tempDot;
                                 if(paper.autoStartType == ''){//第一个点
@@ -51,7 +53,10 @@ angular
                                         //paper.startDot = cellView.model.attributes.position;   //1.(2)获取起始点坐标
                                         for(let i = 0; i < paper.components.length; i++){
                                             if(Math.abs(x - paper.components[i].linkNodes[0].attributes.position.x) < 15 && Math.abs(y - paper.components[i].linkNodes[0].attributes.position.y) < 15){
-                                                paper.startDot = {x: paper.components[i].linkNodes[0].attributes.position.x, y: paper.components[i].linkNodes[0].attributes.position.y};
+                                                paper.startDot = {
+                                                    x: paper.components[i].linkNodes[0].attributes.position.x,
+                                                    y: paper.components[i].linkNodes[0].attributes.position.y};
+                                                startNode = paper.components[i].linkNodes[0];
                                             }
                                             if(paper.components[i].type != "ground") {
                                                 if (Math.abs(x - paper.components[i].linkNodes[1].attributes.position.x) < 15 && Math.abs(y - paper.components[i].linkNodes[1].attributes.position.y) < 15) {
@@ -59,13 +64,14 @@ angular
                                                         x: paper.components[i].linkNodes[1].attributes.position.x,
                                                         y: paper.components[i].linkNodes[1].attributes.position.y
                                                     };
+                                                    startNode = paper.components[i].linkNodes[1];
                                                 }
                                             }
 
                                         }
                                         //paper.startDot = {x: x, y: y};
                                         paper.startDotObject = cellView.model;                 //1.(3)保存第一个点对象
-                                        paper.startDot.x = paper.startDot.x + 4;               //处理偏移
+                                        //paper.startDot.x = paper.startDot.x + 4;               //处理偏移
                                         paper.startDotOppositeObject = this._getOppositeDot(cellView); //1.(4)获取器件另一个连接点
                                     }
                                     paper.isAutoStart = true;                                  //2.打开连线开关，开始连线
@@ -88,6 +94,8 @@ angular
 
                                         }
                                         //paper.endDot = { x: x, y: y };
+                                        paper.startDot.x = startNode.attributes.position.x + 4;
+                                        paper.startDot.y = startNode.attributes.position.y;
                                         paper.endDot.x = paper.endDot.x + 4;
                                         paper.endDotOppositeObject = this._getOppositeDot(cellView);
                                     }
@@ -110,17 +118,14 @@ angular
 
                         _handleDotToDot: function(){
                             let paper = $rootScope.minispice.papers[0],
-                                leftTop = paper.startDot.y < paper.startDotOppositeObject.y, //start dot is top dot, !leftTop is bottom dot
-                                rightTop = paper.endDot.y < paper.endDotOppositeObject.y,    //end dot is top dot, !rightTop is bottom dot
                                 startDot = paper.startDot,
                                 endDot = paper.endDot,
-                                startDotOpposite = paper.endDotOppositeObject;
-                            let path = this.aStar(startDot, endDot);
-                            let deltaX = false;
-                            let linePath = [];
-                            let tempStartDot;
-                            let tempEndDot;
-                            //console.log(path);
+                                path = this.aStar(startDot, endDot),
+                                deltaX = false,
+                                linePath = [],
+                                tempStartDot,
+                                tempEndDot;
+                            //generating the wires from startDot to endDot
                             for(let i = 1; i < path.length; i++){
                                 if(path[i].i == path[i-1].i){
                                     if((deltaX && linePath.length != 0) || i == path.length-1){
@@ -144,206 +149,9 @@ angular
                                 linePath.push(path[i]);
 
                             }
-
-
-
-
-                            /*if(startDot.x != endDot.x && startDot.y == endDot.y){//两点在同一水平线上
-                                this._makeLine(startDot, endDot);                                            
-                            }else if(startDot.x == endDot.x && startDot.y != endDot.y){//两点在同一垂直线上
-                                let num = this._countbyNum();
-                                let tempDotX = startDot.x-num;
-                                if(!leftTop && !rightTop)
-                                    tempDotX = startDot.x+num;
-                                if((leftTop && !rightTop && endDot.y < startDot.y) || (!leftTop && rightTop && endDot.y > startDot.y)){
-                                    this._makeLine(startDot, endDot);
-                                }else{
-                                    this._makeLine(startDot, {x:tempDotX, y:startDot.y});
-                                    this._makeLine({x:tempDotX, y:startDot.y}, {x:tempDotX, y:endDot.y});
-                                    this._makeLine({x:tempDotX, y:endDot.y}, endDot);
-                                }
-                            }else{//Other situations
-                                if((leftTop && rightTop && startDot.y < endDot.y) ||   //top & top
-                                    (!leftTop && !rightTop && startDot.y > endDot.y) || //bottom & bottom
-                                    (leftTop && !rightTop && startDot.y > endDot.y) ||  //top & bottom
-                                    (!leftTop && rightTop && startDot.y < endDot.y)){   //bottom & top;   MiddleDot:(endDot.x, startDot.y), startDot and endDot both link to MiddleDot
-                                        this._makeLine(startDot, {x:endDot.x, y:startDot.y});
-                                        this._makeLine({x:endDot.x, y:startDot.y}, endDot);
-                                }else if((leftTop && rightTop && startDot.y > endDot.y) ||
-                                            (!leftTop && !rightTop && startDot.y < endDot.y)){//MiddleDot:(startDot.x, endDot.y)
-                                                this._makeLine(startDot, {x:startDot.x, y:endDot.y});
-                                                this._makeLine({x:startDot.x, y:endDot.y}, endDot);
-                                }else if((leftTop && !rightTop && startDot.y < endDot.y && endDot.y>startDotOpposite.y) ||
-                                            (!leftTop && rightTop && startDot.y > endDot.y && endDot.y>startDotOpposite.y)){ //2 dots added between start and end: (endDot.x+100, startDot.y), (endDot.x+100,endDot.y)
-                                                let num = this._countbyNum();
-                                                this._makeLine(startDot, {x:endDot.x+num, y:startDot.y});
-                                                this._makeLine({x:endDot.x+num, y:startDot.y}, {x:endDot.x+num, y:endDot.y});
-                                                this._makeLine({x:endDot.x+num, y:endDot.y}, endDot);
-                                }else if((leftTop && !rightTop &&  startDot.y < endDot.y && endDot.y<startDotOpposite.y) ||
-                                            (!leftTop && rightTop && startDot.y > endDot.y && endDot.y<startDotOpposite.y)){ //中间加两个点，需要计算中间点
-                                        var tempMiddleX = (endDot.x-startDot.x)/2+startDot.x;
-                                        if(startDot.x > endDot.x)
-                                        tempMiddleX = (startDot.x-endDot.x)/2+endDot.x;
-                                        this._makeLine(startDot, {x:tempMiddleX, y:startDot.y});
-                                        this._makeLine({x:tempMiddleX, y:startDot.y}, {x:tempMiddleX, y:endDot.y});
-                                        this._makeLine({x:tempMiddleX, y:endDot.y}, endDot);                                                
-                                }
-                            }*/
                         },
 
-                        /*_handleLineToLine: function(){
-                            let paper = $rootScope.minispice.papers[0],
-                                startLine = paper.startLine,
-                                endLine = paper.endLine,
-                                startLineDot = paper.startDot,
-                                endLineDot = paper.endDot,
-                                startHorizontal = false, //起始线是否水平
-                                endHorizontal = false;   //结束线是否水平
-
-                            if(paper.startLine == paper.endLine)
-                                return;
-                                
-                            if(startLine.start.x != startLine.end.x && startLine.start.y == startLine.end.y)
-                                startHorizontal = true;
-                            if(endLine.start.x != endLine.end.x && endLine.start.y == endLine.end.y)
-                                endHorizontal = true;
-
-                            if((startHorizontal && endHorizontal && startLineDot.x == endLineDot.x && startLineDot.y != endLineDot.y) ||
-                               (!startHorizontal && !endHorizontal && startLineDot.x != endLineDot.x && startLineDot.y == endLineDot.y)){//水平+水平，且x相等；或垂直+垂直，且y相等；则不加辅助点，直接连线
-                                this._makeLine(startLineDot, endLineDot);
-                            }else if(startHorizontal && !endHorizontal && startLineDot.x != endLineDot.x && startLineDot.y != endLineDot.y){//水平+垂直，增加一个辅助点1，连2条线
-                                this._makeLine(startLineDot, {x:startLineDot.x, y:endLineDot.y});
-                                this._makeLine({x:startLineDot.x, y:endLineDot.y}, endLineDot);                                            
-                            }else if(!startHorizontal && endHorizontal && startLineDot.x != endLineDot.x && startLineDot.y != endLineDot.y){//垂直+水平，增加一个辅助点2，连2条线
-                                this._makeLine(startLineDot, {x:endLineDot.x, y:startLineDot.y});
-                                this._makeLine({x:endLineDot.x, y:startLineDot.y}, endLineDot);                                            
-                            }else if(startHorizontal && endHorizontal && startLineDot.x != endLineDot.x){//水平+水平，增加两个辅助点，连3条线
-                                let num = this._countbyNum(),
-                                    dot1 = {x:startLineDot.x, y:startLineDot.y-num},
-                                    dot2 = {x:endLineDot.x, y:startLineDot.y-num};
-                                if(startLineDot.y > endLineDot.y){
-                                    dot1.y = endLineDot.y-num;
-                                    dot2.y = endLineDot.y-num; 
-                                }
-                                this._makeLine(startLineDot, dot1);
-                                this._makeLine(dot1, dot2);
-                                this._makeLine(dot2, endLineDot);
-                            }else if(!startHorizontal && !endHorizontal && startLineDot.y != endLineDot.y){//垂直+垂直，增加两个辅助点，连3条线
-                                let num = this._countbyNum(),
-                                    dot1 = {x:startLineDot.x-num, y:startLineDot.y},
-                                    dot2 = {x:startLineDot.x-num, y:endLineDot.y};
-                                if(startLineDot.x < endLineDot.x){
-                                    dot1.x = endLineDot.x+num;
-                                    dot2.x = endLineDot.x+num; 
-                                }
-                                this._makeLine(startLineDot, dot1);
-                                this._makeLine(dot1, dot2);
-                                this._makeLine(dot2, endLineDot);
-                            }else if(startLineDot.y == endLineDot.y){
-                                let dot1={}, dot2={}, dot3={}, num = this._countbyNum();
-                                if(startHorizontal && !endHorizontal && startLineDot.x < endLineDot.x){//增加三个辅助点，连4条线
-                                    dot1={x:startLineDot.x, y:startLineDot.y-num}, 
-                                    dot2={x:endLineDot.x-num, y:startLineDot.y-num}, 
-                                    dot3={x:endLineDot.x-num, y:endLineDot.y};
-                                }else if(startHorizontal && !endHorizontal && startLineDot.x > endLineDot.x){
-                                    dot1={x:startLineDot.x, y:startLineDot.y-num}, 
-                                    dot2={x:endLineDot.x+num, y:startLineDot.y-num}, 
-                                    dot3={x:endLineDot.x+num, y:endLineDot.y};
-                                }else if(!startHorizontal && endHorizontal && startLineDot.x < endLineDot.x){
-                                    dot1={x:startLineDot.x+num, y:startLineDot.y}, 
-                                    dot2={x:startLineDot.x+num, y:startLineDot.y-num}, 
-                                    dot3={x:endLineDot.x, y:endLineDot.y-num};
-                                }else if(!startHorizontal && endHorizontal && startLineDot.x > endLineDot.x){
-                                    dot1={x:startLineDot.x-num, y:startLineDot.y}, 
-                                    dot2={x:startLineDot.x-num, y:startLineDot.y-num}, 
-                                    dot3={x:endLineDot.x, y:endLineDot.y-num};
-                                }
-                                this._makeLine(startLineDot, dot1);
-                                this._makeLine(dot1, dot2);
-                                this._makeLine(dot2, dot3);
-                                this._makeLine(dot3, endLineDot);
-                            }                             
-                        }
-
-                        _handleDotToLine1: function(){//dot to line 横线-->点 或 点-->横线 111111111111
-                            let paper = $rootScope.minispice.papers[0],
-                                startDot = paper.startDot,
-                                endDot = paper.endDot,
-                                endDotOpposite = paper.endDotOppositeObject,
-                                startDotOpposite = paper.startDotOppositeObject,
-                                endLine = paper.endLine,
-                                isStartLineHorizantal = paper.isStartLineHorizantal,
-                                isEndLineHorizantal = paper.isEndLineHorizantal,
-                                num = this._countbyNum();
-                            if(startDot.x != endDot.x && startDot.y == endDot.y){//两点在同一水平
-                                let dot1 = { x: startDot.x, y: startDot.y - num },
-                                    dot2 = { x: endDot.x, y: startDot.y - num};
-                                if((isStartLineHorizantal && endDot.y > endDotOpposite.y) || (isEndLineHorizantal && startDot.y > startDotOpposite.y)){
-                                    dot1.y = startDot.y + num;
-                                    dot2.y = startDot.y + num;                                    
-                                }
-                                this._makeLine(startDot, dot1);
-                                this._makeLine(dot1, dot2);
-                                this._makeLine(dot2, endDot);
-                            }else if(startDot.x == endDot.x && startDot.y != endDot.y){//两点在同一垂直线上
-                                let dot1, dot2, dot3;
-                                if(isStartLineHorizantal){
-                                    dot1 = {x: startDot.x, y: startDot.y + num},
-                                    dot2 = {x: startDot.x - num, y: startDot.y + num},
-                                    dot3 = {x: startDot.x - num, y: endDot.y};
-                                    if(startDot.y > endDot.y){
-                                        dot1.y = startDot.y - num;
-                                        dot2.y = startDot.y - num;
-                                    }                                    
-                                }else if(isEndLineHorizantal){
-                                    dot1 = {x: startDot.x - num, y: startDot.y};
-                                    dot2 = {x: startDot.x - num, y: endDot.y + num};
-                                    dot3 = {x: endDot.x, y: endDot.Y + num};
-                                    if(startDot.y < endDot.y){
-                                        dot2.y = endDot.y - num;
-                                        dot3.y = endDot.y - num;
-                                    }
-                                }
-                                this._makeLine(startDot, dot1);
-                                this._makeLine(dot1, dot2);
-                                this._makeLine(dot2, dot3);
-                                this._makeLine(dot3, endDot);
-                            }else if(startDot.x != endDot.x && startDot.y != endDot.y){
-                                let dot = {x: startDot.x, y: endDot.y};
-                                if(isEndLineHorizantal)
-                                    dot = {x: endDot.x, y: startDot.y};
-                                this._makeLine(startDot, dot);
-                                this._makeLine(dot, endDot);
-                            }
-                        },
-
-                        _handleDotToLine2: function(){//line to dot 竖线-->点 或 点-->竖线 222222222222
-                            let paper = $rootScope.minispice.papers[0],
-                                startDot = paper.startDot,
-                                endDot = paper.endDot,
-                                endDotOpposite = paper.endDotOppositeObject,
-                                num = this._countbyNum();
-                            if(startDot.x != endDot.x && startDot.y == endDot.y){//两点在同一水平线上
-                                this._makeLine(startDot, endDot);
-                            }else if(startDot.x == endDot.x && startDot.y != endDot.y){//两点在同一垂直线上
-                                let dot1 = {x: startDot.x - num, y: startDot.y},
-                                    dot2 = {x: startDot.x - num, y: endDot.y};
-                                this._makeLine(startDot, dot1);
-                                this._makeLine(dot1, dot2);
-                                this._makeLine(dot2, endDot);
-                            }else if(startDot.x != endDot.x && startDot.y != endDot.y){
-                                let dot1 = {x: startDot.x + num, y: startDot.y},
-                                    dot2 = {x: startDot.x + num, y: endDot.y}
-                                if(startDot.x > endDot.x){
-                                    dot1.x = startDot.x - num;
-                                    dot2.x = startDot.x - num;
-                                }
-                                this._makeLine(startDot, dot1);
-                                this._makeLine(dot1, dot2);
-                                this._makeLine(dot2, endDot);
-                            }
-                        },*/
-                        
+                        //called when the wire tool is active
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
                             let linked = false;
@@ -379,7 +187,6 @@ angular
                                         $rootScope.minispice.papers[0].linkObject = null;
                                         linked = true;
                                         break;
-                                        //$("g[model-id='"+cellView.model.id+"']").hide();
                                     }
                                     if (!groundCheck) {
                                         if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 12) {
@@ -397,14 +204,12 @@ angular
                                             $rootScope.minispice.papers[0].linkObject = null;
                                             linked = true;
                                             break;
-                                            //$("g[model-id='"+cellView.model.id+"']").hide();
                                         }
                                     }
                                 }
                                 let link = new joint.dia.Link();
                                 link.set('source', paper.normalStartDot);
                                 link.set('target', paper.normalLastDot);
-                                //link.attr({'.connection-wrap': {"pointerEvents": 'none'}});
                                 link.attr({'.connection': {"pointerEvents": 'none'}});
                                 link.attr('.connection/strokeWidth', '1');
                                 paper.links.push(link);
@@ -440,9 +245,6 @@ angular
                             link.set('target', {x: startDot.x, y: startDot.y});
                             link.set('source', {x: endDot.x, y: endDot.y});
                             link.attr('.connection/strokeWidth', '1');
-                           // link.attr({
-                                //'.connection-wrap': {"pointerEvents": 'none'}
-                           // });
                             link.attr('.connection/pointerEvents', 'none');
                             link.addTo($rootScope.minispice.graph); 
                             $.each($("#v-3")[0].children, function(aindex, com){
@@ -582,7 +384,7 @@ angular
                                 paper.countby = 50;
                             return paper.countby;
                         },
-
+                        //function that generates the path from startDot to endDot, returns an array
                         aStar: function(startDot, endDot){
                             function heuristic(a, b){
                                 var d1 = Math.abs (a.i - b.i);
@@ -599,20 +401,6 @@ angular
                                 this.addNeighbours = function(grid){
                                     var i = this.i;
                                     var j = this.j;
-                                    /*
-                                    if(i < (cols -1)){
-                                        this.neighbours.push(grid[i+1][j]);
-                                    }
-                                    if(i > 0){
-                                        this.neighbours.push(grid[i-1][j]);
-                                    }
-                                    if(j < rows-1){
-                                        this.neighbours.push(grid[i][j+1]);
-                                    }
-                                    if(j > 0){
-                                        this.neighbours.push(grid[i][j-1]);
-                                    }
-                                    */
                                     if(i < (xMax - 1)){
                                         this.neighbours.push(grid[i+1][j]);
                                     }
@@ -638,9 +426,8 @@ angular
                                 }
                             }
                             let paper = $rootScope.minispice.papers[0];
-                            let cols = 2000;
-                            let rows = 1400;
-                            //for efficiency so we don't need to loop over entire paper. Just currently existing elements.
+                            //For efficiency so we don't need to loop over entire paper; just the currently existing elements.
+                            //We are looking for the x,y minimum and maximums for all components/wires.
                             let xMin = 10000;
                             let xMax = 0;
                             let yMin = 10000;
@@ -670,11 +457,9 @@ angular
                                 if(paper.links[i].attributes.target.y < yMin){
                                     yMin = paper.links[i].attributes.target.y;
                                 }
-
                             }
 
                             for(let i = 0; i < paper.components.length; i++){ //components
-
                                     if(paper.components[i].linkNodes[0].attributes.position.x > xMax){
                                         xMax = paper.components[i].linkNodes[0].attributes.position.x;
                                     }
@@ -707,23 +492,6 @@ angular
                             xMin -= 70;
                             yMax += 70;
                             yMin -= 70;
-
-                            //let grid = new Array(cols);
-                            /*
-                            for(let i = 0; i < cols; i++){
-                                grid[i] = new Array(rows);
-                            }
-
-                            for(let i = 0; i < cols; i++){
-                                for(let j = 0; j < rows; j++){
-                                    grid[i][j] = new Spot(i,j);
-                                }
-                            }
-                            for(let i = 0; i < cols; i++){
-                                for(let j = 0; j < rows; j++){
-                                    grid[i][j].addNeighbours(grid);
-                                }
-                            }*/
                             let grid = new Array(xMax - xMin);
                             for(let i = xMin; i < xMax; i++){
                                 grid[i] = new Array(yMax - yMin);
@@ -739,29 +507,13 @@ angular
                                 }
                             }
 
-
-                            for(let i = 0; i < paper.links.length; i++){ //walls
+                            //Making the wires "walls"
+                            for(let i = 0; i < paper.links.length; i++){
                                 if(paper.links[i].attributes.source.x == paper.links[i].attributes.target.x){ //vertical line
                                     let min = Math.min(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
                                     let max = Math.max(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
                                         for (let j = min; j <= max; j++) {
                                             grid[paper.links[i].attributes.source.x][j].wall = true;
-                                            /*
-                                            if(min > 6 && max < 1394) { //vertical dimensions of paper
-                                                grid[paper.links[i].attributes.source.x + 1][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x - 1][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x + 2][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x - 2][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x + 3][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x - 3][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x + 4][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x - 4][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x + 5][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x - 5][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x + 6][j].wall = true; //buffer
-                                                grid[paper.links[i].attributes.source.x - 6][j].wall = true; //buffer
-                                            }
-                                             */
                                         }
 
                                 }
@@ -770,67 +522,42 @@ angular
                                     let max = Math.max(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x);
                                     for(let j = min; j <= max; j++){
                                         grid[j][paper.links[i].attributes.source.y].wall = true;
-                                        /*
-                                        if(min > 6 && max < 1994) { //dimensions of paper
-                                            grid[j][paper.links[i].attributes.source.y + 1].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y - 1].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y + 2].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y - 2].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y + 3].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y - 3].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y + 4].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y - 4].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y + 5].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y - 5].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y + 6].wall = true;
-                                            grid[j][paper.links[i].attributes.source.y - 6].wall = true;
-                                        }
-
-                                         */
                                     }
                                 }
 
                             }
-
-                            //Components -- make sure to account for rotating components later
+                            //Making the components "walls"
 
                             for(let i = 0; i < paper.components.length; i++){
                                 if (paper.components[i].type != "ground") {
                                     if (Math.abs(paper.components[i].linkNodes[0].attributes.position.x - paper.components[i].linkNodes[1].attributes.position.x) < 6){ //vertical comps
                                         let min = Math.min(paper.components[i].linkNodes[0].attributes.position.y, paper.components[i].linkNodes[1].attributes.position.y);
                                         let max = Math.max(paper.components[i].linkNodes[0].attributes.position.y, paper.components[i].linkNodes[1].attributes.position.y);
-                                        for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
+                                        for (let j = min + 1; j < max - 1; j++) { //buffer to ensure endpoints are not walls
                                             grid[paper.components[i].linkNodes[0].attributes.position.x][j].wall = true;
                                             if(min > 5 && max < 1995) {
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 1][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 1][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 2][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 2][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 3][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 3][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 4][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 4][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x - 5][j].wall = true; //buffer
-                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 5][j].wall = true; //buffer
+                                                for (let k = 1; k <= 7; k++){
+                                                    grid[paper.components[i].linkNodes[0].attributes.position.x - k][j].wall = true; //buffer
+                                                    grid[paper.components[i].linkNodes[0].attributes.position.x + k][j].wall = true; //buffer
+                                                }
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 8][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 9][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 10][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 11][j].wall = true; //buffer
+                                                grid[paper.components[i].linkNodes[0].attributes.position.x + 12][j].wall = true; //buffer
                                             }
                                         }
                                     }
                                     else if(Math.abs(paper.components[i].linkNodes[0].attributes.position.y - paper.components[i].linkNodes[1].attributes.position.y) < 6){ //horizontal components
                                         let min = Math.min(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
                                         let max = Math.max(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
-                                        for (let j = min + 1; j < max - 1; j++) { //just for a bit of buffer
+                                        for (let j = min + 1; j < max - 1; j++) { //buffer to ensure endpoints are not walls
                                             grid[j][paper.components[i].linkNodes[0].attributes.position.y].wall = true;
                                             if(min > 5 && max < 1995) {
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 1].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 1].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 2].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 2].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 3].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 3].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 4].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 4].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y - 5].wall = true; //buffer
-                                                grid[j][paper.components[i].linkNodes[0].attributes.position.y + 5].wall = true; //buffer
+                                                for(let k = 1; k <= 7; k++){
+                                                    grid[j][paper.components[i].linkNodes[0].attributes.position.y - k].wall = true; //buffer
+                                                    grid[j][paper.components[i].linkNodes[0].attributes.position.y + k].wall = true; //buffer
+                                                }
                                             }
                                         }
                                     }
@@ -906,14 +633,10 @@ angular
                                         neighbour.previous = current;
                                     }
                                 }
-
                             }
                             //if not solved during the loop, no solution
                             return [];
-
                         },
-
-    
                     };
     
                     DrawLineTool.fn.tool.prototype = DrawLineTool.fn;

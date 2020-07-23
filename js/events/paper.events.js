@@ -73,11 +73,11 @@ angular
                                 }
                                 else if(type == 'standard.Circle'){
                                     draw.autoLink(type, cellView, x, y);
-                                    //this next line creates a console error and doesn't work, yet somehow it actually does what I want it to do
+                                    //this next line creates a console error, but achieves intended outcome -- prevents nodes from being draggable
                                     cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
                                 }
                                 else if(type == 'link'){
-                                    //this next line creates a console error and doesn't work, yet somehow it actually does what I want it to do
+                                    //this next line creates a console error, but achieves intended outcome -- prevents links from being clickable
                                     cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
                                 }
                             };
@@ -86,8 +86,6 @@ angular
                                 if(cellView.model.attributes.type == 'standard.Image'){
                                     this._freshLinkNodesPosition(cellView);
                                 }
-
-                                //console.log(evt)
                             };
 
                             this.cellContextMenu = function(cellView, evt, x, y ){
@@ -188,6 +186,7 @@ angular
                                                         if(ctype == 'ground')
                                                             tempY = movedPosition.y + 10;
                                                             $(lnobj).attr('transform','translate(' + tempX + ',' + tempY + ')');
+                                                            //Important to update the position of the nodes after transform!
                                                             linkobj.attributes.position.x = tempX;
                                                             linkobj.attributes.position.y = tempY;
                                                     }

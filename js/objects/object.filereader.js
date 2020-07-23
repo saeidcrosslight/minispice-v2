@@ -27,9 +27,6 @@ angular
 
 
             })();
-            //var fs = require('fs');
-            //var path = require('path');
-
 
             var readAscFile = function(filePath){
                     if (filePath === "")
@@ -60,7 +57,6 @@ angular
                     let components = [capacitors, grounds, resistors, inductors, diodes];
                     //Wires
                     while(str.indexOf("WIRE", currIndex) != -1){
-                        //insert code
                         placeholder = str.indexOf("WIRE", currIndex);
                         currIndex = placeholder + 1;
                         for(let i = 0; i < 4; i++){ //looking for 4 coordinate values (x1, y1, x2, y2)
@@ -177,10 +173,6 @@ angular
                         dot2.y = wiresArr[i+3];
                         drawTool._makeLine(dot1, dot2);
                     }
-
-
-
-
                 };
             factory.createFilereader = function () {
                 return filereader();
