@@ -43,6 +43,11 @@
                 "id": 6 ,
                 "name": "modify component data",
                 "disabled": ""
+            },
+            {
+                "id": 7 ,
+                "name": "rotate component",
+                "disabled": ""
             }]
     }
 

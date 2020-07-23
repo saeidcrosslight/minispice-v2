@@ -27,6 +27,9 @@ angular.module('rightmenu.controller', [])
                     case 6:
                         modifyComponent();
                         break;
+                    case 7:
+                        rotateComponent();
+                        break;
                 }
             };
                 
@@ -82,6 +85,10 @@ angular.module('rightmenu.controller', [])
                 $(".rightmenu").hide();
 
             };
+
+            const rotateComponent = function(){
+
+            }
 
 
             }]);

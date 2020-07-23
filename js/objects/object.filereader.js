@@ -163,7 +163,6 @@ angular
                             }
                         }
                     }
-
                     let dot1 = {x: 0, y: 0};
                     let dot2 = {x: 0, y: 0};
                     for(let i = 0; i < wiresArr.length; i+=4){

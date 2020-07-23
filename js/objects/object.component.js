@@ -52,6 +52,7 @@ angular
 
                             
                         });
+                        //shape.rotate(90);
                         //处理创建图形上的连接点
                         this.createLinkNode(shapeName, x, y);
                         this.shapeObj = shape;
