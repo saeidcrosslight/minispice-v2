@@ -87,8 +87,26 @@ angular.module('rightmenu.controller', [])
             };
 
             const rotateComponent = function(){
+                let indexOfPaper;
+                let indexOfComponent;
+                $.each($rootScope.minispice.papers,function(pindex,pobj){
+                    if(pobj.isShow){
+                        indexOfPaper = pindex;
+                        $.each(pobj.components,function(cindex,cobj){
+                            if(cobj.shapeObj.cid == $rootScope.minispice.papers[0].rightclickComponentObject.model.cid){
+                                indexOfComponent = cindex;
+                                $.each(cobj.linkNodes, function(lindex, linkobj){
+                                    linkobj.rotate(90);
+                                })
 
-            }
+                            }
+                        })
+                    }
+                });
+                $rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(90);
+                $rootScope.minispice.papers[0].rightclickComponentObject = null;
+                $(".rightmenu").hide();
+            };
 
 
             }]);
