@@ -170,7 +170,7 @@ angular
                                                     getPos = $("g[model-id='"+cobj.shapeObj.id+"']").attr('transform');//获取图形移动时的坐标
                                                     getPos = getPos.substr(0,getPos.length-1).split('(')[1].split(',');
                                                     movedPosition.x = Number(getPos[0]);
-                                                    movedPosition.y = Number(getPos[1]);
+                                                    movedPosition.y = Number(parseInt(getPos[1]));
                                                 linkobj.attributes.position = movedPosition;//更新保存在component.linknodes对象里的坐标
                                                 
                                                 $.each(allLinkNodes,function(allindex, lnobj){  //fresh nodelink's position                                                      

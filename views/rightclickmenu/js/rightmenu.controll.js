@@ -96,7 +96,7 @@ angular.module('rightmenu.controller', [])
                             if(cobj.shapeObj.cid == $rootScope.minispice.papers[0].rightclickComponentObject.model.cid){
                                 indexOfComponent = cindex;
                                 $.each(cobj.linkNodes, function(lindex, linkobj){
-                                    linkobj.rotate(90);
+                                    //linkobj.position(500, 500, { parentRelative: true });
                                 })
 
                             }
