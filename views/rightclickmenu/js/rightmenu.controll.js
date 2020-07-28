@@ -89,16 +89,32 @@ angular.module('rightmenu.controller', [])
             const rotateComponent = function(){
                 let indexOfPaper;
                 let indexOfComponent;
+                let index = 0;
                 $.each($rootScope.minispice.papers,function(pindex,pobj){
                     if(pobj.isShow){
                         indexOfPaper = pindex;
                         $.each(pobj.components,function(cindex,cobj){
                             if(cobj.shapeObj.cid == $rootScope.minispice.papers[0].rightclickComponentObject.model.cid){
                                 indexOfComponent = cindex;
+                                if(cobj.rotated == 3){
+                                    cobj.rotated = 0;
+                                }
+                                else{
+                                    cobj.rotated+= 1;
+                                }
                                 $.each(cobj.linkNodes, function(lindex, linkobj){
-                                    //linkobj.position(500, 500, { parentRelative: true });
+                                    if(cobj.type == 'capacitor') {
+                                        if (cobj.rotated == 1) {
+                                            if (index == 0) {
+                                                linkobj.position(cobj.position.x - 55, cobj.position.y + 15);
+                                                index++;
+                                            } else if (index == 1) {
+                                                linkobj.position(cobj.position.x + 27, cobj.position.y + 15);
+                                                index = 0;
+                                            }
+                                        }
+                                    }
                                 })
-
                             }
                         })
                     }
