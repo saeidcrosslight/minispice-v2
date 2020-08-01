@@ -551,7 +551,7 @@ angular
                                     else if(Math.abs(paper.components[i].linkNodes[0].attributes.position.y - paper.components[i].linkNodes[1].attributes.position.y) < 6){ //horizontal components
                                         let min = Math.min(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
                                         let max = Math.max(paper.components[i].linkNodes[0].attributes.position.x, paper.components[i].linkNodes[1].attributes.position.x);
-                                        for (let j = min + 1; j < max - 1; j++) { //buffer to ensure endpoints are not walls
+                                        for (let j = min + 6; j < max - 1; j++) { //buffer to ensure endpoints are not walls
                                             grid[j][paper.components[i].linkNodes[0].attributes.position.y].wall = true;
                                             if(min > 5 && max < 1995) {
                                                 for(let k = 1; k <= 7; k++){

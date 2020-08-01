@@ -20,7 +20,7 @@ angular
                         this.shapeObj = null; //the shape object
                         this.linkNodes = []; //all link nodes in each component, it is a small circle, like:[{id:,position:,rectObj:}]
                         this.otherParameters = {};
-                        this.rotated = 0; //0 is default, 1, 2, 3 are all different
+                        this.rotated = 0; //0 is default, 1 is the rotated state
                         this.createShape = function(shapeName,x,y){
                             this.id = this.createLabelName(shapeName);
                             this.type = shapeName;

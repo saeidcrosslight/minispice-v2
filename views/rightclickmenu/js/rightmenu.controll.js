@@ -96,32 +96,51 @@ angular.module('rightmenu.controller', [])
                         $.each(pobj.components,function(cindex,cobj){
                             if(cobj.shapeObj.cid == $rootScope.minispice.papers[0].rightclickComponentObject.model.cid){
                                 indexOfComponent = cindex;
-                                if(cobj.rotated == 3){
+                                if(cobj.rotated == 1){
+                                    $rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(-90);
+                                    $rootScope.minispice.papers[0].rightclickComponentObject = null;
+                                    $(".rightmenu").hide();
                                     cobj.rotated = 0;
                                 }
                                 else{
+                                    $rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(90);
+                                    $rootScope.minispice.papers[0].rightclickComponentObject = null;
+                                    $(".rightmenu").hide();
                                     cobj.rotated+= 1;
                                 }
                                 $.each(cobj.linkNodes, function(lindex, linkobj){
+                                    $("g[model-id='"+linkobj.id+"']").show(); //hide, the linknodes, then we'll put them back
+                                    linkobj.attr('fill','white');
+                                    linkobj.attr('stroke','black');
                                     if(cobj.type == 'capacitor') {
                                         if (cobj.rotated == 1) {
-                                            if (index == 0) {
-                                                linkobj.position(cobj.position.x - 55, cobj.position.y + 15);
+                                            if(index == 0){
+                                                linkobj.position(cobj.position.x - 45, cobj.position.y + 20);
                                                 index++;
-                                            } else if (index == 1) {
-                                                linkobj.position(cobj.position.x + 27, cobj.position.y + 15);
+                                            }else if(index == 1){
+                                                linkobj.position(cobj.position.x + 16, cobj.position.y + 20);
+                                                index = 0;
+                                            }
+                                        }
+                                        else { //if you rotate, and rotate back this is relevant
+                                            if(index == 0){
+                                                linkobj.position(cobj.position.x - 14, cobj.position.y - 10);
+                                                index++;
+                                            }else if(index == 1){
+                                                linkobj.position(cobj.position.x - 14, cobj.position.y + 50);
                                                 index = 0;
                                             }
                                         }
                                     }
                                 })
+
                             }
+                            //$rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(90);
+                            //$rootScope.minispice.papers[0].rightclickComponentObject = null;
+                            //$(".rightmenu").hide();
                         })
                     }
                 });
-                $rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(90);
-                $rootScope.minispice.papers[0].rightclickComponentObject = null;
-                $(".rightmenu").hide();
             };
 
 

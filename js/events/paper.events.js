@@ -171,24 +171,60 @@ angular
                                                     getPos = getPos.substr(0,getPos.length-1).split('(')[1].split(',');
                                                     movedPosition.x = Number(getPos[0]);
                                                     movedPosition.y = Number(parseInt(getPos[1]));
+                                                    cobj.position.x = movedPosition.x +40;
+                                                    cobj.position.y = movedPosition.y + 4;
                                                 linkobj.attributes.position = movedPosition;//更新保存在component.linknodes对象里的坐标
                                                 
                                                 $.each(allLinkNodes,function(allindex, lnobj){  //fresh nodelink's position                                                      
                                                     if(($(lnobj).attr('model-id')) == linkobj.attributes.id){
-                                                        let tempX = movedPosition.x+26,
-                                                            tempY = movedPosition.y;                                                                
-                                                        if(ctype == 'inductor')
-                                                            tempX = movedPosition.x + 23;
-                                                        if(ctype == 'diode')
-                                                            tempX = movedPosition.x + 38;
-                                                        if(lindex == 1)
-                                                            tempY = movedPosition.y + 60;
-                                                        if(ctype == 'ground')
-                                                            tempY = movedPosition.y + 10;
-                                                            $(lnobj).attr('transform','translate(' + tempX + ',' + tempY + ')');
+                                                        if(cobj.rotated == 0) {
+                                                            let tempX = movedPosition.x + 26,
+                                                                tempY = movedPosition.y;
+                                                            if (ctype == 'inductor')
+                                                                tempX = movedPosition.x + 23;
+                                                            if (ctype == 'diode')
+                                                                tempX = movedPosition.x + 38;
+                                                            if (lindex == 1)
+                                                                tempY = movedPosition.y + 60;
+                                                            if (ctype == 'ground')
+                                                                tempY = movedPosition.y + 10;
+                                                            $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
                                                             //Important to update the position of the nodes after transform!
                                                             linkobj.attributes.position.x = tempX;
                                                             linkobj.attributes.position.y = tempY;
+                                                        }
+                                                        else if(cobj.rotated == 1){
+                                                            if(allindex == 1) {
+                                                                let tempX = movedPosition.x - 4,
+                                                                    tempY = movedPosition.y + 25;
+                                                                if (ctype == 'inductor')
+                                                                    tempX = movedPosition.x + 23;
+                                                                if (ctype == 'diode')
+                                                                    tempX = movedPosition.x + 38;
+                                                                //if (lindex == 1)
+                                                                    //tempY = movedPosition.y + 60;
+                                                                if (ctype == 'ground')
+                                                                    tempY = movedPosition.y + 10;
+                                                                $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
+                                                                linkobj.attributes.position.x = tempX;
+                                                                linkobj.attributes.position.y = tempY;
+                                                            }
+                                                            if(allindex == 0) {
+                                                                let tempX = movedPosition.x + 54,
+                                                                    tempY = movedPosition.y + 25;
+                                                                if (ctype == 'inductor')
+                                                                    tempX = movedPosition.x + 23;
+                                                                if (ctype == 'diode')
+                                                                    tempX = movedPosition.x + 38;
+                                                                //if (lindex == 1)
+                                                                    //tempY = movedPosition.y + 60;
+                                                                if (ctype == 'ground')
+                                                                    tempY = movedPosition.y + 10;
+                                                                $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
+                                                                linkobj.attributes.position.x = tempX;
+                                                                linkobj.attributes.position.y = tempY;
+                                                            }
+                                                        }
                                                     }
                                                 });
                                             });
