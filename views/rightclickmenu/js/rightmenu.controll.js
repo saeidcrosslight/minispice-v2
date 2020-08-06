@@ -238,6 +238,28 @@ angular.module('rightmenu.controller', [])
                                             }
                                         }
                                     }
+                                    if(cobj.type == 'ground') {
+                                        if (cobj.rotated == 1) {
+                                            if(cobj.moved == true) {
+                                                    linkobj.position(cobj.position.x + 5, cobj.position.y + 22);
+                                                    index++;
+                                            }
+                                            else{
+                                                    linkobj.position(cobj.position.x + 5, cobj.position.y + 17);
+                                                    index++;
+                                            }
+                                        }
+                                        else { //if you rotate, and rotate back this is relevant
+                                            if(cobj.moved == false) {
+                                                    linkobj.position(cobj.position.x -12, cobj.position.y + 2);
+                                                    index++;
+                                            }
+                                            else{
+                                                    linkobj.position(cobj.position.x -12, cobj.position.y + 7);
+                                                    index++;
+                                            }
+                                        }
+                                    }
                                     linkobj.attr('fill','white');
                                     linkobj.attr('stroke','black');
                                 })

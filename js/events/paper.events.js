@@ -217,7 +217,8 @@ angular
                                                                 if (ctype == 'diode')
                                                                     tempY += 10;
                                                                 if (ctype == 'ground')
-                                                                    tempY = movedPosition.y + 10;
+                                                                    tempY = movedPosition.y + 25;
+                                                                    tempX -= 10;
                                                                 $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
                                                                 linkobj.attributes.position.x = tempX;
                                                                 linkobj.attributes.position.y = tempY;
