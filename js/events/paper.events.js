@@ -162,7 +162,7 @@ angular
                                 if(pobj.isShow){
                                     $.each(pobj.components,function(cindex,cobj){
                                         if(cobj.shapeObj.cid == cellView.model.cid){
-                                            
+                                            cobj.moved = true;
                                             let allLinkNodes = $(".joint-type-standard-circle")//界面上所有的小圆圈-连接点
                                             
                                             $.each(cobj.linkNodes, function(lindex, linkobj){
@@ -194,30 +194,28 @@ angular
                                                             linkobj.attributes.position.y = tempY;
                                                         }
                                                         else if(cobj.rotated == 1){
-                                                            if(allindex == 1) {
+                                                            if(lindex == 1) {
                                                                 let tempX = movedPosition.x - 4,
-                                                                    tempY = movedPosition.y + 25;
+                                                                    tempY = movedPosition.y + 30;
                                                                 if (ctype == 'inductor')
-                                                                    tempX = movedPosition.x + 23;
+                                                                    tempY -= 2;
+                                                                    //tempX = movedPosition.x + 23;
                                                                 if (ctype == 'diode')
-                                                                    tempX = movedPosition.x + 38;
-                                                                //if (lindex == 1)
-                                                                    //tempY = movedPosition.y + 60;
+                                                                    //tempX = movedPosition.x + 38;
+                                                                    tempY += 10;
                                                                 if (ctype == 'ground')
                                                                     tempY = movedPosition.y + 10;
                                                                 $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
                                                                 linkobj.attributes.position.x = tempX;
                                                                 linkobj.attributes.position.y = tempY;
                                                             }
-                                                            if(allindex == 0) {
+                                                            if(lindex == 0) {
                                                                 let tempX = movedPosition.x + 54,
-                                                                    tempY = movedPosition.y + 25;
+                                                                    tempY = movedPosition.y + 30;
                                                                 if (ctype == 'inductor')
-                                                                    tempX = movedPosition.x + 23;
+                                                                    tempY -= 2;
                                                                 if (ctype == 'diode')
-                                                                    tempX = movedPosition.x + 38;
-                                                                //if (lindex == 1)
-                                                                    //tempY = movedPosition.y + 60;
+                                                                    tempY += 10;
                                                                 if (ctype == 'ground')
                                                                     tempY = movedPosition.y + 10;
                                                                 $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');

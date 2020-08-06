@@ -109,29 +109,137 @@ angular.module('rightmenu.controller', [])
                                     cobj.rotated+= 1;
                                 }
                                 $.each(cobj.linkNodes, function(lindex, linkobj){
-                                    $("g[model-id='"+linkobj.id+"']").show(); //hide, the linknodes, then we'll put them back
-                                    linkobj.attr('fill','white');
+                                    linkobj.attr('fill','white'); //this doesn't always work properly; not sure why
                                     linkobj.attr('stroke','black');
-                                    if(cobj.type == 'capacitor') {
+                                    $("g[model-id='"+linkobj.id+"']").show(); //hide, the linknodes, then we'll put them back
+                                    if(cobj.type == 'capacitor' || cobj.type == 'resistor') {
                                         if (cobj.rotated == 1) {
-                                            if(index == 0){
-                                                linkobj.position(cobj.position.x - 45, cobj.position.y + 20);
-                                                index++;
-                                            }else if(index == 1){
-                                                linkobj.position(cobj.position.x + 16, cobj.position.y + 20);
-                                                index = 0;
+                                            if(cobj.moved == true) {
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 26);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 26);
+                                                    index = 0;
+                                                }
+                                            }
+                                            else{
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 20);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 20);
+                                                    index = 0;
+                                                }
                                             }
                                         }
                                         else { //if you rotate, and rotate back this is relevant
-                                            if(index == 0){
-                                                linkobj.position(cobj.position.x - 14, cobj.position.y - 10);
-                                                index++;
-                                            }else if(index == 1){
-                                                linkobj.position(cobj.position.x - 14, cobj.position.y + 50);
-                                                index = 0;
+                                            if(cobj.moved == false) {
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 14, cobj.position.y - 10);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x - 14, cobj.position.y + 50);
+                                                    index = 0;
+                                                }
+                                            }
+                                            else{
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 14, cobj.position.y -5);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x - 14, cobj.position.y + 55);
+                                                    index = 0;
+                                                }
                                             }
                                         }
                                     }
+
+                                    if(cobj.type == 'inductor') {
+                                        if (cobj.rotated == 1) {
+                                            if(cobj.moved == true) {
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 23);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 23);
+                                                    index = 0;
+                                                }
+                                            }
+                                            else{
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 17);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 17);
+                                                    index = 0;
+                                                }
+                                            }
+                                        }
+                                        else { //if you rotate, and rotate back this is relevant
+                                            if(cobj.moved == false) {
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 16, cobj.position.y - 10);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x - 16, cobj.position.y + 50);
+                                                    index = 0;
+                                                }
+                                            }
+                                            else{
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 16, cobj.position.y -5);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x - 16, cobj.position.y + 55);
+                                                    index = 0;
+                                                }
+                                            }
+                                        }
+                                    }if(cobj.type == 'diode') {
+                                        if (cobj.rotated == 1) {
+                                            if(cobj.moved == true) {
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 37);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 37);
+                                                    index = 0;
+                                                }
+                                            }
+                                            else{
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 32);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 32);
+                                                    index = 0;
+                                                }
+                                            }
+                                        }
+                                        else { //if you rotate, and rotate back this is relevant
+                                            if(cobj.moved == false) {
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x -2, cobj.position.y - 10);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x -2, cobj.position.y + 50);
+                                                    index = 0;
+                                                }
+                                            }
+                                            else{
+                                                if (index == 0) {
+                                                    linkobj.position(cobj.position.x - 2, cobj.position.y -5);
+                                                    index++;
+                                                } else if (index == 1) {
+                                                    linkobj.position(cobj.position.x - 2, cobj.position.y + 55);
+                                                    index = 0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    linkobj.attr('fill','white');
+                                    linkobj.attr('stroke','black');
                                 })
 
                             }
