@@ -194,31 +194,34 @@ angular
                                                             linkobj.attributes.position.y = tempY;
                                                         }
                                                         else if(cobj.rotated == 1){
-                                                            if(lindex == 1) {
-                                                                let tempX = movedPosition.x - 4,
-                                                                    tempY = movedPosition.y + 30;
-                                                                if (ctype == 'inductor')
-                                                                    tempY -= 2;
-                                                                    //tempX = movedPosition.x + 23;
-                                                                if (ctype == 'diode')
-                                                                    //tempX = movedPosition.x + 38;
-                                                                    tempY += 10;
-                                                                if (ctype == 'ground')
-                                                                    tempY = movedPosition.y + 10;
-                                                                $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
-                                                                linkobj.attributes.position.x = tempX;
-                                                                linkobj.attributes.position.y = tempY;
-                                                            }
                                                             if(lindex == 0) {
-                                                                let tempX = movedPosition.x + 54,
+                                                                let tempX = movedPosition.x + 8,
                                                                     tempY = movedPosition.y + 30;
+                                                                //let tempX = movedPosition.x + 68,
+                                                                //    tempY = movedPosition.y + 30;
                                                                 if (ctype == 'inductor')
                                                                     tempY -= 2;
                                                                 if (ctype == 'diode')
                                                                     tempY += 10;
                                                                 if (ctype == 'ground')
                                                                     tempY = movedPosition.y + 25;
-                                                                    tempX -= 10;
+                                                                    tempX += 32;
+                                                                $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
+                                                                linkobj.attributes.position.x = tempX;
+                                                                linkobj.attributes.position.y = tempY;
+                                                            }
+                                                            if(lindex == 1) {
+                                                                let tempX = movedPosition.x + 56,
+                                                                    tempY = movedPosition.y + 30;
+                                                                //let tempX = movedPosition.x - 4,
+                                                                //    tempY = movedPosition.y + 30;
+                                                                if (ctype == 'inductor')
+                                                                    tempY -= 2;
+                                                                    //tempX = movedPosition.x + 23;
+                                                                if (ctype == 'diode')
+                                                                    tempY += 10;
+                                                                if (ctype == 'ground')
+                                                                    tempY = movedPosition.y + 10;
                                                                 $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
                                                                 linkobj.attributes.position.x = tempX;
                                                                 linkobj.attributes.position.y = tempY;

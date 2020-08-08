@@ -6,6 +6,7 @@ angular
                 var factory = {};
                 var groundCheck = false;
                 var startNode;
+                var startCellView;
                 var DrawLineTool = (function(){
                     var DrawLineTool = function(){
                         return new DrawLineTool.fn.tool();
@@ -71,11 +72,14 @@ angular
                                         }
                                         //paper.startDot = {x: x, y: y};
                                         paper.startDotObject = cellView.model;                 //1.(3)保存第一个点对象
+                                        startCellView = cellView;
                                         //paper.startDot.x = paper.startDot.x + 4;               //处理偏移
                                         paper.startDotOppositeObject = this._getOppositeDot(cellView); //1.(4)获取器件另一个连接点
                                     }
                                     paper.isAutoStart = true;                                  //2.打开连线开关，开始连线
                                 }else{//第二个点
+                                    this._recolorDot(startCellView);
+                                    this._recolorDot(cellView);
                                     if(type == 'standard.Circle'){
                                         paper.autoEndType = 'dot';
                                         //paper.endDot = cellView.model.attributes.position;
@@ -155,7 +159,6 @@ angular
                         _normalLink: function(x,y){
                             let paper = $rootScope.minispice.papers[0]; //get current paper
                             let linked = false;
-                            //let paperEvent = paperevents.createPaperEventsHandle();
                             if(!paper.startNormalLink){//first click on paper
                                 let obj = this._newTempLink(x,y);
                                 paper.linkObject = obj;
@@ -174,7 +177,7 @@ angular
                                         groundCheck = false;
                                     }
                                     if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 12) {
-                                        $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove();
+                                        $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove(); //need to deal with this later
                                         if($rootScope.minispice.papers[0].linkObject != null)
                                             $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
                                         paper.startDot = paper.normalStartDot;
@@ -190,7 +193,6 @@ angular
                                     }
                                     if (!groundCheck) {
                                         if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 12) {
-                                            //alert("hello2");
                                             $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
                                             if($rootScope.minispice.papers[0].linkObject != null)
                                                 $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
@@ -259,15 +261,6 @@ angular
                             return link;
                         },
 
-                        _makeCircle: function(x,y){//when click on a line, to create a link node for components
-                            let circle = new joint.shapes.standard.Circle();
-                            circle.position(x-6, y-6);
-                            circle.resize(12, 12);
-                            circle.attr('body/fill','blue');
-                            circle.attr('body/stroke','blue');
-                            $rootScope.minispice.graph.addCells(circle);
-                        },
-
                         _newTempLink: function(x,y){
                             let link = new joint.dia.Link();
                             link.set('source', {x: x, y: y});
@@ -296,14 +289,12 @@ angular
                                 }
                             });
                         },
-
-                        _markStartLine: function(cellView){
-                            let allLinks = $(".joint-type-link");
-                            $.each(allLinks, function(lindex, link){
-                                if(($(link.children[0]).attr('stroke'))=='blue')
-                                    $(link.children[0]).attr('stroke','black');
-                                if(($(link).attr('model-id')) == cellView.model.id){
-                                    $(link.children[0]).attr('stroke','black');
+                        _recolorDot: function(cellView){
+                            let allComponent = $("#v-3")[0].children;
+                            $.each(allComponent, function(aindex, com){
+                                if(($(com).attr('model-id')) == cellView.model.id){//mark the startDot
+                                    $(com.children[0]).attr('fill','white');
+                                    $(com.children[0]).attr('stroke','black');
                                 }
                             });
                         },
@@ -321,19 +312,6 @@ angular
                                 });
                             });
                             return tempOppositeDot;
-                        },
-
-                        _getLineDots: function(cellView){
-                            let lineDots = {},
-                                tempLine = null,
-                                allLinks = $(".joint-type-link");
-                            $.each(allLinks, function(lindex, link){                                       
-                                if(($(link).attr('model-id')) == cellView.model.id){
-                                    tempLine = $(link.children[0]).attr('d').split(/[ ]+/);//获取被点击线段的两端点坐标
-                                    lineDots = {start:{x:tempLine[1], y:tempLine[2]}, end:{x:tempLine[4], y:tempLine[5]}};
-                                }
-                            });
-                            return lineDots;
                         },
 
                         _resetDots1: function(cellobj){
