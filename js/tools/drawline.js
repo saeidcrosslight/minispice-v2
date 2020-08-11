@@ -21,26 +21,51 @@ angular
                             };
 
                             this.normalLinkForNode = function(cellView,x,y){
-                                let pos = cellView.model.attributes.position;
-                                this._normalLink(pos.x+4, pos.y);
-                                $("g[model-id='"+cellView.model.id+"']").hide();
+                                let paper = $rootScope.minispice.papers[0];
+                                if(paper.autoStartType == ''){
+                                    let pos = cellView.model.attributes.position;
+                                    this._normalLink(pos.x+4, pos.y);
+                                    $("g[model-id='"+cellView.model.id+"']").hide();
+                                }
+                                else{
+                                    paper.startDot = paper.normalStartDot;
+                                    paper.endDot = cellView.model.attributes.position;
+                                    paper.endDot.x += 4;
+                                    this._handleDotToDot();
+                                    this._resetDots1(cellView.model);
+                                    if ($rootScope.minispice.papers[0].linkObject != null)
+                                        $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
+                                    $rootScope.minispice.papers[0].startNormalLink = false;
+                                    $rootScope.minispice.papers[0].normalStartDot = {x: 0, y: 0};
+                                    $rootScope.minispice.papers[0].normalLastDot = {x: 0, y: 0};
+                                    $rootScope.minispice.papers[0].linkObject = null;
+
+                                    $("g[model-id='" + cellView.model.id + "']").hide();
+                                }
                             };
                             //called when wire tool is active, but user clicks on a node
                             this.normalLinkForNode2 = function(cellView, x, y){
                                 let paper = $rootScope.minispice.papers[0];
-                                paper.startDot = paper.normalStartDot;
-                                paper.endDot = cellView.model.attributes.position;
-                                paper.endDot.x +=4;
-                                this._handleDotToDot();
-                                this._resetDots1(cellView.model);
-                                if($rootScope.minispice.papers[0].linkObject != null)
-                                    $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
-                                $rootScope.minispice.papers[0].startNormalLink = false;
-                                $rootScope.minispice.papers[0].normalStartDot = { x: 0, y: 0 };
-                                $rootScope.minispice.papers[0].normalLastDot = { x: 0, y: 0 };
-                                $rootScope.minispice.papers[0].linkObject = null;
+                                if(paper.autoStartType == ''){
+                                    let pos = cellView.model.attributes.position;
+                                    this._normalLink(pos.x+4, pos.y);
+                                    $("g[model-id='"+cellView.model.id+"']").hide();
+                                }
+                                else {
+                                    paper.startDot = paper.normalStartDot;
+                                    paper.endDot = cellView.model.attributes.position;
+                                    paper.endDot.x += 4;
+                                    this._handleDotToDot();
+                                    this._resetDots1(cellView.model);
+                                    if ($rootScope.minispice.papers[0].linkObject != null)
+                                        $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
+                                    $rootScope.minispice.papers[0].startNormalLink = false;
+                                    $rootScope.minispice.papers[0].normalStartDot = {x: 0, y: 0};
+                                    $rootScope.minispice.papers[0].normalLastDot = {x: 0, y: 0};
+                                    $rootScope.minispice.papers[0].linkObject = null;
 
-                                $("g[model-id='"+cellView.model.id+"']").hide();
+                                    $("g[model-id='" + cellView.model.id + "']").hide();
+                                }
                             };
 
                             this.autoLink = function(type, cellView, x, y){
@@ -177,9 +202,11 @@ angular
                                         groundCheck = false;
                                     }
                                     if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 12) {
-                                        $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove(); //need to deal with this later
-                                        if($rootScope.minispice.papers[0].linkObject != null)
+                                        //$rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove(); //need to deal with this later
+                                        paper.components[i].linkNodes[0].remove();
+                                        if ($rootScope.minispice.papers[0].linkObject != null) {
                                             $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
+                                        }
                                         paper.startDot = paper.normalStartDot;
                                         paper.endDot.x = paper.components[i].linkNodes[0].attributes.position.x + 4;
                                         paper.endDot.y = paper.components[i].linkNodes[0].attributes.position.y;
@@ -193,9 +220,11 @@ angular
                                     }
                                     if (!groundCheck) {
                                         if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 12) {
-                                            $rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
-                                            if($rootScope.minispice.papers[0].linkObject != null)
+                                            //$rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
+                                            paper.components[i].linkNodes[1].remove();
+                                            if($rootScope.minispice.papers[0].linkObject != null){
                                                 $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
+                                            }
                                             paper.startDot = paper.normalStartDot;
                                             paper.endDot.x = paper.components[i].linkNodes[1].attributes.position.x + 4;
                                             paper.endDot.y = paper.components[i].linkNodes[1].attributes.position.y;
@@ -464,6 +493,20 @@ angular
                                             yMin = paper.components[i].linkNodes[1].attributes.position.y;
                                         }
                                 }
+                            }
+
+                            //include startDot in case of first wire
+                            if(startDot.x >= xMax){
+                                xMax = startDot.x;
+                            }
+                            if(startDot.x <= xMin){
+                                xMin = startDot.x;
+                            }
+                            if(startDot.y >= yMax){
+                                yMax = startDot.y;
+                            }
+                            if(startDot.y <= yMin){
+                                yMin = startDot.y;
                             }
                             //buffer
                             xMax += 70;

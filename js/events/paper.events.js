@@ -60,17 +60,22 @@ angular
                                     isguide = true;
                                 
                                 let type = cellView.model.attributes.type;
-                                if(type == 'standard.Circle' && this._paintType().type == 'wire' && clicked == false){
-                                    clicked = true;
+                                if(type == 'standard.Circle' && this._paintType().type == 'wire'){
+                                    //clicked = true;
                                     draw.normalLinkForNode(cellView,x,y);//连线状态下点击了元器件，则显示连线鼠标跟随
                                     //draw.autoLink(type,cellView, x, y);
                                 }
+                                /*
                                 else if(type == 'standard.Circle' && this._paintType().type == 'wire' && clicked == true){
                                     clicked = false;
                                     draw.normalLinkForNode2(cellView, x, y);
                                     //this.blankContextMenu(evt, x, y);
 
                                 }
+
+                                 */
+
+
                                 else if(type == 'standard.Circle'){
                                     draw.autoLink(type, cellView, x, y);
                                     //this next line creates a console error, but achieves intended outcome -- prevents nodes from being draggable
@@ -195,7 +200,7 @@ angular
                                                         }
                                                         else if(cobj.rotated == 1){
                                                             if(lindex == 0) {
-                                                                let tempX = movedPosition.x + 8,
+                                                                let tempX = movedPosition.x - 4,
                                                                     tempY = movedPosition.y + 30;
                                                                 //let tempX = movedPosition.x + 68,
                                                                 //    tempY = movedPosition.y + 30;
@@ -203,9 +208,10 @@ angular
                                                                     tempY -= 2;
                                                                 if (ctype == 'diode')
                                                                     tempY += 10;
-                                                                if (ctype == 'ground')
+                                                                if (ctype == 'ground') {
                                                                     tempY = movedPosition.y + 25;
-                                                                    tempX += 32;
+                                                                    tempX += 50;
+                                                                }
                                                                 $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
                                                                 linkobj.attributes.position.x = tempX;
                                                                 linkobj.attributes.position.y = tempY;
@@ -220,8 +226,6 @@ angular
                                                                     //tempX = movedPosition.x + 23;
                                                                 if (ctype == 'diode')
                                                                     tempY += 10;
-                                                                if (ctype == 'ground')
-                                                                    tempY = movedPosition.y + 10;
                                                                 $(lnobj).attr('transform', 'translate(' + tempX + ',' + tempY + ')');
                                                                 linkobj.attributes.position.x = tempX;
                                                                 linkobj.attributes.position.y = tempY;

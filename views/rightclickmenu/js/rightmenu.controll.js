@@ -111,7 +111,7 @@ angular.module('rightmenu.controller', [])
                                 $.each(cobj.linkNodes, function(lindex, linkobj){
                                     linkobj.attr('fill','white'); //this doesn't always work properly; not sure why
                                     linkobj.attr('stroke','black');
-                                    $("g[model-id='"+linkobj.id+"']").show(); //hide, the linknodes, then we'll put them back
+                                    $("g[model-id='"+linkobj.id+"']").show();
                                     if(cobj.type == 'capacitor' || cobj.type == 'resistor') {
                                         if (cobj.rotated == 1) {
                                             if(cobj.moved == true) {
