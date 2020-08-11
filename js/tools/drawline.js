@@ -22,10 +22,11 @@ angular
 
                             this.normalLinkForNode = function(cellView,x,y){
                                 let paper = $rootScope.minispice.papers[0];
-                                if(paper.autoStartType == ''){
+                                if($rootScope.minispice.papers[0].nodeClicked == false){
                                     let pos = cellView.model.attributes.position;
                                     this._normalLink(pos.x+4, pos.y);
                                     $("g[model-id='"+cellView.model.id+"']").hide();
+                                    $rootScope.minispice.papers[0].nodeClicked = true;
                                 }
                                 else{
                                     paper.startDot = paper.normalStartDot;
@@ -75,8 +76,7 @@ angular
                                 if(paper.autoStartType == ''){//第一个点
                                     if(type == 'standard.Circle'){
                                         paper.autoStartType = 'dot';
-                                        this._markStartDot(cellView);                          //1.(1)标记第一个点为红色
-                                        //paper.startDot = cellView.model.attributes.position;   //1.(2)获取起始点坐标
+                                        this._markStartDot(cellView);
                                         for(let i = 0; i < paper.components.length; i++){
                                             if(Math.abs(x - paper.components[i].linkNodes[0].attributes.position.x) < 15 && Math.abs(y - paper.components[i].linkNodes[0].attributes.position.y) < 15){
                                                 paper.startDot = {
@@ -96,12 +96,12 @@ angular
 
                                         }
                                         //paper.startDot = {x: x, y: y};
-                                        paper.startDotObject = cellView.model;                 //1.(3)保存第一个点对象
+                                        paper.startDotObject = cellView.model;
                                         startCellView = cellView;
-                                        //paper.startDot.x = paper.startDot.x + 4;               //处理偏移
-                                        paper.startDotOppositeObject = this._getOppositeDot(cellView); //1.(4)获取器件另一个连接点
+                                        //paper.startDot.x = paper.startDot.x + 4;
+                                        paper.startDotOppositeObject = this._getOppositeDot(cellView);
                                     }
-                                    paper.isAutoStart = true;                                  //2.打开连线开关，开始连线
+                                    paper.isAutoStart = true;
                                 }else{//第二个点
                                     this._recolorDot(startCellView);
                                     this._recolorDot(cellView);
@@ -146,6 +146,7 @@ angular
                         },
 
                         _handleDotToDot: function(){
+                            $rootScope.minispice.papers[0].nodeClicked = false;
                             let paper = $rootScope.minispice.papers[0],
                                 startDot = paper.startDot,
                                 endDot = paper.endDot,
@@ -202,8 +203,7 @@ angular
                                         groundCheck = false;
                                     }
                                     if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[0].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[0].attributes.position.y) < 12) {
-                                        //$rootScope.minispice.graph.getCell(paper.components[i].linkNodes[0]).remove(); //need to deal with this later
-                                        paper.components[i].linkNodes[0].remove();
+                                        $("g[model-id='"+paper.components[i].linkNodes[0].attributes.id+"']").hide();
                                         if ($rootScope.minispice.papers[0].linkObject != null) {
                                             $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
                                         }
@@ -220,8 +220,7 @@ angular
                                     }
                                     if (!groundCheck) {
                                         if (Math.abs(paper.normalLastDot.x - paper.components[i].linkNodes[1].attributes.position.x) < 12 && Math.abs(paper.normalLastDot.y - paper.components[i].linkNodes[1].attributes.position.y) < 12) {
-                                            //$rootScope.minispice.graph.getCell(paper.components[i].linkNodes[1]).remove();
-                                            paper.components[i].linkNodes[1].remove();
+                                            $("g[model-id='"+paper.components[i].linkNodes[1].attributes.id+"']").hide();
                                             if($rootScope.minispice.papers[0].linkObject != null){
                                                 $rootScope.minispice.papers[0].linkObject.remove(); //remove last fresh when mousemove line
                                             }

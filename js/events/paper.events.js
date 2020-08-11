@@ -21,9 +21,8 @@ angular
                                 if(this._paintType().isStartDraw){
                                     switch (this._paintType().type) {
                                         case 'wire':
-                                            clicked = true;
+                                            $rootScope.minispice.papers[0].nodeClicked = true;
                                             draw.normalLink(x, y);
-
                                             break;
                                         case 'component':
                                             this._createComponent();
@@ -36,6 +35,7 @@ angular
                             };
 
                             this.blankContextMenu = function(evt, x, y ){
+                                $rootScope.minispice.papers[0].nodeClicked = false;
                                 $(".rightmenu").hide();
                                 let menus = angular.fromJson(file.readallsync("json\\rightmenu\\rightmenu.json"));
                                 $.each(menus, function(mindex, menu){
@@ -61,9 +61,9 @@ angular
                                 
                                 let type = cellView.model.attributes.type;
                                 if(type == 'standard.Circle' && this._paintType().type == 'wire'){
-                                    //clicked = true;
                                     draw.normalLinkForNode(cellView,x,y);//连线状态下点击了元器件，则显示连线鼠标跟随
                                     //draw.autoLink(type,cellView, x, y);
+                                    $rootScope.minispice.papers[0].nodeClicked = true;
                                 }
                                 /*
                                 else if(type == 'standard.Circle' && this._paintType().type == 'wire' && clicked == true){
@@ -72,7 +72,6 @@ angular
                                     //this.blankContextMenu(evt, x, y);
 
                                 }
-
                                  */
 
 

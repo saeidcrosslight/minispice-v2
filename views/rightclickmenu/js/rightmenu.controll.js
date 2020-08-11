@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('rightmenu.controller', [])
-        .controller('rightmenuController', ['$rootScope', '$scope', 'canvas', function ($rootScope, $scope, canvas) {
+        .controller('rightmenuController', ['$rootScope', '$scope', 'canvas', 'component', function ($rootScope, $scope, canvas, component) {
 
             $scope.rightClickEvent = function (menuid, name) {
 
@@ -90,6 +90,7 @@ angular.module('rightmenu.controller', [])
                 let indexOfPaper;
                 let indexOfComponent;
                 let index = 0;
+                let comp = component.createComponent();
                 $.each($rootScope.minispice.papers,function(pindex,pobj){
                     if(pobj.isShow){
                         indexOfPaper = pindex;
@@ -263,7 +264,6 @@ angular.module('rightmenu.controller', [])
                                     linkobj.attr('fill','white');
                                     linkobj.attr('stroke','black');
                                 })
-
                             }
                             //$rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(90);
                             //$rootScope.minispice.papers[0].rightclickComponentObject = null;
