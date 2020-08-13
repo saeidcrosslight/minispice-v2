@@ -41,7 +41,7 @@ angular
 
                 parseData = function(str){
                     //idea: have an array of each type of component, and each component is an array of coordinates and an id
-                    //assume everything for now is unrotated
+                    //now work on rotation
                     let pageDimensions = [];
                     let wires = []; //array inside of an array
                     let capacitors = [];
@@ -75,7 +75,16 @@ angular
                         currIndex = placeholder + 1;
                         for(let i = 0; i < 2; i++){//two coordinate values
                             capacitors.push(parseInt(str.substring(placeholder + 10))); //to prevent NaN
+                            let z = str.substring(placeholder + 10);
                             placeholder += capacitors[elemCount].toString().length + 1; // +1 to account for the spacing
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 11, placeholder + 12) == 'R'){ //check for rotation -- Use the offset above + 1 , + 2
+                            capacitors.push('R');
+                            elemCount++;
+                        }
+                        else{
+                            capacitors.push('U');
                             elemCount++;
                         }
                     }
@@ -91,6 +100,14 @@ angular
                             placeholder += grounds[elemCount].toString().length + 1; // +1 to account for the spacing
                             elemCount++;
                         }
+                        if(str.substring(placeholder + 5, placeholder + 6) == 'R'){  //check for rotation -- Use the offset above + 1 , + 2
+                            grounds.push('R');
+                            elemCount++;
+                        }
+                        else{
+                            grounds.push('U');
+                            elemCount++;
+                        }
                     }
                     currIndex = 0;
                     placeholder = 0;
@@ -102,6 +119,14 @@ angular
                         for(let i = 0; i < 2; i++){//two coordinate values
                             resistors.push(parseInt(str.substring(placeholder + 10))); //to prevent NaN
                             placeholder += resistors[elemCount].toString().length + 1; // +1 to account for the spacing
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 11, placeholder + 12) == 'R'){  //check for rotation -- Use the offset above + 1 , + 2
+                            resistors.push('R');
+                            elemCount++;
+                        }
+                        else{
+                            resistors.push('U');
                             elemCount++;
                         }
                     }
@@ -117,6 +142,14 @@ angular
                             placeholder += inductors[elemCount].toString().length + 1; // +1 to account for the spacing
                             elemCount++;
                         }
+                        if(str.substring(placeholder + 11, placeholder + 12) == 'R'){  //check for rotation -- Use the offset above + 1 , + 2
+                            inductors.push('R');
+                            elemCount++;
+                        }
+                        else{
+                            inductors.push('U');
+                            elemCount++;
+                        }
                     }
                     currIndex = 0;
                     placeholder = 0;
@@ -130,6 +163,14 @@ angular
                             placeholder += diodes[elemCount].toString().length + 1; // +1 to account for the spacing
                             elemCount++;
                         }
+                        if(str.substring(placeholder + 13, placeholder + 14) == 'R'){  //check for rotation -- Use the offset above + 1 , + 2
+                            diodes.push('R');
+                            elemCount++;
+                        }
+                        else{
+                            diodes.push('U');
+                            elemCount++;
+                        }
                     }
 
                     createComponents(components, wires);
@@ -140,26 +181,51 @@ angular
                     let drawTool = drawline.createDrawLineTool();
 
                     for(let i = 0; i < componentsArr.length; i++){ //This loop displays all the components
-                        for(let j = 0; j < componentsArr[i].length; j+=2){
+                        for(let j = 0; j < componentsArr[i].length; j+=3){
                             if(i == 0){
                                 //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false);
+                                if(componentsArr[i][j + 2] == "R"){
+                                    paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                }
+                                else if(componentsArr[i][j + 2] == "U"){
+                                    paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                }
                             }
                             else if(i == 1){
                                 //Offset: 10 units right (relative to the single connecting node)
-                                paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false);
+                                if(componentsArr[i][j + 2] == "R"){
+                                    paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                }
+                                else if(componentsArr[i][j + 2] == "U"){
+                                    paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                }
                             }
                             else if(i == 2){
                                 //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false);
+                                if(componentsArr[i][j + 2] == "R"){
+                                    paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                }
+                                else if(componentsArr[i][j + 2] == "U"){
+                                    paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                }
                             }
                             else if(i == 3){
                                 //Height: 60 units, Offset: 13 units right, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false);
+                                if(componentsArr[i][j + 2] == "R"){
+                                    paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                }
+                                else if(componentsArr[i][j + 2] == "U"){
+                                    paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                }
                             }
                             else if(i == 4){
                                 //Height: 60 units, Offset: 2 units left, 6 units down (relative to top node)
-                                paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false);
+                                if(componentsArr[i][j + 2] == "R"){
+                                    paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                }
+                                else if(componentsArr[i][j + 2] == "U"){
+                                    paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                }
                             }
                         }
                     }

@@ -54,6 +54,9 @@ angular
 
                             
                         });
+                        if(this.rotated == 1){
+                            shape.rotate(90);
+                        }
                         //shape.rotate(90);
                         //处理创建图形上的连接点
                         this.createLinkNode(shapeName, x, y);

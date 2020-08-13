@@ -28,7 +28,7 @@ angular
                                             this._createComponent();
                                             break;
                                         default:
-                                            this._createBasicComponent(this._paintType().type, x, y, true);
+                                            this._createBasicComponent(this._paintType().type, x, y, true, false);
                                             break;
                                     }
                                 }
@@ -139,19 +139,24 @@ angular
                             };
                         },
 
-                        _createBasicComponent: function(type,x,y,node){//draw: capacitor, ground, resistor, inductor, diode
+                        _createBasicComponent: function(type,x,y,node,rotate){//draw: capacitor, ground, resistor, inductor, diode
                             //debugger;
                             let newComponent = component.createComponent();
+                            if(rotate){
+                                newComponent.rotated = 1;
+                            }
                             let cpt = newComponent.createShape(type, x, y);
                             this._getGraph().addCell(cpt.shape);
-                            if (node) {
-                                this._getGraph().addCells(cpt.linkNodes);
-                                //this._getGraph().getCell(cpt.linkNodes[1]).remove(); --> this works! try it for normalLinking
-                            };
+                            this._getGraph().addCells(cpt.linkNodes);
+                            if(!node){
+                                $("g[model-id='"+cpt.linkNodes[0].attributes.id+"']").hide();
+                                if(type != 'ground'){}
+                                $("g[model-id='"+cpt.linkNodes[1].attributes.id+"']").hide();
+                            }
+
                             $.each(this._getPapers(),function(cindex,cobj){
                                 if(cobj.isShow)
                                     cobj.components.push(newComponent);
-
                             });
                             //$rootScope.minispice.enableSaveButton();
                         },
