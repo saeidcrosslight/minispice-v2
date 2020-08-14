@@ -34,8 +34,29 @@ angular.module('rightmenu.controller', [])
             };
                 
             const deleteLink = function(){
-                $rootScope.minispice.papers[0].rightclickLinkObject.remove();
-                $rootScope.minispice.papers[0].rightclickLinkObject = null;
+                let paper = $rootScope.minispice.papers[0];
+                //make nodes show if adjacent wires are removed
+                let source = paper.rightclickLinkObject.model.attributes.source;
+                let target = paper.rightclickLinkObject.model.attributes.target;
+                for(let i = 0; i < paper.components.length; i++){
+                    if(Math.abs(source.x - paper.components[i].linkNodes[0].attributes.position.x) <= 5 && Math.abs(source.y - paper.components[i].linkNodes[0].attributes.position.y) <= 5){
+                        $("g[model-id='"+paper.components[i].linkNodes[0].attributes.id+"']").show();
+                    }
+                    if(Math.abs(target.x - paper.components[i].linkNodes[0].attributes.position.x) <= 5 && Math.abs(target.y - paper.components[i].linkNodes[0].attributes.position.y) <= 5){
+                        $("g[model-id='"+paper.components[i].linkNodes[0].attributes.id+"']").show();
+                    }
+                    if(paper.components[i].type != 'ground'){
+                        if(Math.abs(source.x - paper.components[i].linkNodes[1].attributes.position.x) <= 5 && Math.abs(source.y - paper.components[i].linkNodes[1].attributes.position.y) <= 5){
+                            $("g[model-id='"+paper.components[i].linkNodes[1].attributes.id+"']").show();
+                        }
+                        if(Math.abs(target.x - paper.components[i].linkNodes[1].attributes.position.x) <= 5 && Math.abs(target.y - paper.components[i].linkNodes[1].attributes.position.y) <= 5){
+                            $("g[model-id='"+paper.components[i].linkNodes[1].attributes.id+"']").show();
+                        }
+                    }
+
+                }
+                paper.rightclickLinkObject.remove();
+                paper.rightclickLinkObject = null;
                 $(".rightmenu").hide();
             };
 
