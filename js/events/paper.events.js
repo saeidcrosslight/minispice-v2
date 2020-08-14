@@ -150,8 +150,9 @@ angular
                             this._getGraph().addCells(cpt.linkNodes);
                             if(!node){
                                 $("g[model-id='"+cpt.linkNodes[0].attributes.id+"']").hide();
-                                if(type != 'ground'){}
-                                $("g[model-id='"+cpt.linkNodes[1].attributes.id+"']").hide();
+                                if(type != 'ground') {
+                                    $("g[model-id='" + cpt.linkNodes[1].attributes.id + "']").hide();
+                                }
                             }
 
                             $.each(this._getPapers(),function(cindex,cobj){
