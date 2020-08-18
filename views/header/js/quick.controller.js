@@ -102,6 +102,9 @@ angular.module('quick.controller', [])
                 updateFilePath = function () {
                     $("#newFilePath").val(oldFilePath + "\\");
                 };
+                newComponents = function() {
+                    $("#newComponentsWindow").modal('toggle');
+                };
                 $scope.newProject = function () {
                     var newName = $("#newProjectName").val(),
                             newPath = $("#newProjectPath").val().replace(/\\/g, '\\\\');
@@ -131,7 +134,7 @@ angular.module('quick.controller', [])
                         minispice.editors.closeAllFile(editorObject.editorContainerID, minispice.openFiles);
                         minispice.editors.createEdtior(minispice, fileName, newPath + "\\\\" + fileName, editorObject.editorID, editorObject.editorContainerID, editorObject.editorArrayObject);
                         //var projectPath = getFilePath(filePath);
-                        minispice.title = "Welcome to SimuCenter - Simu" + minispice.productName + " - " + newPath.replace(/\\/g, '/');
+                        //minispice.title = "Welcome to SimuCenter - Simu" + minispice.productName + " - " + newPath.replace(/\\/g, '/');
                         $("#newProjectWindow").modal('toggle');
                     }
                     //minispice.enableSaveButton();
@@ -195,6 +198,7 @@ angular.module('quick.controller', [])
                             break;
                         case 14://component
                             minispice.paintSwitch.type = "component";
+                            newComponents();
                             break;
                     }
                 };

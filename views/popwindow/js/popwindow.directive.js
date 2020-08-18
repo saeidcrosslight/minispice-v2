@@ -29,5 +29,13 @@ angular
                 restrict: 'EA',
                 templateUrl: 'views/popwindow/page/newproject.html'
             };
+        })
+        .directive('newcomponents', function () {
+            return {
+                replace: true,
+                restrict: 'EA',
+                templateUrl: 'views/popwindow/page/newcomponents.html'
+            };
         });
+
         
