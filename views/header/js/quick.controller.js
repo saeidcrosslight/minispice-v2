@@ -105,6 +105,10 @@ angular.module('quick.controller', [])
                 newComponents = function() {
                     $("#newComponentsWindow").modal('toggle');
                 };
+                drawAdditionalComponent = function(type){
+                    minispice.paintSwitch.type = type;
+                    startToDraw(type);
+                };
                 $scope.newProject = function () {
                     var newName = $("#newProjectName").val(),
                             newPath = $("#newProjectPath").val().replace(/\\/g, '\\\\');
