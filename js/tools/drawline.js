@@ -261,6 +261,7 @@ angular
                                     else
                                         paper.normalLastDot = {x: paper.normalStartDot.x, y: e.pageY-130};
                                     paper.linkObject.set('target', paper.normalLastDot); //this line will make errors in console, but it can work, still don't know why????
+                                   
                                 }
                             });
                         },

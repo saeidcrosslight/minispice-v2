@@ -31,7 +31,14 @@ angular
                                     height: 1400,
                                     gridSize: 10,
                                     drawGrid: {name: 'doubleMesh', args:[{color: 'black', thickness: 0.1}, { color: '#000', scaleFactor: 10, thickness: 0.5 }]},
+                                    interactive: function(cellView, method) {
+                                        if(cellView.model.attributes.type == 'standard.Circle'){
+                                            return;
+                                        }
+                                        return cellView instanceof joint.dia.ElementView; // Only allow interaction with joint.dia.ElementView instances.
+                                    },
                                 });
+
                                 let guide = this._createGuide(0,0);
                                 this.hideGuide(guide);
                                 return {paper: paper, guide: guide};

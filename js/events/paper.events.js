@@ -78,11 +78,7 @@ angular
                                 else if(type == 'standard.Circle'){
                                     draw.autoLink(type, cellView, x, y);
                                     //this next line creates a console error, but achieves intended outcome -- prevents nodes from being draggable
-                                    cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
-                                }
-                                else if(type == 'link'){
-                                    //this next line creates a console error, but achieves intended outcome -- prevents links from being clickable
-                                    cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
+                                    //cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
                                 }
                             };
                             
@@ -90,6 +86,9 @@ angular
                                 if(cellView.model.attributes.type == 'standard.Image'){
                                     this._freshLinkNodesPosition(cellView);
                                 }
+                                /*if(cellView.model.attributes.type == 'standard.Circle'){
+                                    evt.stopPropagation();
+                                }*/
                             };
 
                             this.cellContextMenu = function(cellView, evt, x, y ){

@@ -94,9 +94,14 @@ angular
 
                     createCircle: function(x,y){ //rectangle for link node
                         var circle = new joint.shapes.standard.Circle();
-                            circle.position(x, y);
-                            circle.resize(8, 8);
-                            //circle.attr('body/fill','blue');
+                        circle.position(x, y);
+                        circle.resize(8, 8);
+                        circle.attr({body:{
+                               elementMove: "disabled",
+                            }
+                        });
+                        //circle.attr({elementMove: false})
+                        //circle.attr({'.connection-wrap': {"pointerEvents": 'none'}});
                         return circle;
                     },
 
