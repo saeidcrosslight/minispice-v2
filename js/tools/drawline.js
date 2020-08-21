@@ -145,40 +145,75 @@ angular
                             }
                         },
 
-                        _handleDotToDot: function(){
-                            $rootScope.minispice.papers[0].nodeClicked = false;
-                            let paper = $rootScope.minispice.papers[0],
-                                startDot = paper.startDot,
-                                endDot = paper.endDot,
-                                path = this.aStar(startDot, endDot),
-                                deltaX = false,
-                                linePath = [],
-                                tempStartDot,
-                                tempEndDot;
-                            //generating the wires from startDot to endDot
-                            for(let i = 1; i < path.length; i++){
-                                if(path[i].i == path[i-1].i){
-                                    if((deltaX && linePath.length != 0) || i == path.length-1){
-                                        tempStartDot = {x: linePath[0].i, y: linePath[0].j};
-                                        tempEndDot = {x: linePath[linePath.length-1].i, y: linePath[linePath.length-1].j};
-                                        this._makeLine(tempStartDot, tempEndDot);
-                                        linePath.length = 0; //clears the linePath
-                                    }
-                                    deltaX = false;
-                                }
-                                else if(path[i].j == path[i-1].j) {
-                                    //do the same as above here below
-                                    if((!deltaX && linePath.length != 0)|| i == path.length-1){
-                                        tempStartDot = {x: linePath[0].i, y: linePath[0].j};
-                                        tempEndDot = {x: linePath[linePath.length-1].i, y: linePath[linePath.length-1].j};
-                                        this._makeLine(tempStartDot, tempEndDot);
-                                        linePath.length = 0; //clears the linePath
-                                    }
-                                    deltaX = true;
-                                }
-                                linePath.push(path[i]);
+                        _handleDotToDot: function() {
 
+                            let paper = $rootScope.minispice.papers[0];
+                            $rootScope.minispice.papers[0].nodeClicked = false;
+                            let startDot = paper.startDot,
+                                endDot = paper.endDot,
+                                d1 = Math.abs(startDot.x - endDot.x),
+                                d2 = Math.abs(startDot.y - endDot.y),
+                                manhattanDistance = d1 + d2;
+                            //only use algorithm if nodes are relatively close
+                            if (manhattanDistance < 600) {
+                                let path = this.aStar(startDot, endDot),
+                                    deltaX = false,
+                                    linePath = [],
+                                    tempStartDot,
+                                    tempEndDot;
+                                //generating the wires from startDot to endDot
+                                for (let i = 1; i < path.length; i++) {
+                                    if (path[i].i == path[i - 1].i) {
+                                        if ((deltaX && linePath.length != 0) || i == path.length - 1) {
+                                            tempStartDot = {x: linePath[0].i, y: linePath[0].j};
+                                            tempEndDot = {
+                                                x: linePath[linePath.length - 1].i,
+                                                y: linePath[linePath.length - 1].j
+                                            };
+                                            this._makeLine(tempStartDot, tempEndDot);
+                                            linePath.length = 0; //clears the linePath
+                                        }
+                                        deltaX = false;
+                                    } else if (path[i].j == path[i - 1].j) {
+                                        //do the same as above here below
+                                        if ((!deltaX && linePath.length != 0) || i == path.length - 1) {
+                                            tempStartDot = {x: linePath[0].i, y: linePath[0].j};
+                                            tempEndDot = {
+                                                x: linePath[linePath.length - 1].i,
+                                                y: linePath[linePath.length - 1].j
+                                            };
+                                            this._makeLine(tempStartDot, tempEndDot);
+                                            linePath.length = 0; //clears the linePath
+                                        }
+                                        deltaX = true;
+                                    }
+                                    linePath.push(path[i]);
+                                }
                             }
+                            //nodes are too far
+                            else{
+                                let offSet = false;
+                                let directVertical = false;
+                                let directHorizontal = false;
+                                //startDot is top left
+                                if(startDot.x == endDot.x){
+                                    directVertical = true;
+                                }
+                                else if(startDot.y == endDot.y){
+                                    directHorizontal = true;
+                                }
+                                else{
+                                    offSet = true;
+                                }
+                                if(offSet){
+                                        this._makeLine(startDot, {x: startDot.x, y: endDot.y});
+                                        this._makeLine({x: startDot.x, y: endDot.y}, endDot);
+                                }
+                                if(directVertical || directHorizontal){
+                                    this._makeLine(startDot, endDot);
+                                }
+                            }
+
                         },
 
                         //called when the wire tool is active
@@ -189,6 +224,7 @@ angular
                                 let obj = this._newTempLink(x,y);
                                 paper.linkObject = obj;
                                 paper.normalStartDot = {x: x, y: y};
+                                //paper.normalLastDot= paper.normalStartDot;
                                 paper.startNormalLink = true;
                             }else {
                                 //following 2 lines are setting the link to normal style
@@ -252,7 +288,7 @@ angular
                                 if($rootScope.minispice.paintSwitch.type=='wire' && paper.startNormalLink){                                        
                                     let horizontalLength = (e.pageX-200) - paper.normalStartDot.x; //get length of horizontal after moving
                                     if(horizontalLength < 0) horizontalLength = 0 - horizontalLength;
-                                    
+
                                     let verticalLength = (e.pageY-130) - paper.normalStartDot.y;//get length of vertical after moving
                                     if(verticalLength < 0) verticalLength = 0 - verticalLength;
                                     
@@ -260,8 +296,10 @@ angular
                                         paper.normalLastDot = {x: e.pageX-200, y: paper.normalStartDot.y};
                                     else
                                         paper.normalLastDot = {x: paper.normalStartDot.x, y: e.pageY-130};
-                                    paper.linkObject.set('target', paper.normalLastDot); //this line will make errors in console, but it can work, still don't know why????
-                                   
+                                    let a = paper.linkObject;
+                                    let c = paper.normalLastDot;
+                                    paper.linkObject.set('target', paper.normalLastDot);//this line will make errors in console, but it can work, still don't know why????
+
                                 }
                             });
                         },
@@ -301,9 +339,9 @@ angular
                             link.addTo($rootScope.minispice.graph);
                             $.each($("#v-3")[0].children, function(aindex, com){
                                 if(($(com).attr('model-id')) == link.id){//mark the startDot
-                                    $(com.children[6]).remove();
-                                    $(com.children[5]).remove();
-                                    $(com.children[4]).remove();
+                                    $(com.children[6]).hide();
+                                    $(com.children[5]).hide();
+                                    $(com.children[4]).hide();
                                 }
                             });
                             return link;
@@ -439,6 +477,7 @@ angular
                             let xMax = 0;
                             let yMin = 10000;
                             let yMax = 0;
+
                             for(let i = 0; i < paper.links.length; i++){ //wires
                                 if(paper.links[i].attributes.source.x > xMax){
                                     xMax = paper.links[i].attributes.source.x;
@@ -495,6 +534,7 @@ angular
                                 }
                             }
 
+
                             //include startDot in case of first wire
                             if(startDot.x >= xMax){
                                 xMax = startDot.x;
@@ -534,7 +574,7 @@ angular
                                     let min = Math.min(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
                                     let max = Math.max(paper.links[i].attributes.source.y,paper.links[i].attributes.target.y);
                                         for (let j = min; j <= max; j++) {
-                                            grid[paper.links[i].attributes.source.x][j].wall = true;
+                                                grid[paper.links[i].attributes.source.x][j].wall = true;
                                         }
 
                                 }
@@ -542,7 +582,7 @@ angular
                                     let min = Math.min(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x);
                                     let max = Math.max(paper.links[i].attributes.source.x,paper.links[i].attributes.target.x);
                                     for(let j = min; j <= max; j++){
-                                        grid[j][paper.links[i].attributes.source.y].wall = true;
+                                            grid[j][paper.links[i].attributes.source.y].wall = true;
                                     }
                                 }
 
