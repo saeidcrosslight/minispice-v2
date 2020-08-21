@@ -149,22 +149,56 @@ angular
                                 case "resistor":
                                     str2 += "SYMBOL res ";
                                     str2 += component.position.x + " ";
-                                    str2 += component.position.y + "\r\n";
+                                    str2 += component.position.y;
+                                    if(component.rotated == 1){
+                                        str2 += " R";
+                                    }
+                                    else{
+                                        str2 += " U";
+                                    }
+                                    str2 += "\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";
                                     str += str2;
                                     break;
                                     break;
+                                case "ground":
+                                    str2 += "FLAG ";
+                                    str2 += component.position.x + " ";
+                                    str2 += component.position.y;
+                                    if(component.rotated == 1){
+                                        str2 += " R";
+                                    }
+                                    else{
+                                        str2 += " U";
+                                    }
+                                    str2 += "\r\n";
+                                    str += str2;
+                                    break;
                                 case "capacitor":
-                                     str2 += "SYMBOL cap ";
-                                     str2 += component.position.x + " ";
-                                    str2 += component.position.y + "\r\n";
+                                    str2 += "SYMBOL cap ";
+                                    str2 += component.position.x + " ";
+                                    str2 += component.position.y;
+                                    if(component.rotated == 1){
+                                        str2 += " R";
+                                    }
+                                    else{
+                                        str2 += " U";
+                                    }
+                                    str2 += "\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";
                                     str += str2;
                                     break;
                                 case "diode":
                                     str2 += "SYMBOL diode ";
                                     str2 += component.position.x + " ";
-                                    str2 += component.position.y + "\r\n";
+                                    str2 += component.position.y;
+                                    if(component.rotated == 1){
+                                        str2 += " R";
+                                    }
+                                    else{
+                                        str2 += " U";
+                                    }
+                                    str2 +="\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";
                                     str += str2;
                                     break;
@@ -172,7 +206,14 @@ angular
                                 case "inductor":
                                     str2 += "SYMBOL ind ";
                                     str2 += component.position.x + " ";
-                                    str2 += component.position.y + "\r\n";
+                                    str2 += component.position.y;
+                                    if(component.rotated == 1){
+                                        str2 += " R";
+                                    }
+                                    else{
+                                        str2 += " U";
+                                    }
+                                    str2 +="\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";
                                     str += str2;
                                     break;

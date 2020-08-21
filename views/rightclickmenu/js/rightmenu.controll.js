@@ -55,6 +55,13 @@ angular.module('rightmenu.controller', [])
                     }
 
                 }
+                for(let i = 0; i < paper.links.length; i++){
+                    let a = paper.links[i].attributes.source;
+                    let b = paper.links[i].attributes.target;
+                    if(source.x == paper.links[i].attributes.source.x && source.y == paper.links[i].attributes.source.y && target.x == paper.links[i].attributes.target.x && target.y == paper.links[i].attributes.target.y){
+                        paper.links.splice(i, 1);
+                    }
+                }
                 paper.rightclickLinkObject.remove();
                 paper.rightclickLinkObject = null;
                 $(".rightmenu").hide();
@@ -138,10 +145,10 @@ angular.module('rightmenu.controller', [])
                                         if (cobj.rotated == 1) {
                                             if(cobj.moved == true) {
                                                 if (index == 0) {
-                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 26);
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 20);
                                                     index++;
                                                 } else if (index == 1) {
-                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 26);
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 20);
                                                     index = 0;
                                                 }
                                             }
@@ -167,10 +174,10 @@ angular.module('rightmenu.controller', [])
                                             }
                                             else{
                                                 if (index == 0) {
-                                                    linkobj.position(cobj.position.x - 14, cobj.position.y -5);
+                                                    linkobj.position(cobj.position.x - 14, cobj.position.y -11);
                                                     index++;
                                                 } else if (index == 1) {
-                                                    linkobj.position(cobj.position.x - 14, cobj.position.y + 55);
+                                                    linkobj.position(cobj.position.x - 14, cobj.position.y + 49);
                                                     index = 0;
                                                 }
                                             }
@@ -181,10 +188,10 @@ angular.module('rightmenu.controller', [])
                                         if (cobj.rotated == 1) {
                                             if(cobj.moved == true) {
                                                 if (index == 0) {
-                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 23);
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 17);
                                                     index++;
                                                 } else if (index == 1) {
-                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 23);
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 17);
                                                     index = 0;
                                                 }
                                             }
@@ -210,10 +217,10 @@ angular.module('rightmenu.controller', [])
                                             }
                                             else{
                                                 if (index == 0) {
-                                                    linkobj.position(cobj.position.x - 16, cobj.position.y -5);
+                                                    linkobj.position(cobj.position.x - 16, cobj.position.y -11);
                                                     index++;
                                                 } else if (index == 1) {
-                                                    linkobj.position(cobj.position.x - 16, cobj.position.y + 55);
+                                                    linkobj.position(cobj.position.x - 16, cobj.position.y + 49);
                                                     index = 0;
                                                 }
                                             }
@@ -222,10 +229,10 @@ angular.module('rightmenu.controller', [])
                                         if (cobj.rotated == 1) {
                                             if(cobj.moved == true) {
                                                 if (index == 0) {
-                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 37);
+                                                    linkobj.position(cobj.position.x - 45, cobj.position.y + 31);
                                                     index++;
                                                 } else if (index == 1) {
-                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 37);
+                                                    linkobj.position(cobj.position.x + 16, cobj.position.y + 31);
                                                     index = 0;
                                                 }
                                             }
@@ -251,10 +258,10 @@ angular.module('rightmenu.controller', [])
                                             }
                                             else{
                                                 if (index == 0) {
-                                                    linkobj.position(cobj.position.x - 2, cobj.position.y -5);
+                                                    linkobj.position(cobj.position.x - 2, cobj.position.y -11);
                                                     index++;
                                                 } else if (index == 1) {
-                                                    linkobj.position(cobj.position.x - 2, cobj.position.y + 55);
+                                                    linkobj.position(cobj.position.x - 2, cobj.position.y + 49);
                                                     index = 0;
                                                 }
                                             }
@@ -263,7 +270,7 @@ angular.module('rightmenu.controller', [])
                                     if(cobj.type == 'ground') {
                                         if (cobj.rotated == 1) {
                                             if(cobj.moved == true) {
-                                                    linkobj.position(cobj.position.x + 5, cobj.position.y + 22);
+                                                    linkobj.position(cobj.position.x + 5, cobj.position.y + 16);
                                                     index++;
                                             }
                                             else{
@@ -277,7 +284,7 @@ angular.module('rightmenu.controller', [])
                                                     index++;
                                             }
                                             else{
-                                                    linkobj.position(cobj.position.x -12, cobj.position.y + 7);
+                                                    linkobj.position(cobj.position.x -12, cobj.position.y + 1);
                                                     index++;
                                             }
                                         }

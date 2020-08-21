@@ -648,7 +648,10 @@ angular
                                         path.push(temp.previous);
                                         temp = temp.previous;
                                     }
-                                    console.log(path);
+                                    //console.log(path);
+                                    grid.length = 0;
+                                    openList.length = 0;
+                                    closedList.length = 0;
                                     return path;
                                 }
                                 removeFromArray(openList, current);
@@ -696,6 +699,9 @@ angular
                                 }
                             }
                             //if not solved during the loop, no solution
+                            grid.length = 0;
+                            openList.length = 0;
+                            closedList.length = 0;
                             return [];
                         },
                     };

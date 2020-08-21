@@ -238,6 +238,7 @@ angular
                                                     }
                                                 });
                                             });
+                                            cobj.position.y += 6;
                                         }
                                     })
                                 }
