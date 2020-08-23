@@ -28,7 +28,7 @@ angular
                                             this._createComponent();
                                             break;
                                         default:
-                                            this._createBasicComponent(this._paintType().type, x, y, true, false);
+                                            this._createBasicComponent(this._paintType().type, x, y, true, false, false, false);
                                             break;
                                     }
                                 }
@@ -138,7 +138,7 @@ angular
                             };
                         },
 
-                        _createBasicComponent: function(type,x,y,node,rotate){//draw: capacitor, ground, resistor, inductor, diode
+                        _createBasicComponent: function(type,x,y,node,rotate,connectedTop, connectedBottom){//draw: capacitor, ground, resistor, inductor, diode
                             //debugger;
                             let newComponent = component.createComponent();
                             if(rotate){
@@ -152,6 +152,12 @@ angular
                                 if(type != 'ground') {
                                     $("g[model-id='" + cpt.linkNodes[1].attributes.id + "']").hide();
                                 }
+                            }
+                            if(!connectedTop){
+                                $("g[model-id='"+cpt.linkNodes[0].attributes.id+"']").show();
+                            }
+                            if(!connectedBottom && type != "ground"){
+                                $("g[model-id='" + cpt.linkNodes[1].attributes.id + "']").show();
                             }
 
                             $.each(this._getPapers(),function(cindex,cobj){

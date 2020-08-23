@@ -87,6 +87,32 @@ angular
                             capacitors.push('U');
                             elemCount++;
                         }
+                        if(str.substring(placeholder + 12, placeholder + 13) == '0'){
+                            capacitors.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 12, placeholder + 13) == '1'){
+                            capacitors.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 13, placeholder + 14) == '0'){
+                            capacitors.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 13, placeholder + 14) == '1'){
+                            capacitors.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 12, placeholder + 13) != '1' && str.substring(placeholder + 12, placeholder + 13) != '0'){
+                            capacitors.push('*');
+                            capacitors.push('*');
+                            elemCount+=2;
+                        }
+                        if(!(str.substring(placeholder + 12, placeholder + 13) != '1' && str.substring(placeholder + 12, placeholder + 13) != '0') && (str.substring(placeholder + 13, placeholder + 14) != '1' && str.substring(placeholder + 13, placeholder + 14) != '0')){
+                            capacitors.push('*');
+                            elemCount++;
+                        }
+
                     }
                     currIndex = 0;
                     placeholder = 0;
@@ -108,6 +134,21 @@ angular
                             grounds.push('U');
                             elemCount++;
                         }
+                        if(str.substring(placeholder + 6, placeholder + 7) == '0'){
+                            grounds.push('0');
+                            grounds.push('*');
+                            elemCount+= 2;
+                        }
+                        if(str.substring(placeholder + 6, placeholder + 7) == '1'){
+                            grounds.push('1');
+                            grounds.push('*');
+                            elemCount+= 2;
+                        }
+                        if(str.substring(placeholder + 6, placeholder + 7) == ' '){
+                            grounds.push('*');
+                            grounds.push('*');
+                            elemCount+= 2;
+                        }
                     }
                     currIndex = 0;
                     placeholder = 0;
@@ -127,6 +168,31 @@ angular
                         }
                         else{
                             resistors.push('U');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 12, placeholder + 13) == '0'){
+                            resistors.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 12, placeholder + 13) == '1'){
+                            resistors.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 13, placeholder + 14) == '0'){
+                            resistors.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 13, placeholder + 14) == '1'){
+                            resistors.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 12, placeholder + 13) != '1' && str.substring(placeholder + 12, placeholder + 13) != '0'){
+                            resistors.push('*');
+                            resistors.push('*');
+                            elemCount+=2;
+                        }
+                        if(!(str.substring(placeholder + 12, placeholder + 13) != '1' && str.substring(placeholder + 12, placeholder + 13) != '0') && (str.substring(placeholder + 13, placeholder + 14) != '1' && str.substring(placeholder + 13, placeholder + 14) != '0')){
+                            resistors.push('*');
                             elemCount++;
                         }
                     }
@@ -150,6 +216,31 @@ angular
                             inductors.push('U');
                             elemCount++;
                         }
+                        if(str.substring(placeholder + 12, placeholder + 13) == '0'){
+                            inductors.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 12, placeholder + 13) == '1'){
+                            inductors.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 13, placeholder + 14) == '0'){
+                            inductors.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 13, placeholder + 14) == '1'){
+                            inductors.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 12, placeholder + 13) != '1' && str.substring(placeholder + 12, placeholder + 13) != '0'){
+                            inductors.push('*');
+                            inductors.push('*');
+                            elemCount+=2;
+                        }
+                        if(!(str.substring(placeholder + 12, placeholder + 13) != '1' && str.substring(placeholder + 12, placeholder + 13) != '0') && (str.substring(placeholder + 13, placeholder + 14) != '1' && str.substring(placeholder + 13, placeholder + 14) != '0')){
+                            inductors.push('*');
+                            elemCount++;
+                        }
                     }
                     currIndex = 0;
                     placeholder = 0;
@@ -171,6 +262,31 @@ angular
                             diodes.push('U');
                             elemCount++;
                         }
+                        if(str.substring(placeholder + 14, placeholder + 15) == '0'){
+                            diodes.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 14, placeholder + 15) == '1'){
+                            diodes.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 15, placeholder + 16) == '0'){
+                            diodes.push('0');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 15, placeholder + 16) == '1'){
+                            diodes.push('1');
+                            elemCount++;
+                        }
+                        if(str.substring(placeholder + 14, placeholder + 15) != '1' && str.substring(placeholder + 14, placeholder + 15) != '0'){
+                            diodes.push('*');
+                            diodes.push('*');
+                            elemCount+=2;
+                        }
+                        if(!(str.substring(placeholder + 14, placeholder + 15) != '1' && str.substring(placeholder + 14, placeholder + 15) != '0') && (str.substring(placeholder + 15, placeholder + 16) != '1' && str.substring(placeholder + 15, placeholder + 16) != '0')){
+                            diodes.push('*');
+                            elemCount++;
+                        }
                     }
 
                     createComponents(components, wires);
@@ -179,52 +295,90 @@ angular
                 createComponents= function(componentsArr, wiresArr){
                     let paperEvent = paperevents.createPaperEventsHandle();
                     let drawTool = drawline.createDrawLineTool();
+                    let a = componentsArr;
 
                     for(let i = 0; i < componentsArr.length; i++){ //This loop displays all the components
-                        for(let j = 0; j < componentsArr[i].length; j+=3){
+                        for(let j = 0; j < componentsArr[i].length; j+=5){
                             if(i == 0){
+                                let topConnect = false;
+                                let bottomConnect = false;
+                                if(componentsArr[i][j+3] == '1' || componentsArr[i][j+4] == '1'){
+                                    bottomConnect = true;
+                                }
+                                if(componentsArr[i][j+3] == '0' || componentsArr[i][j+4] == '0'){
+                                    topConnect = true;
+                                }
                                 //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
                                 if(componentsArr[i][j + 2] == "R"){
-                                    paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                    paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false, true, topConnect, bottomConnect);
                                 }
                                 else if(componentsArr[i][j + 2] == "U"){
-                                    paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                    paperEvent._createBasicComponent("capacitor", componentsArr[i][j], componentsArr[i][j+1], false, false, topConnect, bottomConnect);
                                 }
                             }
                             else if(i == 1){
+                                let topConnect = false;
+                                let bottomConnect = false;
+                                if(componentsArr[i][j+3] == '0'){
+                                    topConnect = true;
+                                }
                                 //Offset: 10 units right (relative to the single connecting node)
                                 if(componentsArr[i][j + 2] == "R"){
-                                    paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                    paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false, true, topConnect, bottomConnect);
                                 }
                                 else if(componentsArr[i][j + 2] == "U"){
-                                    paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                    paperEvent._createBasicComponent("ground", componentsArr[i][j], componentsArr[i][j+1], false, false, topConnect, bottomConnect);
                                 }
                             }
                             else if(i == 2){
+                                let topConnect = false;
+                                let bottomConnect = false;
+                                if(componentsArr[i][j+3] == '1' || componentsArr[i][j+4] == '1'){
+                                    bottomConnect = true;
+                                }
+                                if(componentsArr[i][j+3] == '0' || componentsArr[i][j+4] == '0'){
+                                    topConnect = true;
+                                }
                                 //Height: 60 units, Offset: 10 units right, 6 units down (relative to top node)
                                 if(componentsArr[i][j + 2] == "R"){
-                                    paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                    paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false, true, topConnect, bottomConnect);
                                 }
                                 else if(componentsArr[i][j + 2] == "U"){
-                                    paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                    paperEvent._createBasicComponent("resistor", componentsArr[i][j], componentsArr[i][j+1], false, false, topConnect, bottomConnect);
                                 }
                             }
                             else if(i == 3){
+                                let topConnect = false;
+                                let bottomConnect = false;
+                                if(componentsArr[i][j+3] == '1' || componentsArr[i][j+4] == '1'){
+                                    bottomConnect = true;
+                                }
+                                if(componentsArr[i][j+3] == '0' || componentsArr[i][j+4] == '0'){
+                                    topConnect = true;
+                                }
                                 //Height: 60 units, Offset: 13 units right, 6 units down (relative to top node)
                                 if(componentsArr[i][j + 2] == "R"){
-                                    paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                    paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false, true, topConnect, bottomConnect);
                                 }
                                 else if(componentsArr[i][j + 2] == "U"){
-                                    paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                    paperEvent._createBasicComponent("inductor", componentsArr[i][j], componentsArr[i][j+1], false, false, topConnect, bottomConnect);
                                 }
                             }
                             else if(i == 4){
+                                let topConnect = false;
+                                let bottomConnect = false;
+                                if(componentsArr[i][j+3] == '1' || componentsArr[i][j+4] == '1'){
+                                    bottomConnect = true;
+                                }
+                                if(componentsArr[i][j+3] == '0' || componentsArr[i][j+4] == '0'){
+                                    topConnect = true;
+                                }
                                 //Height: 60 units, Offset: 2 units left, 6 units down (relative to top node)
                                 if(componentsArr[i][j + 2] == "R"){
-                                    paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false, true);
+                                    paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false, true, topConnect, bottomConnect);
                                 }
                                 else if(componentsArr[i][j + 2] == "U"){
-                                    paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false, false);
+                                    paperEvent._createBasicComponent("diode", componentsArr[i][j], componentsArr[i][j+1], false, false, topConnect, bottomConnect);
                                 }
                             }
                         }

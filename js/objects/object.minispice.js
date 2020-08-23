@@ -156,6 +156,24 @@ angular
                                     else{
                                         str2 += " U";
                                     }
+                                    //check if nodes are adjacent to component
+                                    for(let i = 0; i < circuitData.links.length; i++){
+                                        let a = component.linkNodes[0];
+                                        let b = component.linkNodes[1];
+                                        let c = circuitData.links[i];
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "1";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "1";
+                                        }
+                                    }
                                     str2 += "\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";
                                     str += str2;
@@ -171,6 +189,16 @@ angular
                                     else{
                                         str2 += " U";
                                     }
+                                    for(let i = 0; i < circuitData.links.length; i++){
+                                        let a = component.linkNodes[0];
+                                        let c = circuitData.links[i];
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "0";
+                                        }
+                                    }
                                     str2 += "\r\n";
                                     str += str2;
                                     break;
@@ -183,6 +211,23 @@ angular
                                     }
                                     else{
                                         str2 += " U";
+                                    }
+                                    for(let i = 0; i < circuitData.links.length; i++){
+                                        let a = component.linkNodes[0];
+                                        let b = component.linkNodes[1];
+                                        let c = circuitData.links[i];
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "1";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "1";
+                                        }
                                     }
                                     str2 += "\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";
@@ -198,6 +243,23 @@ angular
                                     else{
                                         str2 += " U";
                                     }
+                                    for(let i = 0; i < circuitData.links.length; i++){
+                                        let a = component.linkNodes[0];
+                                        let b = component.linkNodes[1];
+                                        let c = circuitData.links[i];
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "1";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "1";
+                                        }
+                                    }
                                     str2 +="\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";
                                     str += str2;
@@ -212,6 +274,23 @@ angular
                                     }
                                     else{
                                         str2 += " U";
+                                    }
+                                    for(let i = 0; i < circuitData.links.length; i++){
+                                        let a = component.linkNodes[0];
+                                        let b = component.linkNodes[1];
+                                        let c = circuitData.links[i];
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "0";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                            str2 += "1";
+                                        }
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                            str2 += "1";
+                                        }
                                     }
                                     str2 +="\r\n";
                                     str2 += "SYMATTR InstName " + component.id + "\r\n";

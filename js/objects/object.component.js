@@ -66,24 +66,47 @@ angular
 
                     createLinkNode: function(shapeName, x, y){
                         var dots = [];
-                        switch(shapeName){
-                            case 'capacitor': 
-                                dots = [{x: x-14, y: y-10},{x:x-14, y: y+50}]; //capacitor has 2 link nodes
-                                break;
-                            case 'ground':
-                                this.linkNodes.push(this.createCircle(x-14, y));
-                                break;
-                            case 'resistor':
-                                dots = [{x: x-14, y: y-10}, {x:x-14, y:y+50}]; //resistor has 2 link nodes
-                                break;
-                            case 'inductor':
-                                dots = [{x: x-17, y:y-10}, {x:x-17, y:y+50}]; //inductor has 2 link nodes
-                                break;
-                            case 'diode':
-                                dots = [{x: x-2, y:y-10}, {x:x-2, y:y+50}]; //diode has 2 link nodes                                
-                                break;
-                            default:
-                                break;
+                        if(this.rotated == 0) {
+                            switch (shapeName) {
+                                case 'capacitor':
+                                    dots = [{x: x - 14, y: y - 10}, {x: x - 14, y: y + 50}]; //capacitor has 2 link nodes
+                                    break;
+                                case 'ground':
+                                    this.linkNodes.push(this.createCircle(x - 14, y));
+                                    break;
+                                case 'resistor':
+                                    dots = [{x: x - 14, y: y - 10}, {x: x - 14, y: y + 50}]; //resistor has 2 link nodes
+                                    break;
+                                case 'inductor':
+                                    dots = [{x: x - 17, y: y - 10}, {x: x - 17, y: y + 50}]; //inductor has 2 link nodes
+                                    break;
+                                case 'diode':
+                                    dots = [{x: x - 2, y: y - 10}, {x: x - 2, y: y + 50}]; //diode has 2 link nodes
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else if(this.rotated == 1) {
+                            switch (shapeName) {
+                                case 'capacitor':
+                                    dots = [{x: x - 45, y: y + 20}, {x: x + 16, y: y + 20}]; //capacitor has 2 link nodes
+                                    break;
+                                case 'ground':
+                                    this.linkNodes.push(this.createCircle(x + 5, y + 17));
+                                    break;
+                                case 'resistor':
+                                    dots = [{x: x - 45, y: y + 20}, {x: x + 16, y: y + 20}]; //resistor has 2 link nodes
+                                    break;
+                                case 'inductor':
+                                    dots = [{x: x - 45, y: y + 17}, {x: x + 16, y: y + 17}]; //inductor has 2 link nodes
+                                    break;
+                                case 'diode':
+                                    dots = [{x: x -45, y: y + 32}, {x: x + 16, y: y + 32}]; //diode has 2 link nodes
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         if(shapeName!='ground'){
                             this.linkNodes.push(this.createCircle(dots[0].x, dots[0].y));

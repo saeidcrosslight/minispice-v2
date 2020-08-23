@@ -127,13 +127,13 @@ angular.module('rightmenu.controller', [])
                                 indexOfComponent = cindex;
                                 if(cobj.rotated == 1){
                                     $rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(-90);
-                                    $rootScope.minispice.papers[0].rightclickComponentObject = null;
+                                    //$rootScope.minispice.papers[0].rightclickComponentObject = null;
                                     $(".rightmenu").hide();
                                     cobj.rotated = 0;
                                 }
                                 else{
                                     $rootScope.minispice.papers[0].rightclickComponentObject.model.rotate(90);
-                                    $rootScope.minispice.papers[0].rightclickComponentObject = null;
+                                   //$rootScope.minispice.papers[0].rightclickComponentObject = null;
                                     $(".rightmenu").hide();
                                     cobj.rotated+= 1;
                                 }
@@ -297,6 +297,7 @@ angular.module('rightmenu.controller', [])
                             //$rootScope.minispice.papers[0].rightclickComponentObject = null;
                             //$(".rightmenu").hide();
                         })
+                        $rootScope.minispice.papers[0].rightclickComponentObject = null;
                     }
                 });
             };
