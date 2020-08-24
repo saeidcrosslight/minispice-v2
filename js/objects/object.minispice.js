@@ -167,10 +167,10 @@ angular
                                         if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "0";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "1";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
                                             str2 += "1";
                                         }
                                     }
@@ -222,10 +222,10 @@ angular
                                         if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "0";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "1";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
                                             str2 += "1";
                                         }
                                     }
@@ -253,10 +253,10 @@ angular
                                         if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "0";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "1";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
                                             str2 += "1";
                                         }
                                     }
@@ -285,10 +285,10 @@ angular
                                         if(Math.abs(component.linkNodes[0].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "0";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.target.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.target.y) < 6){
                                             str2 += "1";
                                         }
-                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[0].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
+                                        if(Math.abs(component.linkNodes[1].attributes.position.x - circuitData.links[i].attributes.source.x) < 6 && Math.abs(component.linkNodes[1].attributes.position.y - circuitData.links[i].attributes.source.y) < 6){
                                             str2 += "1";
                                         }
                                     }
