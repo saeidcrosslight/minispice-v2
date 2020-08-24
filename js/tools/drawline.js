@@ -149,6 +149,8 @@ angular
 
                             let paper = $rootScope.minispice.papers[0];
                             $rootScope.minispice.papers[0].nodeClicked = false;
+                            $rootScope.minispice.papers[0].handle = false;
+
                             let startDot = paper.startDot,
                                 endDot = paper.endDot,
                                 d1 = Math.abs(startDot.x - endDot.x),

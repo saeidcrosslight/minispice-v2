@@ -31,6 +31,7 @@ angular
                         this.normalLastDot = { x: 0, y: 0 };
                         this.linkObject = null;
                         this.nodeClicked = false;
+                        this.handle = false;
 
                         /*link auto*/
                         this.autoStartType = '';

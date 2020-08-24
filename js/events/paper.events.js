@@ -63,22 +63,14 @@ angular
                                 if(type == 'standard.Circle' && this._paintType().type == 'wire'){
                                     draw.normalLinkForNode(cellView,x,y);//连线状态下点击了元器件，则显示连线鼠标跟随
                                     //draw.autoLink(type,cellView, x, y);
-                                    $rootScope.minispice.papers[0].nodeClicked = true;
+                                    if($rootScope.minispice.papers[0].handle == true){
+                                        $rootScope.minispice.papers[0].nodeClicked = false;
+                                    }
+                                    $rootScope.minispice.papers[0].handle = false;
                                 }
-                                /*
-                                else if(type == 'standard.Circle' && this._paintType().type == 'wire' && clicked == true){
-                                    clicked = false;
-                                    draw.normalLinkForNode2(cellView, x, y);
-                                    //this.blankContextMenu(evt, x, y);
-
-                                }
-                                 */
-
 
                                 else if(type == 'standard.Circle'){
                                     draw.autoLink(type, cellView, x, y);
-                                    //this next line creates a console error, but achieves intended outcome -- prevents nodes from being draggable
-                                    //cellView.model.attributes.attrs({'.connection-wrap': {"pointerEvents": 'none'}});
                                 }
                             };
                             
